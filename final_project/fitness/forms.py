@@ -19,5 +19,7 @@ class RegisterForm(forms.Form):
     email = forms.CharField(widget=forms.EmailInput(attrs={
         'class': 'form-control'
     }))
+    picture = forms.ImageField()
+    picture.widget.attrs.update({'class': 'form-control'})
     username.widget.attrs.update({'class': 'form-control'})
   

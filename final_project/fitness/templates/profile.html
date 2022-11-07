@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}
+{{user.username}}
+{% endblock %}
+{% block body %}
+<h1>{{user.username}}'s profile</h1>
+<div class="container w-50">
+    <div class="col">
+        <img src="{{user.profile_pic}}">
+    </div>
+    <div class="col">
+        <div class="row">
+            {{user.username}}
+        </div>
+        <div class="row">
+            {{user.email}}
+        </div>
+        <div class="row">
+            {{user.calories}}
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

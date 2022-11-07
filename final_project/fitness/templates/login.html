@@ -6,7 +6,7 @@ Login
 
 
 {% if message %}
-<div>{{ message }}</div>
+<div class="alert alert-primary">{{ message }}</div>
 {% endif %}
 <div class="container w-25">
     <form action="{% url 'login' %}" method="post">
