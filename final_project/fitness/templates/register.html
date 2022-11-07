@@ -1,3 +1,4 @@
+{% extends "layout.html" %}
 {% block title %}
 Register
 {% endblock %}
@@ -7,18 +8,22 @@ Register
 {% if message %}
 <div>{{ message }}</div>
 {% endif %}
-<div class="container w-25">
-    <form action="{% url 'login' %}" method="post">
+<div class="container w-25 border rounded">
+    <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
             <label for="{{field.name}}">{{ field.name|title }}</label>
             {{field}}
-            <small id="usernameHelp" class="form-text text-muted">Enter your {{field.name}}</small>
+            {% if field.name == "Confirm" %}
+            <small id="usernameHelp" class="form-text text-muted">Confirm password</small>
+            {% else %}
+            <small id="usernameHelp" class="form-text text-muted">Enter {{field.name}}</small>
+            {% endif %}
         </div>
         {% endfor %}
 
-        <button class="btn btn-primary" type="submit">Log In</button>
+        <button class="btn btn-primary" type="submit">Register</button>
     </form>
 </div>
 

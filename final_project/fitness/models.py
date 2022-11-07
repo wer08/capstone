@@ -9,6 +9,6 @@ class Sport(models.Model):
 
 class user(AbstractUser):
     pass
-    calories = models.IntegerField()
+    calories = models.IntegerField(default = 2000)
 
     

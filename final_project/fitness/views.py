@@ -40,7 +40,7 @@ def register_view(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            confirmation =form.cleaned_data['confirm_password']
+            confirmation =form.cleaned_data['confirm']
             email = form.cleaned_data['email']
             # Ensure password matches confirmation
             if password != confirmation:
@@ -56,7 +56,10 @@ def register_view(request):
                     "message": "Username already taken."
                 })
             login(request, client)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect('/')
     else:
-        return render(request, "network/register.html")
+        form = RegisterForm()
+        return render(request, "register.html", {
+            'form': form
+        })
 
