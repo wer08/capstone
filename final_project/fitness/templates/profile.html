@@ -3,28 +3,58 @@
 {{client.username}}
 {% endblock %}
 {% block body %}
-<h1>{{client.username}}'s profile</h1>
-<div class="container w-50">
-    <div class="col">
-        {% if client.profile_pic %}
-        <img src={{client.profile_pic.url}} class="img-fluid">
-        {% else %}
-        <img src="/media/media/pobrane.png" class="img-fluid">
-        {% endif %}
-    </div>
-    <div class="col">
-        <div class="row">
-            {{client.username}}
-        </div>
-        <div class="row">
-            {{client.email}}
-        </div>
-        <div class="row">
-            {{client.calories}}
-        </div>
-    </div>
+{{ client.username|json_script:"username" }}
 
+<div class="container w-50 rounded" id="info">
+    <h1>{{client.username}}'s profile</h1>
+    <div class="row p-2">
+        <div class="col">
+            <img  {% if client.profile_pic %}
+            src={{client.profile_pic.url}}
+            {% else %}
+            src="/media/media/pobrane.png"
+            {% endif %}
+            class="img-fluid h-100 w-100" id="profile_pic">
+
+        </div>
+        <div class="col">
+            <div class="row border rounded mb-1">
+                <strong>Username: </strong><p id="username_info">{{client.username}}</p>
+            </div>
+            <div class="row border rounded mb-1">
+                <strong>E-mail: </strong><p id="email">{{client.email}}</p>
+            </div>
+            <div class="row border rounded mb-1">
+                <strong>Calories: </strong><p id="calories">{{client.calories}} cal</p>
+            </div>
+            <div class="row border rounded mb-1">
+                <strong>Carbs: </strong><p id="carbs">{{client.carbs}} cal</p>
+            </div>
+            <div class="row border rounded mb-1">
+                <strong>Protein: </strong><p id="protein">{{client.protein}} cal</p>
+            </div>
+            <div class="row border rounded mb-1">
+                <strong>Fat: </strong><p id="fat">{{client.fat}} cal</p>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary" id="edit">Edit</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container w-25 border rounded" id="editing">
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{field.name}}">{{ field.name|title }}</label>
+            {{field}}
+        </div>
+        {% endfor %}
+        <div class="form-group">
+            <button class="btn btn-primary mt-1" type="submit" id="save">Save changes</button>
+        </div>
+</div>
+
 
 
 

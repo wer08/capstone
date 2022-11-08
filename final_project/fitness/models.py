@@ -16,6 +16,29 @@ class User(AbstractUser):
     carbs = models.IntegerField(default = 1000)
     fat = models.IntegerField(default = 600)
     profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
+
+    def serialize(self):
+        if self.profile_pic:
+            return {
+                'username': self.username,
+                'email': self.email,
+                'calories': self.calories,
+                'carbs': self.carbs,
+                'fat': self.fat,
+                'protein': self.protein,
+                'profile_pic': self.profile_pic.url
+
+            }
+        else:
+            return {
+                'username': self.username,
+                'email': self.email,
+                'calories': self.calories,
+                'carbs': self.carbs,
+                'fat': self.fat,
+                'protein': self.protein,
+            }
+
     
 
 class Routine(models.Model):

@@ -22,4 +22,22 @@ class RegisterForm(forms.Form):
     picture = forms.ImageField(required=False)
     picture.widget.attrs.update({'class': 'form-control'})
     username.widget.attrs.update({'class': 'form-control'})
+
+class EditForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=100)
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        'class': 'form-control'
+    }))
+    calories = forms.IntegerField()
+    carbs = forms.IntegerField()
+    protein = forms.IntegerField()
+    fat = forms.IntegerField()
+    picture = forms.ImageField(required=False)
+
+    picture.widget.attrs.update({'class': 'form-control'})
+    username.widget.attrs.update({'class': 'form-control'})
+    carbs.widget.attrs.update({'class': 'form-control'})
+    calories.widget.attrs.update({'class': 'form-control'})
+    protein.widget.attrs.update({'class': 'form-control'})
+    fat.widget.attrs.update({'class': 'form-control'})
   

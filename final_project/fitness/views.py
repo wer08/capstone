@@ -1,20 +1,49 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, EditForm
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from django.db import IntegrityError
+from django.http import JsonResponse
 
 
 def index(request):
-    print("main page")
     return render(request, 'index.html')
 
-def profile_view(request,user):
+def profile(request,user):
     client = User.objects.get(username = user)
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        client.username = data['username']
+        client.email = data['email']
+        client.calories = data['calories']
+        client.carbs = data['carbs']
+        client.protein = data['protein']
+        client.fat = data['fat']
+        client.profile_pic = data['profile_pic']
+        client.save()
+        return HttpResponse(status = 204)
+    elif request.method == 'GET':
+        return JsonResponse(client.serialize())
+
+
+def profile_view(request,user):
+    
+    client = User.objects.get(username = user)
+    
+    form = EditForm(initial={
+        'username': client.username,
+        'email': client.email,
+        'calories': client.calories,
+        'carbs': client.carbs,
+        'protein': client.protein,
+        'fat': client.fat
+    })
     return render(request, 'profile.html',{
-        'client': client
+        'client': client,
+        'form': form
     })
 
 def login_view(request):
