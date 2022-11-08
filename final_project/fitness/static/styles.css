@@ -9,5 +9,26 @@ body {
     box-shadow: 5px 10px 8px #888888;
     background-color: white;
 }
+.adtext{
+    font-size: 16px;
+    line-height: 1.8em;
+    letter-spacing: normal;
+}
 
+.main_link{
+    color: #E21C21;
+    font-size: 22px;
+}
 
+.link{
+    text-decoration: none;
+    color: #E21C21;
+}
+
+.link:hover{
+    color: #800000;
+}
+
+.main_link:hover{
+    color: #800000;
+}

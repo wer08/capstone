@@ -12,6 +12,9 @@ from django.http import JsonResponse
 def index(request):
     return render(request, 'index.html')
 
+def exercise(request):
+    return render(request, 'exercise.html')
+
 def profile(request,user):
     client = User.objects.get(username = user)
     if request.method == "PUT":
