@@ -9,7 +9,7 @@ Register
 <div>{{ message }}</div>
 {% endif %}
 <div class="container w-25 border rounded">
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">

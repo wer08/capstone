@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
-from .models import user
+from .models import User
 from django.db import IntegrityError
 
 
@@ -11,9 +11,11 @@ def index(request):
     print("main page")
     return render(request, 'index.html')
 
-def profile_view(request):
-
-    return render(request, 'profile.html',)
+def profile_view(request,user):
+    client = User.objects.get(username = user)
+    return render(request, 'profile.html',{
+        'client': client
+    })
 
 def login_view(request):
     if request.method == 'POST':
@@ -41,10 +43,8 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == "POST":
-        print("post method ")
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            print("valid form")
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             confirmation =form.cleaned_data['confirm']
@@ -57,19 +57,15 @@ def register_view(request):
                 })
             # Attempt to create new user
             try:
-                client = user.objects.create_user(username, email, password, profile_pic)
+                client = User.objects.create_user(username, email, password, profile_pic = profile_pic)
                 client.save()
-                print("client saved")
             except IntegrityError:
                 return render(request, "network/register.html", {
                     "message": "Username already taken."
                 })
             login(request, client)
-        else:
-            print(form.errors.as_data())
         return HttpResponseRedirect('/')
     else:
-        print("get method")
         form = RegisterForm()
         return render(request, "register.html", {
             'form': form

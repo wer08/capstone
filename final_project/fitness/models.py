@@ -9,13 +9,14 @@ class Sport(models.Model):
     calories_per_minute = models.IntegerField()
 
 
-class user(AbstractUser):
+class User(AbstractUser):
     pass
     calories = models.IntegerField(default = 2000)
     protein = models.IntegerField(default = 400)
     carbs = models.IntegerField(default = 1000)
     fat = models.IntegerField(default = 600)
-    profile_pic = models.ImageField(upload_to='media', default='pobrane.png', blank=True)
+    profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
+    
 
 class Routine(models.Model):
     days_per_week = models.IntegerField(validators=[

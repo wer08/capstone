@@ -1,22 +1,26 @@
 {% extends "layout.html" %}
 {% block title %}
-{{user.username}}
+{{client.username}}
 {% endblock %}
 {% block body %}
-<h1>{{user.username}}'s profile</h1>
+<h1>{{client.username}}'s profile</h1>
 <div class="container w-50">
     <div class="col">
-        <img src="{{user.profile_pic}}">
+        {% if client.profile_pic %}
+        <img src={{client.profile_pic.url}} class="img-fluid">
+        {% else %}
+        <img src="/media/media/pobrane.png" class="img-fluid">
+        {% endif %}
     </div>
     <div class="col">
         <div class="row">
-            {{user.username}}
+            {{client.username}}
         </div>
         <div class="row">
-            {{user.email}}
+            {{client.email}}
         </div>
         <div class="row">
-            {{user.calories}}
+            {{client.calories}}
         </div>
     </div>
 
