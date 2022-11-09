@@ -17,15 +17,20 @@ const csrftoken = getCookie('csrftoken');
 
 
 document.addEventListener('DOMContentLoaded',function(){
-
-    form_edit = document.querySelector('#editing');
-    form_edit.style.display = 'none';
-    client_info = document.querySelector('#info');
-    client_info.style.display = 'block';
-    edit_button = document.querySelector('#edit');
-    edit_button.addEventListener('click',show_form)
-    save_button = document.querySelector("#save");
-    save_button.addEventListener('click',info)
+    try{
+        form_edit = document.querySelector('#editing');
+        form_edit.style.display = 'none';
+        client_info = document.querySelector('#info');
+        client_info.style.display = 'block';
+        edit_button = document.querySelector('#edit');
+        edit_button.addEventListener('click',show_form)
+        save_button = document.querySelector("#save");
+        save_button.addEventListener('click',info);
+    } catch (TypeError)
+    {
+        console.log("Different page");
+    }
+  
 });
 
 function show_form(){
@@ -48,8 +53,7 @@ function info(evt){
     carbs = document.querySelector(`#id_carbs`).value;
     protein = document.querySelector(`#id_protein`).value;
     fat = document.querySelector(`#id_fat`).value;
-    picture_name = document.querySelector(`#id_picture`).files[0].name;
-    picture = `media/${picture_name}`;
+    picture = document.querySelector(`#id_picture`).files[0]
 
     json_body = JSON.stringify({
         username: new_username,
@@ -61,8 +65,11 @@ function info(evt){
     })
 
     formData = new FormData()
-    formData.append("picture",document.querySelector('#id_picture').files[0]);
+    formData.append("picture",picture);
     formData.append("body",json_body);
+    formData.append("test","test")
+
+    console.log(formData.get('picture'));
     
    
 

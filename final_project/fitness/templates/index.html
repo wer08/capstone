@@ -4,11 +4,11 @@ Main
 {% endblock %}
 
 {% block body %}
-<section>
-    <div class="container w-100 ad">
-        <div class="row">
-            <div class="col">
-
+<section class="main-page">
+    <div class="container-fluid w-100 ad">
+        <div class="row row-cols-2">
+            <div class="col work-pic ">
+                <img src="/media/media/workout_picture.jpg" class="img-fluid h-100 w-100" id="workout_pic">
             </div>
             <div class="col">
                 <p class="adtext">
@@ -19,7 +19,20 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'exercise' %}" class="link">The Workouts </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
+            <div class="col ">
+                <p class="adtext m-2">
+                    In our company we offer consultation with the best certified nutritionists.
+                    Individual diet plans based on your goals, available time and financial capabilities.
+                    As you propably know our company is proud to be focused on ethical and environmental issues.
+                    That's why all our plans are 100% plant-based. 
+                </p>
+                <h1 class="main_link"><a href="{% url 'diet' %}" class="link m-2">Diet </a><i class="fa-solid fa-chevron-right"></i></h1>
+            </div>
+            <div class="col diet-pic ">
+                <img src="/media/media/vegan-protein.jpg" class="img-fluid h-100 w-100" id="workout_pic">
+            </div>
         </div>
     </div>
+
 </section>
 {% endblock %}

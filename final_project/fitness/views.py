@@ -12,6 +12,9 @@ from django.http import JsonResponse
 def index(request):
     return render(request, 'index.html')
 
+def diet(request):
+    return render(request, 'diet.html')
+
 def exercise(request):
     return render(request, 'exercise.html')
 
@@ -19,6 +22,7 @@ def profile(request,user):
     client = User.objects.get(username = user)
     if request.method == "POST":
         data = request.POST
+        picture = request.FILES
         body = json.loads(data.get("body"))
         client.username = body['username']
         client.email = body['email']
@@ -26,7 +30,7 @@ def profile(request,user):
         client.carbs = body['carbs']
         client.protein = body['protein']
         client.fat = body['fat']
-        client.profile_pic = data.get("picture")
+        client.profile_pic = picture.get("picture")
         client.save()
         return HttpResponse(status = 204)
     else:    

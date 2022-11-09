@@ -9,6 +9,7 @@ urlpatterns = [
     path('register',views.register_view, name="register"),
     path('profile/<str:user>',views.profile_view, name='profile'),
     path('profile/edit/<str:user>',views.profile, name="edit_profile"),
-    path('exercise',views.exercise, name="exercise")
+    path('exercise',views.exercise, name="exercise"),
+    path('diet',views.diet, name="diet")
 ]
 
