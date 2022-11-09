@@ -17,18 +17,18 @@ def exercise(request):
 
 def profile(request,user):
     client = User.objects.get(username = user)
-    if request.method == "PUT":
+    if request.method == "POST":
         data = json.loads(request.body)
-        client.username = data['username']
-        client.email = data['email']
-        client.calories = data['calories']
-        client.carbs = data['carbs']
-        client.protein = data['protein']
-        client.fat = data['fat']
-        client.profile_pic = data['profile_pic']
+        client.username = data.get("body")['username']
+        client.email = data.get("body")['email']
+        client.calories = data.get("body")['calories']
+        client.carbs = data.get("body")['carbs']
+        client.protein = data.get("body")['protein']
+        client.fat = data.get("body")['fat']
+        client.profile_pic = data.get("picture")
         client.save()
         return HttpResponse(status = 204)
-    elif request.method == 'GET':
+    else:    
         return JsonResponse(client.serialize())
 
 

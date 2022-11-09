@@ -48,23 +48,28 @@ function info(evt){
     carbs = document.querySelector(`#id_carbs`).value;
     protein = document.querySelector(`#id_protein`).value;
     fat = document.querySelector(`#id_fat`).value;
-    picture = document.querySelector(`#id_picture`).files[0].name;
-    picture = `media/${picture}`;
+    picture_name = document.querySelector(`#id_picture`).files[0].name;
+    picture = `media/${picture_name}`;
 
+    json_body = JSON.stringify({
+        username: new_username,
+        email: email,
+        calories: calories,
+        carbs: carbs,
+        protein: protein,
+        fat: fat,
+    })
+
+    formData = new FormData()
+    formData.append("picture",document.querySelector('#id_picture').files[0]);
+    formData.append("body",json_body);
+    
+   
 
     fetch(request,{
-        method: 'PUT',
+        method: 'POST',
         mode: "same-origin",
-        body: JSON.stringify({
-            username: new_username,
-            email: email,
-            calories: calories,
-            carbs: carbs,
-            protein: protein,
-            fat: fat,
-            profile_pic: picture
-
-        })
+        body: formData
     })
     .then(() => 
         fetch(`/profile/edit/${username}`))
@@ -72,10 +77,10 @@ function info(evt){
         .then(client => {
             document.querySelector('#username_info').innerHTML = client.username;
             document.querySelector('#email').innerHTML = client.email;
-            document.querySelector('#calories').innerHTML = client.calories;
-            document.querySelector('#carbs').innerHTML = client.carbs;
-            document.querySelector('#protein').innerHTML = client.protein;
-            document.querySelector('#fat').innerHTML = client.fat;
+            document.querySelector('#calories').innerHTML = `${client.calories} cal`;
+            document.querySelector('#carbs').innerHTML = `${client.carbs} cal`;
+            document.querySelector('#protein').innerHTML = `${client.protein} cal`;
+            document.querySelector('#fat').innerHTML = `${client.fat} cal`;
             if(client.profile_pic)
             {
                 document.querySelector('#profile_pic').src = client.profile_pic;
