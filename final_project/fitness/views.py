@@ -18,13 +18,14 @@ def exercise(request):
 def profile(request,user):
     client = User.objects.get(username = user)
     if request.method == "POST":
-        data = json.loads(request.body)
-        client.username = data.get("body")['username']
-        client.email = data.get("body")['email']
-        client.calories = data.get("body")['calories']
-        client.carbs = data.get("body")['carbs']
-        client.protein = data.get("body")['protein']
-        client.fat = data.get("body")['fat']
+        data = request.POST
+        body = json.loads(data.get("body"))
+        client.username = body['username']
+        client.email = body['email']
+        client.calories = body['calories']
+        client.carbs = body['carbs']
+        client.protein = body['protein']
+        client.fat = body['fat']
         client.profile_pic = data.get("picture")
         client.save()
         return HttpResponse(status = 204)
