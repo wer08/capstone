@@ -10,6 +10,8 @@ urlpatterns = [
     path('profile/<str:user>',views.profile_view, name='profile'),
     path('profile/edit/<str:user>',views.profile, name="edit_profile"),
     path('exercise',views.exercise, name="exercise"),
-    path('diet',views.diet, name="diet")
+    path('diet',views.diet, name="diet"),
+    path('community',views.community, name="community"),
+    path('dashboard',views.dashboard, name="dashboard"),
 ]
 

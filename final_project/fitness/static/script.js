@@ -26,9 +26,18 @@ document.addEventListener('DOMContentLoaded',function(){
         edit_button.addEventListener('click',show_form)
         save_button = document.querySelector("#save");
         save_button.addEventListener('click',info);
+
     } catch (TypeError)
     {
         console.log("Different page");
+    }
+    try{
+        window.addEventListener("scroll", reveal);
+
+        reveal();
+    }
+    catch(TypeError){
+        console.log(`not a main page`);
     }
   
 });
@@ -102,3 +111,16 @@ function info(evt){
     
     evt.preventDefault();
 }
+
+function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for(let i = 0; i < reveals.length; i++){
+        var windowHeight = window.innerHeight;
+        console.log(`window height = ${windowHeight}`);
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        console.log(`element top = ${elementTop}`);
+        reveals[i].style.opacity = 1 - elementTop/windowHeight;
+    }
+}
+      
+

@@ -18,6 +18,12 @@ def diet(request):
 def exercise(request):
     return render(request, 'exercise.html')
 
+def community(request):
+    return render(request, 'community.html')
+
+def dashboard(request):
+    return render(request,"dashboard.html")
+
 def profile(request,user):
     client = User.objects.get(username = user)
     if request.method == "POST":

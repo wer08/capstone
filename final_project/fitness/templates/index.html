@@ -7,10 +7,10 @@ Main
 <section class="main-page">
     <div class="container-fluid w-100 ad">
         <div class="row row-cols-2">
-            <div class="col work-pic ">
+            <div class="col work-pic reveal">
                 <img src="/media/media/workout_picture.jpg" class="img-fluid h-100 w-100" id="workout_pic">
             </div>
-            <div class="col">
+            <div class="col reveal">
                 <p class="adtext">
                     FitnessApp is not another workout site. It's lifestyle.
                     We offer workout plan as well as diet plans.
@@ -19,7 +19,7 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'exercise' %}" class="link">The Workouts </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col ">
+            <div class="col reveal">
                 <p class="adtext m-2">
                     In our company we offer consultation with the best certified nutritionists.
                     Individual diet plans based on your goals, available time and financial capabilities.
@@ -28,11 +28,73 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'diet' %}" class="link m-2">Diet </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col diet-pic ">
+            <div class="col diet-pic reveal">
                 <img src="/media/media/vegan-protein.jpg" class="img-fluid h-100 w-100" id="workout_pic">
+            </div>
+            <div class="col work-pic reveal">
+                <img src="/media/media/community.jpg" class="img-fluid h-100 w-100" id="workout_pic">
+            </div>
+            <div class="col reveal">
+                <p class="adtext">
+                    Take advantage of our growing community! Hit PR in a gym ? Post it and inspire others to do the same!
+                    Want to find a jogging friend ? Search no more.
+                    Be a part of something bigger try FitnessApp!
+                </p>
+                <h1 class="main_link"><a href="{% url 'community' %}" class="link">Community </a><i class="fa-solid fa-chevron-right"></i></h1>
+            </div>
+            <div class="col reveal">
+                <p class="adtext m-2">
+                    On our Dashboard page you can check your progress or update your goals.
+                    We'll provide you with all the data that you need to be succesful in your personal fitness journey!
+                    Check it out for yourself
+                </p>
+                <h1 class="main_link"><a href="{% url 'dashboard' %}" class="link m-2">Dashboard </a><i class="fa-solid fa-chevron-right"></i></h1>
+            </div>
+            <div class="col diet-pic reveal">
+                <img src="/media/media/jogging.jpg" class="img-fluid h-100 w-100" id="workout_pic">
             </div>
         </div>
     </div>
+    
 
 </section>
+<div class="container-fluid ">
+    <footer class="py-5 bg-dark">
+      <div class="row">
+        <div class="col-6 col-md-2 mb-3 p-4">
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Workout</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Diet</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Community</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Dashboard</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+          </ul>
+        </div>
+  
+  
+  
+        <div class="col-md-5 offset-md-1 mb-3">
+          <form>
+            <h5 class="text-white">Subscribe to our newsletter</h5>
+            <p class="text-white">Monthly digest of what's new and exciting from us.</p>
+            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+              <label for="newsletter1" class="visually-hidden">Email address</label>
+              <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+              <button class="btn btn-primary" type="button">Subscribe</button>
+            </div>
+          </form>
+        </div>
+      </div>
+  
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+        <p class="text-white">© 2022 Fitness App, Inc. All rights reserved.</p>
+        <ul class="list-unstyled d-flex">
+          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 {% endblock %}

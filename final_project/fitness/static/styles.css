@@ -1,14 +1,15 @@
 body { 
-    padding-top: 10%;
-    background-color: whitesmoke;
-    
+    background-color: whitesmoke; 
+}
+.body{
+    padding-top: 60px;
 }
 body.main-page { 
     padding-top: 10%;
     background-color: darkgray;
     
 }
-.container
+.form
 {
     padding: 10px;
     box-shadow: 5px 10px 8px #888888;
@@ -27,6 +28,7 @@ body.main-page {
 .main_link{
     color: #E21C21;
     font-size: 22px;
+    margin: 10px;
 }
 
 .link{
@@ -44,15 +46,11 @@ body.main-page {
 
 .adtext{
     font-size: 20px;
-
+    padding: 10px;
 }
 
-.work-pic{
-    padding-right: 0px;
-    border: 1px;
+.reveal{
+    padding: 0;
 }
 
-.diet-pic{
-    padding-left: 0px;
-    border: 1px;
-}
+  
