@@ -50,7 +50,13 @@ body.main-page {
 }
 
 .reveal{
-    padding: 0;
+    padding: 0px;
+}
+.footer{
+    padding: 0px;
+}
+.row footer{
+    margin: 0px;
 }
 
   
