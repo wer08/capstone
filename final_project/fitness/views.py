@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import LoginForm, RegisterForm, EditForm, RoutineForm
 from django.contrib.auth import authenticate, login, logout
-from .models import User
+from .models import User,Workout, Exercise, Routine
 from django.db import IntegrityError
 from django.http import JsonResponse
+import random
 
 
 def index(request):
@@ -19,10 +20,22 @@ def exercise(request):
     if request.method == 'POST':
         form=RoutineForm(request.POST)
         if form.is_valid():
-            days = form.cleaned_data('days_per_week')
-            gym = form.cleaned_data('gym')
-            hypertrophy = form.cleaned_data('hipertrophy')
-            weightloss = form.cleaned_data('weightloss')
+            days = form.cleaned_data['days_per_week']
+            gym = form.cleaned_data['gym']
+            hypertrophy = form.cleaned_data['hypertrophy']
+            weightloss = form.cleaned_data['weightloss']
+            if gym and hypertrophy:
+                workouts = Workout.objects.filter(gym = True, hypertrophy = True)
+                workout = (random.choice(workouts))
+                for workout in workouts:
+                    exercises_id = workout.exercises
+                    exercises = []
+                    for exercise_id in exercises_id:
+                        exercise = Exercise.objects.get(pk = exercise_id)
+                        exercises.append(exercise)
+                    
+
+
     form = RoutineForm()
     return render(request, 'exercise.html',{
         "form": form

@@ -84,6 +84,17 @@ document.addEventListener('DOMContentLoaded',function(){
     catch(e){
         console.error(e, e.stack);
     }
+
+    let prevScrollpos = window.pageYOffset;
+    window.onscroll = () => {
+        let currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+        document.querySelector(".navbar").style.top = "0";
+        } else {
+            document.querySelector(".navbar").style.top = "-50px";
+        }
+    prevScrollpos = currentScrollPos;
+    };
   
 });
 

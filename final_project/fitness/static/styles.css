@@ -2,8 +2,10 @@ body {
     background-color: whitesmoke; 
 }
 .body{
-    padding-top: 60px;
+    padding-top: 50px;
+    background-color: black;
 }
+
 body.main-page { 
     padding-top: 10%;
     background-color: darkgray;
@@ -13,16 +15,18 @@ body.main-page {
 {
     padding: 10px;
     box-shadow: 5px 10px 8px #888888;
-    background-color: white;
+    color: white;
 }
 .adtext{
     font-size: 16px;
     line-height: 1.8em;
     letter-spacing: normal;
+    color: white;
 }
 
 .ad{
     padding: 0px;
+    background-color: black;
 }
 
 .main_link{
@@ -54,11 +58,16 @@ body.main-page {
     place-items: center;
     align-content: center;
     min-height: 33vh;
+    color: white;
+}
+
+#routine_form{
+    transition-delay: 500ms;
 }
 
 .reveal{
     padding: 0px;
-    min-height: 100vh;
+    min-height: 70vh;
     opacity: 0;
     filter: blur(5px);
     transform: translateX(-100%);
@@ -82,6 +91,10 @@ body.main-page {
 }
 .row footer{
     margin: 0px;
+}
+
+.navbar{
+    transition: top 0.3s;
 }
 
 

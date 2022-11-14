@@ -4,22 +4,34 @@ Exercise
 {% endblock %}
 
 {% block body %}
-<section >
-    <div>
-        <p class="ex m-2">
+<section id="exercise_page">
+    <div class="ex reveal">
+        <p>
         In FitnessApp we want to create the best workout routine for your goals !
+        </p>
+        <p>
         To achieve this we need to ask you some questions. 
-        Let's begin
+        </p>
+        <p>
+        Let's begin!
         </p>
     </div>
  
-        <form action="{% url 'exercise' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'exercise' %}" method="post" enctype="multipart/form-data" class="reveal" id="routine_form">
             {% csrf_token %}
             {% for field in form %}
-            <div class="container w-25 border rounded form" id={{field.name}}>
+            <div class="container w-25 rounded form bg-dark" id={{field.name}}>
                 <div class="form-group">
+                    {% if field.name == "days_per_week" %}
+                    <p>How many days per week you want to workout</p>
+                    {% elif field.name == "gym" %}
+                    <p>Do you have acces to the gym ?</p>
+                    {% elif field.name == "hypertrophy" %}
+                    <p>Do you want to build muscle ?</p>
+                    {% else %}
+                    <p>Do you want to lose weight ?</p>
+                    {% endif %}
                     {{field}}
-                    <label for="{{field.name}}">{{ field.name|title }}</label>
                 </div>
                 {% if field.name == 'weightloss' %}
                     <button class="btn btn-primary" type="submit" id="final">Create routine</button>
