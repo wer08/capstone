@@ -16,6 +16,7 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 
 
+
 document.addEventListener('DOMContentLoaded',function(){
     try{
         form_edit = document.querySelector('#editing');
@@ -29,9 +30,23 @@ document.addEventListener('DOMContentLoaded',function(){
 
     } catch (TypeError)
     {
-        console.log("Different page");
+        console.log("not profile page");
     }
+
     try{
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                console.log(entry);
+                if (entry.isIntersecting){
+                    entry.target.classList.add('revealed');
+                }
+                else{
+                    entry.target.classList.remove('revealed');
+                }   
+            })
+        })
+        var reveals = document.querySelectorAll(".reveal");
+        reveals.forEach((el) => observer.observe(el));
         window.addEventListener("scroll", reveal);
 
         reveal();
@@ -39,8 +54,39 @@ document.addEventListener('DOMContentLoaded',function(){
     catch(TypeError){
         console.log(`not a main page`);
     }
+
+    try{
+        
+        days = document.querySelector('#days_per_week');
+        days.style.display = 'block';
+        gym = document.querySelector('#gym');
+        gym.style.display ='none';
+        hypertrophy = document.querySelector('#hypertrophy');
+        hypertrophy.style.display = 'none';
+        weightloss = document.querySelector('#weightloss');
+        weightloss.style.display ='none';
+
+        document.querySelector('#days_per_week_button').addEventListener('click',()=>{
+            days.style.display = 'none';
+            gym.style.display= 'block';
+        })
+
+        document.querySelector('#gym_button').addEventListener('click',()=>{
+            gym.style.display = 'none';
+            hypertrophy.style.display= 'block';
+        })
+        
+        document.querySelector('#hypertrophy_button').addEventListener('click',()=>{
+            hypertrophy.style.display = 'none';
+            weightloss.style.display= 'block';
+        })
+    }
+    catch(e){
+        console.error(e, e.stack);
+    }
   
 });
+
 
 function show_form(){
     console.log("show form");
@@ -112,15 +158,4 @@ function info(evt){
     evt.preventDefault();
 }
 
-function reveal() {
-    var reveals = document.querySelectorAll(".reveal");
-    for(let i = 0; i < reveals.length; i++){
-        var windowHeight = window.innerHeight;
-        console.log(`window height = ${windowHeight}`);
-        var elementTop = reveals[i].getBoundingClientRect().top;
-        console.log(`element top = ${elementTop}`);
-        reveals[i].style.opacity = 1 - elementTop/windowHeight;
-    }
-}
-      
 

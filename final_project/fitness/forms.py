@@ -40,4 +40,18 @@ class EditForm(forms.Form):
     calories.widget.attrs.update({'class': 'form-control'})
     protein.widget.attrs.update({'class': 'form-control'})
     fat.widget.attrs.update({'class': 'form-control'})
+
+class RoutineForm(forms.Form):
+    days_per_week = forms.IntegerField(min_value=1, max_value=7)
+    gym = forms.BooleanField(required=False)
+    hypertrophy = forms.BooleanField(required=False)
+    weightloss = forms.BooleanField(required=False)
+    
+    gym.widget.attrs.update({'class': 'form-check-label'})
+    hypertrophy.widget.attrs.update({'class': 'form-check-label'})
+    weightloss.widget.attrs.update({'class': 'form-check-label'})
+    days_per_week.widget.attrs.update({
+        'class': 'form-control',
+        'placeholder': 1
+    })
   

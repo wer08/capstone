@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, RegisterForm, EditForm
+from .forms import LoginForm, RegisterForm, EditForm, RoutineForm
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from django.db import IntegrityError
@@ -16,7 +16,17 @@ def diet(request):
     return render(request, 'diet.html')
 
 def exercise(request):
-    return render(request, 'exercise.html')
+    if request.method == 'POST':
+        form=RoutineForm(request.POST)
+        if form.is_valid():
+            days = form.cleaned_data('days_per_week')
+            gym = form.cleaned_data('gym')
+            hypertrophy = form.cleaned_data('hipertrophy')
+            weightloss = form.cleaned_data('weightloss')
+    form = RoutineForm()
+    return render(request, 'exercise.html',{
+        "form": form
+    })
 
 def community(request):
     return render(request, 'community.html')

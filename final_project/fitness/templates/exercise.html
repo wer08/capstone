@@ -4,7 +4,32 @@ Exercise
 {% endblock %}
 
 {% block body %}
-<section>
-This is exercise page
+<section >
+    <div>
+        <p class="ex m-2">
+        In FitnessApp we want to create the best workout routine for your goals !
+        To achieve this we need to ask you some questions. 
+        Let's begin
+        </p>
+    </div>
+ 
+        <form action="{% url 'exercise' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="container w-25 border rounded form" id={{field.name}}>
+                <div class="form-group">
+                    {{field}}
+                    <label for="{{field.name}}">{{ field.name|title }}</label>
+                </div>
+                {% if field.name == 'weightloss' %}
+                    <button class="btn btn-primary" type="submit" id="final">Create routine</button>
+                {% else %}
+                    <button class="btn btn-primary next" id={{field.name}}_button type="button">Next question</button>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </form>
+
 </section>
 {% endblock %}

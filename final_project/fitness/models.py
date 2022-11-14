@@ -39,7 +39,23 @@ class User(AbstractUser):
                 'protein': self.protein,
             }
 
-    
+class Exercise(models.Model):
+    name = models.CharField(max_length=100)
+    target_muscle = models.CharField(max_length=100)
+    rounds = models.IntegerField(default=3)
+    reps = models.IntegerField(default=8)
+
+    def __str__(self):
+        return f"{self.pk} {self.name}"
+
+class Workout(models.Model):
+    name = models.CharField(default="Random workout", max_length=100)
+    exercises = ArrayField(models.IntegerField(), blank = True)
+    gym = models.BooleanField(default=True)
+    hypertrophy = models.BooleanField(default=True)
+    weight_loss = models.BooleanField(default=True)
+
+  
 
 class Routine(models.Model):
     days_per_week = models.IntegerField(validators=[
@@ -49,15 +65,8 @@ class Routine(models.Model):
     gym = models.BooleanField()
     hypertrophy = models.BooleanField()
     weight_loss = models.BooleanField()
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, blank = True)
 
-class Exercise(models.Model):
-    name = models.CharField(max_length=100)
-    target_muscle = models.CharField(max_length=100)
-    rounds = models.IntegerField(default=3)
-    reps = models.IntegerField(default=8)
-
-class Workout(models.Model):
-    exercises = ArrayField(models.IntegerField(), blank = True)
 
     
 

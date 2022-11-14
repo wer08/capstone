@@ -19,7 +19,7 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'exercise' %}" class="link">The Workouts </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col reveal">
+            <div class="col reveal right">
                 <p class="adtext m-2">
                     In our company we offer consultation with the best certified nutritionists.
                     Individual diet plans based on your goals, available time and financial capabilities.
@@ -28,7 +28,7 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'diet' %}" class="link m-2">Diet </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col diet-pic reveal">
+            <div class="col diet-pic reveal right">
                 <img src="/media/media/vegan-protein.jpg" class="img-fluid h-100 w-100" id="workout_pic">
             </div>
             <div class="col work-pic reveal">
@@ -42,7 +42,7 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'community' %}" class="link">Community </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col reveal">
+            <div class="col reveal right">
                 <p class="adtext m-2">
                     On our Dashboard page you can check your progress or update your goals.
                     We'll provide you with all the data that you need to be succesful in your personal fitness journey!
@@ -50,7 +50,7 @@ Main
                 </p>
                 <h1 class="main_link"><a href="{% url 'dashboard' %}" class="link m-2">Dashboard </a><i class="fa-solid fa-chevron-right"></i></h1>
             </div>
-            <div class="col diet-pic reveal">
+            <div class="col diet-pic reveal right">
                 <img src="/media/media/jogging.jpg" class="img-fluid h-100 w-100" id="workout_pic">
             </div>
         </div>
@@ -58,43 +58,5 @@ Main
     
 
 </section>
-<div class="container-fluid footer">
-    <footer class="py-5 bg-dark">
-      <div class="row footer">
-        <div class="col-6 col-md-2 mb-3 p-4">
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Home</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Workout</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Diet</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Community</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Dashboard</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">About</a></li>
-          </ul>
-        </div>
-  
-  
-  
-        <div class="col-md-5 offset-md-1 mb-3">
-          <form>
-            <h5 class="text-white">Subscribe to our newsletter</h5>
-            <p class="text-white">Monthly digest of what's new and exciting from us.</p>
-            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-              <label for="newsletter1" class="visually-hidden">Email address</label>
-              <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-              <button class="btn btn-primary" type="button">Subscribe</button>
-            </div>
-          </form>
-        </div>
-      </div>
-  
-      <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-        <p class="text-white">© 2022 Fitness App, Inc. All rights reserved.</p>
-        <ul class="list-unstyled d-flex m-4">
-          <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-twitter"></i></a></li>
-          <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-instagram"></i></a></li>
-          <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-facebook"></i></a></li>
-        </ul>
-      </div>
-    </footer>
-  </div>
+
 {% endblock %}
