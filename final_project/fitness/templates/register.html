@@ -8,7 +8,7 @@ Register
 {% if message %}
 <div>{{ message }}</div>
 {% endif %}
-<div class="container w-25 border rounded form">
+<div class="container w-25 rounded form">
     <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}

@@ -8,6 +8,16 @@ class Sport(models.Model):
     name = models.CharField(max_length=100)
     calories_per_minute = models.IntegerField()
 
+class Routine(models.Model):
+    days_per_week = models.IntegerField(validators=[
+        MinValueValidator(1),
+        MaxValueValidator(7)
+    ])
+    gym = models.BooleanField()
+    hypertrophy = models.BooleanField()
+    weight_loss = models.BooleanField()
+    trainings = ArrayField(models.IntegerField(), blank = True) 
+
 
 class User(AbstractUser):
     pass
@@ -16,6 +26,7 @@ class User(AbstractUser):
     carbs = models.IntegerField(default = 1000)
     fat = models.IntegerField(default = 600)
     profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
+    routine = models.ForeignKey(Routine, null=True,on_delete=models.SET_NULL)
 
     def serialize(self):
         if self.profile_pic:
@@ -46,7 +57,15 @@ class Exercise(models.Model):
     reps = models.IntegerField(default=8)
 
     def __str__(self):
-        return f"{self.pk} {self.name}"
+        return f"{self.name} {self.rounds} rounds. Each round {self.reps} reps."
+    
+    def serialize(self):
+        return {
+            'name': self.name,
+            'target_muscle': self.target_muscle,
+            'rounds': self.rounds,
+            'reps': self.reps
+        }
 
 class Workout(models.Model):
     name = models.CharField(default="Random workout", max_length=100)
@@ -55,17 +74,21 @@ class Workout(models.Model):
     hypertrophy = models.BooleanField(default=True)
     weight_loss = models.BooleanField(default=True)
 
-  
 
-class Routine(models.Model):
-    days_per_week = models.IntegerField(validators=[
-        MinValueValidator(1),
-        MaxValueValidator(7)
-    ])
-    gym = models.BooleanField()
-    hypertrophy = models.BooleanField()
-    weight_loss = models.BooleanField()
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, blank = True)
+
+
+class Meal(models.Model):
+    name = models.CharField(max_length=100)
+    calorie = models.IntegerField()
+    type = models.CharField(max_length=20)
+    ingredients = ArrayField(models.CharField(max_length=20),blank=True)
+    description = models.CharField(max_length=250)
+
+class Diet(models.Model):
+    first_meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="first_meals")
+    second_meal = models.ForeignKey(Meal, on_delete=models.CASCADE,related_name="second_meals")
+    third_meal = models.ForeignKey(Meal, on_delete=models.CASCADE,related_name="third_meals")
+    snack = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="snacks")
 
 
     

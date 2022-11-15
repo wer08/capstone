@@ -51,7 +51,7 @@ class RoutineForm(forms.Form):
     hypertrophy.widget.attrs.update({'class': 'form-check-label'})
     weightloss.widget.attrs.update({'class': 'form-check-label'})
     days_per_week.widget.attrs.update({
-        'class': 'form-control',
+        'class': 'form-control bg-light mb-2',
         'placeholder': 1
     })
   

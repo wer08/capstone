@@ -47,16 +47,13 @@ document.addEventListener('DOMContentLoaded',function(){
         })
         var reveals = document.querySelectorAll(".reveal");
         reveals.forEach((el) => observer.observe(el));
-        window.addEventListener("scroll", reveal);
-
-        reveal();
+     
     }
     catch(TypeError){
         console.log(`not a main page`);
     }
 
     try{
-        
         days = document.querySelector('#days_per_week');
         days.style.display = 'block';
         gym = document.querySelector('#gym');
@@ -80,6 +77,7 @@ document.addEventListener('DOMContentLoaded',function(){
             hypertrophy.style.display = 'none';
             weightloss.style.display= 'block';
         })
+
     }
     catch(e){
         console.error(e, e.stack);

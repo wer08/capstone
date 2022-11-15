@@ -17,6 +17,8 @@ def diet(request):
     return render(request, 'diet.html')
 
 def exercise(request):
+    choice =False
+    routine ={}
     if request.method == 'POST':
         form=RoutineForm(request.POST)
         if form.is_valid():
@@ -25,20 +27,34 @@ def exercise(request):
             hypertrophy = form.cleaned_data['hypertrophy']
             weightloss = form.cleaned_data['weightloss']
             if gym and hypertrophy:
-                workouts = Workout.objects.filter(gym = True, hypertrophy = True)
-                workout = (random.choice(workouts))
-                for workout in workouts:
-                    exercises_id = workout.exercises
-                    exercises = []
-                    for exercise_id in exercises_id:
-                        exercise = Exercise.objects.get(pk = exercise_id)
-                        exercises.append(exercise)
-                    
+                routines_id = Routine.objects.filter(gym = True, hypertrophy = True)
+                routine_id = (random.choice(routines_id))
+                request.user.routine = routine_id
+                request.user.save()
+                routine = []
+                for training in routine_id.trainings:
+                    training_objects = Workout.objects.get(pk = training)
+                    training_ids = training_objects.exercises
+                    workout=[]
+                    for training_id in training_ids:
+                        training = Exercise.objects.get(pk = training_id)
+                        workout.append(training)
+                    routine.append(workout)
 
+                print(routine)
+                print("halo")
+                choice = True
+                return render(request, 'exercise.html',{
+                    'form': form,
+                    'choice':choice,
+                    'routine': routine
+                })
 
     form = RoutineForm()
     return render(request, 'exercise.html',{
-        "form": form
+        "form": form,
+        'choice': choice,
+        'routine': routine
     })
 
 def community(request):

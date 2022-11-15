@@ -1,6 +1,13 @@
-body { 
-    background-color: whitesmoke; 
+html
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+
 }
+
 .body{
     padding-top: 50px;
     background-color: black;
@@ -14,14 +21,27 @@ body.main-page {
 .form
 {
     padding: 10px;
-    box-shadow: 5px 10px 8px #888888;
-    color: white;
+    box-shadow: 5px 10px 8px #353538;
+    color: Gainsboro;
+    min-height: 30vh;
+    margin-top: 100px;
+    margin-bottom: 100px;
+
 }
+
+.questions{
+    padding: 10px;
+    box-shadow: 5px 10px 8px #353538;
+    color: Gainsboro;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
 .adtext{
     font-size: 16px;
     line-height: 1.8em;
     letter-spacing: normal;
-    color: white;
+    color: Gainsboro;
 }
 
 .ad{
@@ -58,11 +78,18 @@ body.main-page {
     place-items: center;
     align-content: center;
     min-height: 33vh;
-    color: white;
+    color: Gainsboro;
 }
 
+
 #routine_form{
+    
     transition-delay: 500ms;
+}
+#routine{
+    transition-delay: 500ms;
+    display: inline-block;
+
 }
 
 .reveal{
@@ -78,6 +105,11 @@ body.main-page {
     filter: blur(5px);
     transform: translateX(100%);
     transition: all 1s;
+}
+
+.workouts{
+    margin: 20px;
+    color: Gainsboro;
 }
 
 .revealed{

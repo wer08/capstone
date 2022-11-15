@@ -2,9 +2,17 @@
 {% block title %}
 Dashboard
 {% endblock %}
-
+{% if not user.is_authenticated %}
+<div class="container w-25 ex">
+    <p>You have to be logged in first </p>
+    <p>You can <a href="{% url 'login' %}">login</a> here</p>
+    <p>or <a href="{% url 'register' %}">register</a> here</p>
+</div>
+{% else %}
 {% block body %}
 <section>
 This is dashboard
 </section>
+
 {% endblock %}
+{% endif %}
