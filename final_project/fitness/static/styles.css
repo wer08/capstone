@@ -18,6 +18,7 @@ body.main-page {
     background-color: darkgray;
     
 }
+
 .form
 {
     padding: 10px;
@@ -83,7 +84,6 @@ body.main-page {
 
 
 #routine_form{
-    
     transition-delay: 500ms;
 }
 #routine{
@@ -91,6 +91,8 @@ body.main-page {
     display: inline-block;
 
 }
+
+
 
 .reveal{
     padding: 0px;

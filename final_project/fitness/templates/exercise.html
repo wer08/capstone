@@ -14,7 +14,7 @@ Exercise
 
 {% if not choice %}
 <section id="exercise_page">
-    <div class="ex reveal">
+    <div class="ex reveal" style="min-height: 50vh;">
         <p>
         In FitnessApp we want to create the best workout routine for your goals !
         </p>
@@ -26,10 +26,10 @@ Exercise
         </p>
     </div>
  
-        <form action="{% url 'exercise' %}" method="post" enctype="multipart/form-data" class="reveal text-center" id="routine_form">
+        <form action="{% url 'exercise' %}" method="post" enctype="multipart/form-data" id="routine_form">
             {% csrf_token %}
             {% for field in form %}
-            <div class="container w-25 rounded questions bg-dark" id={{field.name}}>
+            <div class="container w-25 rounded questions bg-dark reveal text-center" id={{field.name}} style="min-height: 0; padding: 20px;">
                 <div class="form-group">
                     {% if field.name == "days_per_week" %}
                     <p>How many days per week you want to workout?</p>
