@@ -13,5 +13,6 @@ urlpatterns = [
     path('diet',views.diet, name="diet"),
     path('community',views.community, name="community"),
     path('dashboard',views.dashboard, name="dashboard"),
+    path('comments',views.comments, name='comments')
 ]
 

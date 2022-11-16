@@ -54,4 +54,18 @@ class RoutineForm(forms.Form):
         'class': 'form-control bg-light mb-1',
         'placeholder': 1
     })
+
+class PostForm(forms.Form):
+    body = forms.CharField(widget=forms.Textarea(attrs={
+        'class': 'form-control bg-light',
+        'rows': '3'
+    }))
+
+class CommentForm(forms.Form):
+    body = forms.CharField(widget=forms.Textarea(attrs={
+        'class': 'form-control',
+        'rows': '3'
+    }))
+        
+
   

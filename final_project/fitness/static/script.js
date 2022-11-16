@@ -93,10 +93,51 @@ document.addEventListener('DOMContentLoaded',function(){
 
     };
 
+    fetch(`/comments`)
+        .then(response => response.json())
+        .then(comments => {
+            comments.forEach(comment => edit(comment));
+        })
+
+    add_comment_buttons = document.querySelectorAll('.add_comment');
+    add_comment_buttons.forEach(button => {
+        let id = button.id;
+        console.log(id);
+        button.addEventListener('click',show_add_comment);
+        button.myParam = id;
+    })
+
     
   
 });
 
+function show_add_comment(evt)
+{
+    let id = evt.currentTarget.myParam;
+    let query = `#comment-text${id}`;
+    document.querySelector(query).style.display ='block';
+
+}
+
+
+function edit(){
+    console.log('editing')
+}
+
+
+
+function add_comment(){
+    const request = new Request(
+        `/comments`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    
+    fetch(request,{
+        method: 'POST',
+        mode: "same-origin",
+        body: formData
+    })
+}
 
 function show_form(){
     console.log("show form");

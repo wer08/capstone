@@ -30,6 +30,10 @@ body.main-page {
 
 }
 
+textarea{
+    width: 100%;
+}
+
 .questions{
     padding: 10px;
     box-shadow: 5px 10px 8px #353538;

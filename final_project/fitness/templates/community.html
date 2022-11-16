@@ -11,7 +11,37 @@ Community
 {% else %}
 {% block body %}
 <section>
-This is community page
+    <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded">
+        <form action="{% url 'community' %}" method="post">
+            {% csrf_token %}
+            <h4 class="text-white">New Post</h4>
+            {{form.body}}
+            <button type="submit" class="btn btn-dark mt-2">Add</button>
+        </form>
+    </div>
+    {% for post in posts %}
+    <div class="container w-50 mb-4 mt-4 p-2 bg-dark rounded">
+        <h4 class="text-white">{{post.author.username}}</h2>
+        <p class="adtext">
+            {{post.body}}
+        </p>
+        <p class="text-muted">{{post.timestamp}}</p>
+        <button class="btn btn-dark add_comment" id="{{post.pk}}">comment</button>
+        <div class="p-2" id="comment-text{{post.pk}}" style="display: none;">
+            <h6 class="text-light">New comment</h6>
+            <textarea class="comment_body" rows="2"></textarea>
+            <button class="btn btn-secondary btn-sm">Add</button>
+        </div>
+        {% for comment in comments %}
+        {% if comment.post == post %}
+        <div class="container w-100 bg-light rounded pt-2">
+            <h6>{{comment.author.username}}</h2>
+            <p>{{comment.body}}</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
 </section>
 
 {% endblock %}

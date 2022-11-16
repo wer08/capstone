@@ -50,6 +50,28 @@ class User(AbstractUser):
                 'protein': self.protein,
             }
 
+class Post(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=100)
+    comments = ArrayField(models.IntegerField(), null=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=100)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def serialize(self):
+        return {
+            'author': self.author.pk,
+            'body': self.body,
+            'post': self.post.pk,
+            'timestamp': self.timestamp
+        }
+
+
+
 class Exercise(models.Model):
     name = models.CharField(max_length=100)
     target_muscle = models.CharField(max_length=100)
@@ -57,7 +79,7 @@ class Exercise(models.Model):
     reps = models.IntegerField(default=8)
 
     def __str__(self):
-        return f"{self.name} {self.rounds} rounds. Each round {self.reps} reps."
+        return f"{self.name}: {self.rounds} rounds. Each round {self.reps} reps."
     
     def serialize(self):
         return {
