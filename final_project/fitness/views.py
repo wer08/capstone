@@ -18,7 +18,7 @@ def diet(request):
 
 def exercise(request):
     choice =False
-    routine ={}
+    routine = []
     if request.method == 'POST':
         form=RoutineForm(request.POST)
         if form.is_valid():
@@ -26,9 +26,93 @@ def exercise(request):
             gym = form.cleaned_data['gym']
             hypertrophy = form.cleaned_data['hypertrophy']
             weightloss = form.cleaned_data['weightloss']
+            
             if gym and hypertrophy:
-                routines_id = Routine.objects.filter(gym = True, hypertrophy = True)
-                routine_id = (random.choice(routines_id))
+                routines_id = Routine.objects.filter(gym = True, hypertrophy = True,days_per_week = days)
+                try:
+                    routine_id = (random.choice(routines_id))
+                except IndexError:
+                    return render(request, 'error.html',{
+                })
+
+                request.user.routine = routine_id
+                request.user.save()
+                routine = []
+                for training in routine_id.trainings:
+                    training_objects = Workout.objects.get(pk = training)
+                    training_ids = training_objects.exercises
+                    workout=[]
+                    for training_id in training_ids:
+                        training = Exercise.objects.get(pk = training_id)
+                        workout.append(training)
+                    routine.append(workout)
+                    
+                choice = True
+                return render(request, 'exercise.html',{
+                    'form': form,
+                    'choice':choice,
+                    'routine': routine
+                })
+
+            elif gym and weightloss:
+                routines_id = Routine.objects.filter(gym = True, weightloss = True,days_per_week = days)
+                try:
+                    routine_id = (random.choice(routines_id))
+                except IndexError:
+                    return render(request, 'error.html',{
+                })
+                request.user.routine = routine_id
+                request.user.save()
+                routine = []
+                for training in routine_id.trainings:
+                    training_objects = Workout.objects.get(pk = training)
+                    training_ids = training_objects.exercises
+                    workout=[]
+                    for training_id in training_ids:
+                        training = Exercise.objects.get(pk = training_id)
+                        workout.append(training)
+                    routine.append(workout)
+                    
+                choice = True
+                return render(request, 'exercise.html',{
+                    'form': form,
+                    'choice':choice,
+                    'routine': routine
+                })
+
+            elif (not gym) and hypertrophy:
+                routines_id = Routine.objects.filter(gym = False, hypertrophy = True,days_per_week = days)
+                try:
+                    routine_id = (random.choice(routines_id))
+                except IndexError:
+                    return render(request, 'error.html',{
+                })
+                request.user.routine = routine_id
+                request.user.save()
+                routine = []
+                for training in routine_id.trainings:
+                    training_objects = Workout.objects.get(pk = training)
+                    training_ids = training_objects.exercises
+                    workout=[]
+                    for training_id in training_ids:
+                        training = Exercise.objects.get(pk = training_id)
+                        workout.append(training)
+                    routine.append(workout)
+                    
+                choice = True
+                return render(request, 'exercise.html',{
+                    'form': form,
+                    'choice':choice,
+                    'routine': routine
+                })
+
+            elif (not gym) and weightloss:
+                routines_id = Routine.objects.filter(gym = False, weightloss = True,days_per_week = days)
+                try:
+                    routine_id = (random.choice(routines_id))
+                except IndexError:
+                    return render(request, 'error.html',{
+                })
                 request.user.routine = routine_id
                 request.user.save()
                 routine = []
@@ -41,8 +125,6 @@ def exercise(request):
                         workout.append(training)
                     routine.append(workout)
 
-                print(routine)
-                print("halo")
                 choice = True
                 return render(request, 'exercise.html',{
                     'form': form,

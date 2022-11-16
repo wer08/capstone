@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded',function(){
     try{
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                console.log(entry);
                 if (entry.isIntersecting){
                     entry.target.classList.add('revealed');
                 }
@@ -47,7 +46,6 @@ document.addEventListener('DOMContentLoaded',function(){
         })
         var reveals = document.querySelectorAll(".reveal");
         reveals.forEach((el) => observer.observe(el));
-     
     }
     catch(TypeError){
         console.log(`not a main page`);
@@ -92,7 +90,10 @@ document.addEventListener('DOMContentLoaded',function(){
             document.querySelector(".navbar").style.top = "-50px";
         }
     prevScrollpos = currentScrollPos;
+
     };
+
+    
   
 });
 
@@ -166,5 +167,6 @@ function info(evt){
     
     evt.preventDefault();
 }
+
 
 
