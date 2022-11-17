@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="{% static 'styles.css' %}">
   <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 
     <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand">
         <!-- Navbar content -->

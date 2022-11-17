@@ -55,6 +55,12 @@ class Post(models.Model):
     body = models.CharField(max_length=100)
     comments = ArrayField(models.IntegerField(), null=True)
     timestamp = models.DateTimeField(auto_now=True)
+    def serialize(self):
+        return {
+            'author': self.author.pk,
+            'body': self.body,
+            'timestamp': self.timestamp
+        }
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

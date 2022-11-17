@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded',function(){
     add_comment_buttons = document.querySelectorAll('.add_comment');
     add_comment_buttons.forEach(button => {
         let id = button.id;
-        console.log(id);
         button.addEventListener('click',show_add_comment);
         button.myParam = id;
     })
@@ -128,10 +127,31 @@ document.addEventListener('DOMContentLoaded',function(){
     show_comments = document.querySelectorAll('.show_comments');
     show_comments.forEach(show_comment => {
         let id = show_comment.id;
-        console.log(show_comment);
         show_comment.addEventListener('click',show_comments_func);
         show_comment.myParam = id;
     })
+
+
+    if(this.body.classList.contains('community'))
+    {
+        window.addEventListener('scroll',()=>{
+            element = document.querySelector("#posts");
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
+            {
+                let counter = 1;
+                fetch(`/community?page=${counter+1}`,{
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                .then(response => response.text())
+                .then(body => {
+                    element.innerHTML += body;
+                    console.log(`/community?page=${counter+1}`);
+                })
+            }
+        })
+    }
 
   
 });
@@ -142,7 +162,6 @@ function show_comments_func(evt)
     let id = evt.currentTarget.myParam;
     id = id.split("-");
     id_post = id[1];
-    console.log(id_post)
     comments = document.querySelector(`#comments-${id_post}`);
     if(comments.style.display == 'none')
     {
@@ -160,9 +179,7 @@ function save_comment(evt)
     let id = evt.currentTarget.myParam;
     id = id.split("_");
     id_post = id[1];
-    console.log(id_post);
     text = document.querySelector(`#text-area_${id_post}`).value;
-    console.log(text);
 
     const username = JSON.parse(document.getElementById('username').textContent);
 
@@ -184,8 +201,6 @@ function save_comment(evt)
         document.querySelector(`#comment-text${id_post}`).style.display ='none';
         const div = document.querySelector(`#post-${id_post}`);
         const newDiv = document.createElement("div");
-        console.log(newDiv);
-        console.log(div);
         newDiv.classList.add('container', 'w-100', 'bg-light', 'rounded', 'pt-2');
         newDiv.innerHTML = `<h6>${username}</h6> <p>${text}</p>`
         div.appendChild(newDiv);
@@ -195,7 +210,6 @@ function save_comment(evt)
 
 function close_comment(evt)
 {
-    console.log('close comment');
     let id = evt.currentTarget.myParam;
     let query = `#comment-${id}`;
     document.querySelector(query).style.display ='none';
@@ -206,6 +220,8 @@ function show_add_comment(evt)
     let id = evt.currentTarget.myParam;
     let query = `#comment-text${id}`;
     document.querySelector(query).style.display ='block';
+    comments = document.querySelector(`#comments-${id}`);
+    comments.style.display = 'block';
 
 }
 
@@ -216,14 +232,12 @@ function edit(){
 
 
 function show_form(){
-    console.log("show form");
     form_edit.style.display = 'block';
     client_info.style.display = 'none';
 }
 
 function info(evt){
     const username = JSON.parse(document.getElementById('username').textContent);
-    console.log(username)
     const request = new Request(
         `/profile/edit/${username}`,
         {headers: {'X-CSRFToken': csrftoken}}
@@ -249,11 +263,7 @@ function info(evt){
     formData = new FormData()
     formData.append("picture",picture);
     formData.append("body",json_body);
-    formData.append("test","test")
-
-    console.log(formData.get('picture'));
-    
-   
+    formData.append("test","test");
 
     fetch(request,{
         method: 'POST',

@@ -1,0 +1,24 @@
+<div class="container w-50 mb-4 mt-4 p-2 bg-dark rounded" id="post-{{post.id}}">
+    <h4 class="text-white">{{post.author.username}}</h2>
+    <p class="adtext">
+        {{post.body}}
+    </p>
+    <p class="text-muted">{{post.timestamp}}</p>
+    <button class="btn btn-dark add_comment" id="{{post.pk}}">comment</button>
+    <div class="p-2" id="comment-text{{post.pk}}" style="display: none;">
+        <h6 class="text-light"><i class="fa-solid fa-xmark" id="text{{post.pk}}"></i> New comment</h6>
+        <textarea class="comment_body" rows="2" id="text-area_{{post.pk}}"></textarea>
+        <button class="btn btn-secondary btn-sm save_button" id="save-button_{{post.pk}}">Add</button>
+    </div>
+    <p class="text-muted show_comments" id="show_comments-{{post.id}}">All comments</p>
+    <div class="comments" id="comments-{{post.id}}">
+    {% for comment in comments %}
+    {% if comment.post == post %}
+    <div class="container w-100 bg-light rounded pt-2">
+        <h6>{{comment.author.username}}</h6>
+        <p>{{comment.body}}</p>
+    </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+</div>

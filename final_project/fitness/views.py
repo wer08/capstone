@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm
@@ -8,6 +8,17 @@ from .models import User,Workout, Exercise, Routine, Post, Comment
 from django.db import IntegrityError
 from django.http import JsonResponse
 import random
+from django.core.paginator import Paginator
+
+
+def is_ajax(request):
+    """
+    This utility function is used, as `request.is_ajax()` is deprecated.
+    This implements the previous functionality. Note that you need to
+    attach this header manually if using fetch.
+    """
+    return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+
 
 
 def index(request):
@@ -92,13 +103,20 @@ def community(request):
             body = form.cleaned_data['body']
             post = Post(author = author, body = body)
             post.save()
-            return HttpResponse(status=204)
+            return redirect('community')
 
     posts = Post.objects.all().order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
+    pagin = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = pagin.get_page(page_number)
     form = PostForm()
+    if is_ajax(request):
+        return render(request, '_posts.html', {
+            'posts': page_obj
+            })
     return render(request, 'community.html',{
-        'posts': posts,
+        'posts': page_obj,
         'form': form,
         'comments': comments
     })
