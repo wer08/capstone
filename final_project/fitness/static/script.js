@@ -99,6 +99,13 @@ document.addEventListener('DOMContentLoaded',function(){
             comments.forEach(comment => edit(comment));
         })
 
+    close_comment_buttons = document.querySelectorAll('.fa-xmark');
+    close_comment_buttons.forEach(button => {
+        let id = button.id;
+        button.addEventListener('click',close_comment)
+        button.myParam = id;
+    })
+
     add_comment_buttons = document.querySelectorAll('.add_comment');
     add_comment_buttons.forEach(button => {
         let id = button.id;
@@ -107,9 +114,92 @@ document.addEventListener('DOMContentLoaded',function(){
         button.myParam = id;
     })
 
-    
+    save_comment_buttons = document.querySelectorAll('.save_button');
+    save_comment_buttons.forEach(button => {
+        let id = button.id;
+        button.addEventListener('click',save_comment);
+        button.myParam = id;
+    })
+
+    comments = document.querySelectorAll('.comments');
+    comments.forEach(comment => comment.style.display = 'none');
+
+
+    show_comments = document.querySelectorAll('.show_comments');
+    show_comments.forEach(show_comment => {
+        let id = show_comment.id;
+        console.log(show_comment);
+        show_comment.addEventListener('click',show_comments_func);
+        show_comment.myParam = id;
+    })
+
   
 });
+
+
+function show_comments_func(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split("-");
+    id_post = id[1];
+    console.log(id_post)
+    comments = document.querySelector(`#comments-${id_post}`);
+    if(comments.style.display == 'none')
+    {
+        comments.style.display = 'block';
+    }
+    else
+    {
+        comments.style.display = 'none';
+    }
+ 
+}
+
+function save_comment(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split("_");
+    id_post = id[1];
+    console.log(id_post);
+    text = document.querySelector(`#text-area_${id_post}`).value;
+    console.log(text);
+
+    const username = JSON.parse(document.getElementById('username').textContent);
+
+    const request = new Request(
+        `/comments`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    
+    fetch(request,{
+        method: 'POST',
+        mode: "same-origin",
+        body: JSON.stringify({
+            text: text,
+            post: id_post,
+            author: username
+        })
+    })
+    .then(() => {
+        document.querySelector(`#comment-text${id_post}`).style.display ='none';
+        const div = document.querySelector(`#post-${id_post}`);
+        const newDiv = document.createElement("div");
+        console.log(newDiv);
+        console.log(div);
+        newDiv.classList.add('container', 'w-100', 'bg-light', 'rounded', 'pt-2');
+        newDiv.innerHTML = `<h6>${username}</h6> <p>${text}</p>`
+        div.appendChild(newDiv);
+
+    });
+}
+
+function close_comment(evt)
+{
+    console.log('close comment');
+    let id = evt.currentTarget.myParam;
+    let query = `#comment-${id}`;
+    document.querySelector(query).style.display ='none';
+}
 
 function show_add_comment(evt)
 {
@@ -124,20 +214,6 @@ function edit(){
     console.log('editing')
 }
 
-
-
-function add_comment(){
-    const request = new Request(
-        `/comments`,
-        {headers: {'X-CSRFToken': csrftoken}}
-    );
-    
-    fetch(request,{
-        method: 'POST',
-        mode: "same-origin",
-        body: formData
-    })
-}
 
 function show_form(){
     console.log("show form");

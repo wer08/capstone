@@ -34,6 +34,10 @@ textarea{
     width: 100%;
 }
 
+.show_comments{
+    cursor: pointer;
+}
+
 .questions{
     padding: 10px;
     box-shadow: 5px 10px 8px #353538;

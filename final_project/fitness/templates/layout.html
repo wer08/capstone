@@ -59,7 +59,9 @@
 
     
     <div class="body">
+      {{ user.username|json_script:"username" }}
       {% block body %}
+
       {% endblock %}
       <div class="container-fluid footer">
         <footer class="py-5 bg-dark">

@@ -69,6 +69,16 @@ def exercise(request):
     })
 
 def comments(request):
+    if request.method == 'POST':
+
+        body = json.loads(request.body)
+        text = body['text']
+        author = body['author']
+        post = body['post']
+        author = User.objects.get(username = author)
+        post = Post.objects.get(pk = post)
+        comment = Comment(body = text, post = post, author=author)
+        comment.save()
     comments = Comment.objects.all()
     comments=[comment.serialize() for comment in comments]
     return JsonResponse(comments, safe=False)
@@ -82,6 +92,7 @@ def community(request):
             body = form.cleaned_data['body']
             post = Post(author = author, body = body)
             post.save()
+            return HttpResponse(status=204)
 
     posts = Post.objects.all().order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
