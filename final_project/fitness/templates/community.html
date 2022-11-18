@@ -21,10 +21,13 @@ Community
         </form>
     </div>
     {% include "_posts.html" with post=post %}
-    {% if posts.has_next %}
-    <a class="page-link" id="next_page" href="?page={{ posts.next_page_number }}"></a>
-    {% endif %}
 </section>
+<div id="loading">
+    <div class="d-flex justify-content-center">
+        <i class="fa-solid fa-spinner text-white p-4" id="loading_icon"></i>
+    </div>
+</div>
+
 
 {% endblock %}
 {% endif %}

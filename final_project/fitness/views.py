@@ -107,13 +107,20 @@ def community(request):
 
     posts = Post.objects.all().order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
-    pagin = Paginator(posts, 5)
+    pagin = Paginator(posts, 5,allow_empty_first_page=False)
     page_number = request.GET.get('page')
-    page_obj = pagin.get_page(page_number)
+    if page_number:
+        if int(page_number) > pagin.num_pages:
+            page_obj = []
+        else:
+            page_obj = pagin.get_page(page_number)
+    else:
+        page_obj = pagin.get_page(page_number)
     form = PostForm()
     if is_ajax(request):
         return render(request, '_posts.html', {
-            'posts': page_obj
+            'posts': page_obj,
+            'comments': comments
             })
     return render(request, 'community.html',{
         'posts': page_obj,

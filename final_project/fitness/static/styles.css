@@ -90,7 +90,6 @@ textarea{
     color: Gainsboro;
 }
 
-
 #routine_form{
     transition-delay: 500ms;
 }
@@ -98,6 +97,16 @@ textarea{
     transition-delay: 500ms;
     display: inline-block;
 
+}
+
+#loading_icon
+{
+    animation: rotate 1.5s linear infinite;
+}
+@keyframes rotate { 
+    to{
+        transform: rotate(360deg);
+    }
 }
 
 

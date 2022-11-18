@@ -93,6 +93,45 @@ document.addEventListener('DOMContentLoaded',function(){
 
     };
 
+    loading = document.querySelector('#loading');
+    loading.style.display = 'none';
+    
+    /* Adding events to community page is in function because it has to be run after more posts are added using infinity scroll*/
+    addEventsToCommunity();
+
+
+
+    if(this.body.classList.contains('community'))
+    {
+        let counter = 1;
+        window.addEventListener('scroll',()=>{
+            element = document.querySelector("#posts");
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
+            {
+                fetch(`/community?page=${counter+1}`,{
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                .then(response => response.text())
+                .then(body => {
+                    loading.style.display = 'block';                   
+                    setTimeout(()=>{
+                        element.innerHTML += body;
+                        addEventsToCommunity();
+                        loading.style.display = 'none';
+                    },1500)
+                    counter ++;
+                })
+            }
+        })
+    }
+
+  
+});
+
+function addEventsToCommunity()
+{
     fetch(`/comments`)
         .then(response => response.json())
         .then(comments => {
@@ -131,30 +170,7 @@ document.addEventListener('DOMContentLoaded',function(){
         show_comment.myParam = id;
     })
 
-
-    if(this.body.classList.contains('community'))
-    {
-        window.addEventListener('scroll',()=>{
-            element = document.querySelector("#posts");
-            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
-            {
-                let counter = 1;
-                fetch(`/community?page=${counter+1}`,{
-                    headers:{
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                })
-                .then(response => response.text())
-                .then(body => {
-                    element.innerHTML += body;
-                    console.log(`/community?page=${counter+1}`);
-                })
-            }
-        })
-    }
-
-  
-});
+}
 
 
 function show_comments_func(evt)
@@ -199,7 +215,7 @@ function save_comment(evt)
     })
     .then(() => {
         document.querySelector(`#comment-text${id_post}`).style.display ='none';
-        const div = document.querySelector(`#post-${id_post}`);
+        const div = document.querySelector(`#comments-${id_post}`);
         const newDiv = document.createElement("div");
         newDiv.classList.add('container', 'w-100', 'bg-light', 'rounded', 'pt-2');
         newDiv.innerHTML = `<h6>${username}</h6> <p>${text}</p>`
