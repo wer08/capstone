@@ -12,11 +12,7 @@ from django.core.paginator import Paginator
 
 
 def is_ajax(request):
-    """
-    This utility function is used, as `request.is_ajax()` is deprecated.
-    This implements the previous functionality. Note that you need to
-    attach this header manually if using fetch.
-    """
+
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
 
 
@@ -26,6 +22,13 @@ def index(request):
 
 def diet(request):
     return render(request, 'diet.html')
+
+def delete_post(request,post_id):
+    if request.method == 'DELETE':
+        post = Post.objects.get(pk = post_id)
+        post.delete()
+
+    return HttpResponse(status = 204)
 
 def exercise(request):
     choice =False

@@ -138,7 +138,7 @@ function addEventsToCommunity()
             comments.forEach(comment => edit(comment));
         })
 
-    close_comment_buttons = document.querySelectorAll('.fa-xmark');
+    close_comment_buttons = document.querySelectorAll('.close_comment');
     close_comment_buttons.forEach(button => {
         let id = button.id;
         button.addEventListener('click',close_comment)
@@ -170,6 +170,72 @@ function addEventsToCommunity()
         show_comment.myParam = id;
     })
 
+    delete_post_buttons = document.querySelectorAll('.delete_post');
+    delete_post_buttons.forEach(delete_post_button => {
+        let id = delete_post_button.id;
+        delete_post_button.addEventListener('click',delete_post);
+        delete_post_button.myParam = id;
+    })
+
+    edit_post_buttons = document.querySelectorAll('.edit_post');
+    edit_post_buttons.forEach(edit_post_button => {
+        let id = edit_post_button.id;
+        edit_post_button.addEventListener('click',edit_post);
+        edit_post_button.myParam = id;
+    })
+
+    cancel_post_edit_buttons = document.querySelectorAll('.cancel_post_edit');
+    cancel_post_edit_buttons.forEach(cancel_post_edit_button => {
+        let id = cancel_post_edit_button.id;
+        cancel_post_edit_button.addEventListener('click',cancel_edit_post);
+        cancel_post_edit_button.myParam = id;
+    })
+
+}
+
+function cancel_edit_post(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split("-");
+    id = id[1];
+    post_textarea = document.querySelector(`#post_textarea-${id}`);
+    post_textarea.style.display = 'none'; 
+    post_text = document.querySelector(`#post_text-${id}`);
+    post_text.style.display = 'block';
+    
+}
+
+function edit_post(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split("-");
+    id = id[1];
+    post_text = document.querySelector(`#post_text-${id}`);
+    post_text.style.display = 'none';
+    post_textarea = document.querySelector(`#post_textarea-${id}`);
+    post_textarea.style.display = 'block'; 
+    document.querySelector(`#edit_post_area-${id}`).value = post_text.innerHTML;
+    console.log('editing');
+}
+
+function delete_post(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split("-");
+    id = id[1];
+    post = document.querySelector(`#post-${id}`);
+    console.log(`#post-${id}`);
+    const request = new Request(
+        `/post/delete/${id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request,{
+        method: 'DELETE',
+    })
+    .then(() => {
+        post.remove();
+        console.log('post removed');
+    })
 }
 
 

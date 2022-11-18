@@ -65,7 +65,7 @@ class Post(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.CharField(max_length=100)
-    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now=True)
 
     def serialize(self):

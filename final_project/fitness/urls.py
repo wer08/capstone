@@ -13,6 +13,7 @@ urlpatterns = [
     path('diet',views.diet, name="diet"),
     path('community',views.community, name="community"),
     path('dashboard',views.dashboard, name="dashboard"),
-    path('comments',views.comments, name='comments')
+    path('comments',views.comments, name='comments'),
+    path('post/delete/<int:post_id>', views.delete_post, name='delete_post')
 ]
 

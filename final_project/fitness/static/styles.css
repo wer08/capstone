@@ -96,7 +96,11 @@ textarea{
 #routine{
     transition-delay: 500ms;
     display: inline-block;
+}
 
+.fa-xmark
+{
+    cursor: pointer;
 }
 
 #loading_icon
@@ -109,6 +113,11 @@ textarea{
     }
 }
 
+.options:hover{
+    background-color: #353538;
+    border-radius: 10%;
+    cursor: pointer;
+}
 
 .reveal{
     padding: 0px;
