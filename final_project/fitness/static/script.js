@@ -191,6 +191,44 @@ function addEventsToCommunity()
         cancel_post_edit_button.myParam = id;
     })
 
+    save_post_edit_buttons = document.querySelectorAll('.save_post_edit_button');
+    save_post_edit_buttons.forEach(save_post_edit_button => {
+        let id = save_post_edit_button.id;
+        save_post_edit_button.addEventListener('click', save_post_edit);
+        save_post_edit_button.myParam = id;
+    })
+}
+
+function save_post_edit(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split('-');
+    id = id[1];
+    new_post_body = document.querySelector(`#edit_post_area-${id}`).value;
+    console.log(new_post_body);
+    post_text = document.querySelector(`#post_text-${id}`);
+
+    console.log('edit button clicked');
+
+    const request = new Request(
+        `/post/edit/${id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            text: new_post_body,
+        })
+    })
+    .then(()=>{
+        post_text.innerHTML = new_post_body;
+        document.querySelector(`#post_textarea-${id}`).style.display = 'none';
+        post_text.style.display = 'block';
+    })
+    
+
 }
 
 function cancel_edit_post(evt)
@@ -215,7 +253,6 @@ function edit_post(evt)
     post_textarea = document.querySelector(`#post_textarea-${id}`);
     post_textarea.style.display = 'block'; 
     document.querySelector(`#edit_post_area-${id}`).value = post_text.innerHTML;
-    console.log('editing');
 }
 
 function delete_post(evt)

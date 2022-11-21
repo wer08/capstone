@@ -30,6 +30,15 @@ def delete_post(request,post_id):
 
     return HttpResponse(status = 204)
 
+def edit_post(request,post_id):
+    if request.method == 'PUT':
+        post = Post.objects.get(pk = post_id)
+        data = json.loads(request.body)
+        print(data)
+        post.body = data['text']
+        post.save()
+    return HttpResponse(status = 204)
+
 def exercise(request):
     choice =False
     routine = []
