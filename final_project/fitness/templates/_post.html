@@ -1,6 +1,7 @@
 <div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded" id="post-{{post.id}}">
     <div class="d-flex justify-content-between">
         <h4 class="text-white p-1">{{post.author.username}}</h4>
+        {% if post.author == request.user %}
         <div class="dropdown">
             <button type="button" class="btn btn-outline-dark dropdown-toggle options" id="dropdownMenu{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-white"></i></button>  
             <div class="dropdown-menu" aria-labelledby="dropdownMenu{{post.pk}}">
@@ -8,6 +9,7 @@
                 <button class="dropdown-item delete_post" type="button" id="delete_post-{{post.pk}}">Delete</button>
             </div>
         </div>
+        {% endif %}
     </div>
     <p class="adtext" id="post_text-{{post.pk}}">
         {{post.body}}
@@ -30,10 +32,7 @@
     <div class="comments" id="comments-{{post.id}}">
     {% for comment in comments %}
     {% if comment.post == post %}
-    <div class="container w-100 bg-light rounded pt-2">
-        <h6>{{comment.author.username}}</h6>
-        <p>{{comment.body}}</p>
-    </div>
+    {% include '_comment.html' with comment=comment %}
     {% endif %}
     {% endfor %}
     </div>

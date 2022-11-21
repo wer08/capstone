@@ -249,6 +249,7 @@ function edit_post(evt)
     id = id.split("-");
     id = id[1];
     post_text = document.querySelector(`#post_text-${id}`);
+    console.log(post_text.innerHTML);
     post_text.style.display = 'none';
     post_textarea = document.querySelector(`#post_textarea-${id}`);
     post_textarea.style.display = 'block'; 
@@ -316,12 +317,15 @@ function save_comment(evt)
             author: username
         })
     })
-    .then(() => {
+    .then(response => response.text())
+    .then(body => {
         document.querySelector(`#comment-text${id_post}`).style.display ='none';
+        console.log("I'm here");
+        console.log(body);
+
         const div = document.querySelector(`#comments-${id_post}`);
         const newDiv = document.createElement("div");
-        newDiv.classList.add('container', 'w-100', 'bg-light', 'rounded', 'pt-2');
-        newDiv.innerHTML = `<h6>${username}</h6> <p>${text}</p>`
+        newDiv.innerHTML = body;
         div.appendChild(newDiv);
 
     });

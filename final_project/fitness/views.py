@@ -33,10 +33,13 @@ def delete_post(request,post_id):
 def edit_post(request,post_id):
     if request.method == 'PUT':
         post = Post.objects.get(pk = post_id)
-        data = json.loads(request.body)
-        print(data)
-        post.body = data['text']
-        post.save()
+        if post.author == request.user:
+            data = json.loads(request.body)
+            post.body = data['text']
+            post.save()
+        else:
+            return HttpResponse(status = 403)
+
     return HttpResponse(status = 204)
 
 def exercise(request):
@@ -92,8 +95,9 @@ def exercise(request):
     })
 
 def comments(request):
+    comments = Comment.objects.all()
+    comments=[comment.serialize() for comment in comments]
     if request.method == 'POST':
-
         body = json.loads(request.body)
         text = body['text']
         author = body['author']
@@ -102,8 +106,9 @@ def comments(request):
         post = Post.objects.get(pk = post)
         comment = Comment(body = text, post = post, author=author)
         comment.save()
-    comments = Comment.objects.all()
-    comments=[comment.serialize() for comment in comments]
+        return render(request,'_comment.html', {
+            'comment': comment
+        })
     return JsonResponse(comments, safe=False)
 
 

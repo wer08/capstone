@@ -1,0 +1,16 @@
+<div class="container w-100 bg-light rounded pt-2">
+    <div class="d-flex justify-content-between">
+        <h6>{{comment.author.username}}</h6>
+        {% if comment.author == request.user %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle options" id="dropdownMenuComment{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-dark"></i></button>  
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuComment{{post.pk}}">
+                <button class="dropdown-item edit_comment" type="button" id="edit_comment-{{post.pk}}">Edit</button>
+                <button class="dropdown-item delete_comment" type="button" id="delete_comment-{{post.pk}}">Delete</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <p>{{comment.body}}</p>
+</div>
