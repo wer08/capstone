@@ -15,6 +15,8 @@ urlpatterns = [
     path('dashboard',views.dashboard, name="dashboard"),
     path('comments',views.comments, name='comments'),
     path('post/delete/<int:post_id>', views.delete_post, name='delete_post'),
-    path('post/edit/<int:post_id>', views.edit_post, name='edit_post')
+    path('post/edit/<int:post_id>', views.edit_post, name='edit_post'),
+    path('comment/delete/<int:comment_id>', views.delete_comment, name='delete_comment'),
+    path('comment/edit/<int:comment_id>', views.edit_comment, name='edit_comment')
 ]
 

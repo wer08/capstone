@@ -1,16 +1,21 @@
-<div class="container w-100 bg-light rounded pt-2">
+<div class="container w-100 bg-light rounded pt-2" id="comment-{{comment.pk}}">
     <div class="d-flex justify-content-between">
         <h6>{{comment.author.username}}</h6>
         {% if comment.author == request.user %}
         <div class="dropdown">
             <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle options" id="dropdownMenuComment{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-dark"></i></button>  
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuComment{{post.pk}}">
-                <button class="dropdown-item edit_comment" type="button" id="edit_comment-{{post.pk}}">Edit</button>
-                <button class="dropdown-item delete_comment" type="button" id="delete_comment-{{post.pk}}">Delete</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuComment{{comment.pk}}">
+                <button class="dropdown-item edit_comment" type="button" id="edit_comment-{{comment.pk}}">Edit</button>
+                <button class="dropdown-item delete_comment" type="button" id="delete_comment-{{comment.pk}}">Delete</button>
             </div>
         </div>
         {% endif %}
     </div>
 
-    <p>{{comment.body}}</p>
+    <div id="comment_body-{{comment.pk}}" class="comment_body">{{comment.body|linebreaks}}</div>
+    <div class="p-2 m-2 form-group" id="comment_edit-{{comment.pk}}" style="display: none;">
+        <div class="text-dark d-flex justify-content-end"><i class="fa-solid fa-xmark cancel_comment_edit" id="cancel_comment_edit-{{comment.pk}}"></i></div>
+        <textarea class="comment_body_textarea form-control" rows="1" id="edit_comment_area-{{comment.pk}}"></textarea>
+        <button class="btn btn-secondary btn-sm save_comment_edit" id="save_comment_edit-{{comment.pk}}">Edit</button>
+    </div>
 </div>

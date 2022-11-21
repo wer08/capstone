@@ -98,6 +98,17 @@ textarea{
     display: inline-block;
 }
 
+.comment_body
+{
+    white-space: pre-wrap;
+}
+
+.post_body
+{
+    white-space: pre-wrap;
+    max-height: fit-content;
+}
+
 .fa-xmark
 {
     cursor: pointer;
@@ -143,6 +154,19 @@ textarea{
     opacity: 1;
     filter: blur(0);
     transform: translateX(0);
+}
+
+.post{
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+    transition: all 0.5s;
+}
+
+.deleted{
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
 }
 
 .footer{

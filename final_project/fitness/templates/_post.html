@@ -1,4 +1,4 @@
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded" id="post-{{post.id}}">
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded post" id="post-{{post.id}}">
     <div class="d-flex justify-content-between">
         <h4 class="text-white p-1">{{post.author.username}}</h4>
         {% if post.author == request.user %}
@@ -11,9 +11,9 @@
         </div>
         {% endif %}
     </div>
-    <p class="adtext" id="post_text-{{post.pk}}">
-        {{post.body}}
-    </p>
+    <div class="container w-100 adtext post_body" id="post_text-{{post.pk}}">
+        {{post.body|linebreaks}}
+    </div>
     <div class="p-2 form-group" id="post_textarea-{{post.pk}}" style="display: none;">
         <div class="text-white d-flex justify-content-end"><i class="fa-solid fa-xmark cancel_post_edit" id="cancel_post_edit-{{post.pk}}"></i></div>
         <textarea class="post_body form-control" rows="2" id="edit_post_area-{{post.pk}}"></textarea>
@@ -26,7 +26,7 @@
     </div>
     <div class="p-2" id="comment-text{{post.pk}}" style="display: none;">
         <h6 class="text-light"><i class="fa-solid fa-xmark close_comment" id="text{{post.pk}}"></i> New comment</h6>
-        <textarea class="comment_body" rows="2" id="text-area_{{post.pk}}"></textarea>
+        <textarea class="comment_textarea" rows="1" id="text-area_{{post.pk}}"></textarea>
         <button class="btn btn-secondary btn-sm save_button" id="save-button_{{post.pk}}">Add</button>
     </div>
     <div class="comments" id="comments-{{post.id}}">

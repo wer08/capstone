@@ -111,6 +111,24 @@ def comments(request):
         })
     return JsonResponse(comments, safe=False)
 
+def edit_comment(request, comment_id):
+    comment = Comment.objects.get(pk = comment_id)
+    if request.method == 'PUT':
+        if comment.author == request.user:
+            data = json.loads(request.body)
+            comment.body = data['body']
+            comment.save()
+        else:
+            return HttpResponse(status = 403)
+
+    return HttpResponse(status = 204)
+
+def delete_comment(request, comment_id):
+    if request.method == 'DELETE':
+        comment = Comment.objects.get(pk = comment_id)
+        comment.delete()
+    return HttpResponse(status = 204)
+
 
 def community(request):
     if request.method == "POST":

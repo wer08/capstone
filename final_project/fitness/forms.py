@@ -57,7 +57,7 @@ class RoutineForm(forms.Form):
 
 class PostForm(forms.Form):
     body = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'form-control bg-light',
+        'class': 'form-control bg-light new_post_area',
         'rows': '3'
     }))
 

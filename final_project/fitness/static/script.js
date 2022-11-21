@@ -197,6 +197,106 @@ function addEventsToCommunity()
         save_post_edit_button.addEventListener('click', save_post_edit);
         save_post_edit_button.myParam = id;
     })
+
+    delete_comment_buttons = document.querySelectorAll('.delete_comment');
+    delete_comment_buttons.forEach(delete_comment_button => {
+        let id = delete_comment_button.id;
+        delete_comment_button.addEventListener('click', delete_comment);
+        delete_comment_button.myParam = id;
+    })
+
+    edit_comment_buttons = document.querySelectorAll('.edit_comment');
+    edit_comment_buttons.forEach(edit_comment_button => {
+        let id = edit_comment_button.id;
+        edit_comment_button.addEventListener('click',edit_comment);
+        edit_comment_button.myParam = id;
+    })
+
+    cancel_comment_edit_buttons = document.querySelectorAll('.cancel_comment_edit');
+    cancel_comment_edit_buttons.forEach(cancel_comment_edit_button => {
+        let id = cancel_comment_edit_button.id;
+        cancel_comment_edit_button.addEventListener('click',cancel_comment_edit);
+        cancel_comment_edit_button.myParam = id;
+    })
+
+    save_comment_edit_buttons = document.querySelectorAll('.save_comment_edit');
+    save_comment_edit_buttons.forEach(save_comment_edit_button => {
+        let id = save_comment_edit_button.id;
+        save_comment_edit_button.addEventListener('click', save_comment_edit);
+        save_comment_edit_button.myParam = id;
+    })
+}
+
+function save_comment_edit(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split('-');
+    id = id[1];
+    body = document.querySelector(`#edit_comment_area-${id}`).value;
+    console.log(body);
+
+    const request = new Request(
+        `/comment/edit/${id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            body: body,
+        })
+    })
+    .then(()=>{
+        comment_body = document.querySelector(`#comment_body-${id}`);
+        comment_body.innerHTML = body;
+        comment_body.style.display = 'block';
+        document.querySelector(`#comment_edit-${id}`).style.display='none';
+    })
+
+}
+
+function cancel_comment_edit(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split('-');
+    id = id[1];
+    comment_body = document.querySelector(`#comment_body-${id}`);
+    comment_body.style.display = 'block';
+    comment_textarea = document.querySelector(`#comment_edit-${id}`);
+    comment_textarea.style.display = 'none';
+    
+}
+
+function edit_comment(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split('-');
+    id = id[1];
+    comment_body = document.querySelector(`#comment_body-${id}`);
+    comment_body.style.display = 'none';
+    comment_textarea = document.querySelector(`#comment_edit-${id}`);
+    comment_textarea.style.display = 'block';
+    document.querySelector(`#edit_comment_area-${id}`).value = comment_body.innerHTML.replace(/<[^>]*>/g, "");
+}
+
+function delete_comment(evt)
+{
+    let id = evt.currentTarget.myParam;
+    id = id.split('-');
+    id = id[1];
+    const request = new Request(
+        `/comment/delete/${id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    fetch(request,{
+        method: "DELETE"
+    })
+    .then(()=>{
+        comment = document.querySelector(`#comment-${id}`);
+        comment.remove();
+        console.log("Comment deleted");
+    })
 }
 
 function save_post_edit(evt)
@@ -253,7 +353,7 @@ function edit_post(evt)
     post_text.style.display = 'none';
     post_textarea = document.querySelector(`#post_textarea-${id}`);
     post_textarea.style.display = 'block'; 
-    document.querySelector(`#edit_post_area-${id}`).value = post_text.innerHTML;
+    document.querySelector(`#edit_post_area-${id}`).value = post_text.innerHTML.replace(/<[^>]*>/g, "");
 }
 
 function delete_post(evt)
@@ -262,7 +362,6 @@ function delete_post(evt)
     id = id.split("-");
     id = id[1];
     post = document.querySelector(`#post-${id}`);
-    console.log(`#post-${id}`);
     const request = new Request(
         `/post/delete/${id}`,
         {headers: {'X-CSRFToken': csrftoken}}
@@ -271,10 +370,14 @@ function delete_post(evt)
         method: 'DELETE',
     })
     .then(() => {
-        post.remove();
-        console.log('post removed');
+        console.log("running animation");
+        post.classList.add('deleted');
+        setTimeout(()=>{
+            post.remove();
+        },500)
     })
 }
+
 
 
 function show_comments_func(evt)
