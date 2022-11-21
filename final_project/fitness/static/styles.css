@@ -145,6 +145,12 @@ textarea{
     transition: all 1s;
 }
 
+.community_pic{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
 .workouts{
     margin: 20px;
     color: Gainsboro;

@@ -1,6 +1,9 @@
 <div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded post" id="post-{{post.id}}">
     <div class="d-flex justify-content-between">
-        <h4 class="text-white p-1">{{post.author.username}}</h4>
+        <div class="d-flex justify-content-start">
+            {% if post.author.profile_pic %}<img src="{{post.author.profile_pic.url}}" class="community_pic">{% else %}<img src="/media/media/pobrane.png" class="community_pic">{% endif %} <h4 class="text-white p-1">{{post.author.username}}</h4>
+        </div>
+
         {% if post.author == request.user %}
         <div class="dropdown">
             <button type="button" class="btn btn-outline-dark dropdown-toggle options" id="dropdownMenu{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-white"></i></button>  
