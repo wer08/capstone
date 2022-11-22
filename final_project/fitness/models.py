@@ -101,6 +101,10 @@ class Workout(models.Model):
     gym = models.BooleanField(default=True)
     hypertrophy = models.BooleanField(default=True)
     weight_loss = models.BooleanField(default=True)
+    calories_burned = models.IntegerField(default=500)
+
+    def __str__(self):
+        return f"{self.name}    +{self.calories_burned}"
 
 
 
@@ -111,12 +115,24 @@ class Meal(models.Model):
     type = models.CharField(max_length=20)
     ingredients = ArrayField(models.CharField(max_length=20),blank=True)
     description = models.CharField(max_length=250)
+    
+
+    def __str__(self):
+        return f"{self.name}    -{self.calorie}"
 
 class Diet(models.Model):
     first_meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="first_meals")
     second_meal = models.ForeignKey(Meal, on_delete=models.CASCADE,related_name="second_meals")
     third_meal = models.ForeignKey(Meal, on_delete=models.CASCADE,related_name="third_meals")
     snack = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="snacks")
+
+class Daily(models.Model):
+    person = models.ForeignKey(User, on_delete=models.CASCADE, related_name="daily")
+    daily_calories = models.IntegerField()
+    daily_exercise = models.IntegerField()
+    daily_meals = models.IntegerField()
+
+    
 
 
     

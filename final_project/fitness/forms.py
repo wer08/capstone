@@ -1,4 +1,5 @@
 from django import forms
+from .models import Meal,Workout
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=100)
@@ -66,6 +67,34 @@ class CommentForm(forms.Form):
         'class': 'form-control',
         'rows': '3'
     }))
+
+choices_meal = [(meal , f"{meal.name} calories: {meal.calorie}") for meal in Meal.objects.all()]
+class MealForm(forms.Form):
+    meal = forms.ChoiceField(choices=choices_meal, label='Choose a meal ')
+    meal.widget.attrs.update({
+        'class': 'form-control mb-2'
+    })
+    meal_calorie = forms.IntegerField(label="Or just type number of calories ")
+    meal_calorie.widget.attrs.update({
+        'class': 'form-control mb-2',
+        'step': '10',
+        'value': '100'
+    })
+
+choices_exercise = [(training , f"{training.name} calories: {training.calories_burned}") for training in Workout.objects.all()]
+class ExerciseForm(forms.Form):
+    training = forms.ChoiceField(choices=choices_exercise, label='Choose a workout ')
+    training.widget.attrs.update({
+        'class': 'form-control mb-2'
+    })
+    exercise_calorie = forms.IntegerField(label="Or just type number of calories ")
+    exercise_calorie.widget.attrs.update({
+        'class': 'form-control mb-2',
+        'step': '10',
+        'value': '100'
+    })
+
+
         
 
   

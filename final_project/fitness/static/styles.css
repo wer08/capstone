@@ -151,6 +151,33 @@ textarea{
     border-radius: 50%;
 }
 
+.dashboard > *:not(#meal,#exercise) {
+    filter: blur(3px);
+    pointer-events: none;
+  }
+
+#meal
+{
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 5px 10px 8px #353538;
+}
+
+#exercise
+{
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 5px 10px 8px #353538;
+}
+
 .workouts{
     margin: 20px;
     color: Gainsboro;

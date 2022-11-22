@@ -18,6 +18,28 @@ const csrftoken = getCookie('csrftoken');
 
 
 document.addEventListener('DOMContentLoaded',function(){
+    /* Adding events to community page is in function because it has to be run after more posts are added using infinity scroll*/
+    try
+    {
+        addEventsToCommunity();
+    }
+    catch(e)
+    {
+        console.error(e,e.stack);
+    }
+
+
+    /*Adding events to dashboard page */
+    try
+    {
+        addEventsToDashboard();
+    }
+    catch(e)
+    {
+        console.error(e,e.stack);
+    }
+
+
     try{
         form_edit = document.querySelector('#editing');
         form_edit.style.display = 'none';
@@ -81,6 +103,8 @@ document.addEventListener('DOMContentLoaded',function(){
         console.error(e, e.stack);
     }
 
+
+
     let prevScrollpos = window.pageYOffset;
     window.onscroll = () => {
         let currentScrollPos = window.pageYOffset;
@@ -96,11 +120,6 @@ document.addEventListener('DOMContentLoaded',function(){
     loading = document.querySelector('#loading');
     loading.style.display = 'none';
     
-    /* Adding events to community page is in function because it has to be run after more posts are added using infinity scroll*/
-    addEventsToCommunity();
-
-
-
     if(this.body.classList.contains('community'))
     {
         let counter = 1;
@@ -129,6 +148,33 @@ document.addEventListener('DOMContentLoaded',function(){
 
   
 });
+
+function addEventsToDashboard()
+{
+    meal_button = document.querySelector('#add_meal');
+    meal_button.addEventListener('click',show_meal_choice);
+
+    exercise_button = document.querySelector('#add_exercise');
+    exercise_button.addEventListener('click',show_exercise_choice);
+
+    cancel_meal_button = document.querySelector('#cancel_meal');
+    cancel_meal_button.addEventListener('click',cancel_meal_choice);
+
+    cancel_exercise_button = document.querySelector("#cancel_exercise");
+    cancel_exercise_button.addEventListener('click', cancel_exercise_choice);
+
+    add_meal_button = document.querySelector('#meal_button-id_meal');
+    add_meal_button.addEventListener('click',add_meal);
+
+    add_meal_calorie_button = document.querySelector('#meal_button-id_meal_calorie');
+    add_meal_calorie_button.addEventListener('click',add_meal_calorie);
+
+    add_exercise_training_button = document.querySelector('#exercise_button-id_training');
+    add_exercise_training_button.addEventListener('click', add_exercise_training);
+
+    add_exercise_calorie_button = document.querySelector('#exercise_button-id_exercise_calorie');
+    add_exercise_calorie_button.addEventListener('click', add_exercise_calorie);
+}
 
 function addEventsToCommunity()
 {
@@ -225,6 +271,108 @@ function addEventsToCommunity()
         save_comment_edit_button.addEventListener('click', save_comment_edit);
         save_comment_edit_button.myParam = id;
     })
+}
+
+function add_meal()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    meal_choice = document.querySelector('#meal');
+    meal_choice.style.display = 'none';
+
+    list = document.querySelector('#calorie-balance');
+    meal = document.querySelector('#id_meal');
+    li = document.createElement('li');
+    list.appendChild(li);
+    li.innerHTML = `${meal.value}`;
+
+    remaining_calories = document.querySelector('#remaining_calories');
+    remaining_calories.innerHTML += meal.value;
+}
+
+function add_meal_calorie()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    meal_choice = document.querySelector('#meal');
+    meal_choice.style.display = 'none';
+
+    list = document.querySelector('#calorie-balance');
+    calories = document.querySelector('#id_meal_calorie');
+    li = document.createElement('li');
+    list.appendChild(li);
+    li.innerHTML = `-${calories.value}`;
+
+}
+
+function add_exercise_training()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    exercise_choice = document.querySelector('#exercise');
+    exercise_choice.style.display = 'none';
+
+    list = document.querySelector('#calorie-balance');
+    training = document.querySelector('#id_training');
+    li = document.createElement('li');
+    list.appendChild(li);
+    li.innerHTML = `${training.value}`;
+}
+
+function add_exercise_calorie()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    exercise_choice = document.querySelector('#exercise');
+    exercise_choice.style.display = 'none';
+
+    list = document.querySelector('#calorie-balance');
+    training = document.querySelector('#id_exercise_calorie');
+    li = document.createElement('li');
+    list.appendChild(li);
+    li.innerHTML = `+${training.value}`;
+}
+
+function show_meal_choice(evt)
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.add("dashboard");
+
+    meal_choice = document.querySelector('#meal');
+    meal_choice.style.display = 'block';
+    meal_choice.style.pointerEvents = 'auto';
+}
+
+function cancel_meal_choice(evt)
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    meal_choice = document.querySelector('#meal');
+    meal_choice.style.display = 'none';
+}
+
+function show_exercise_choice(evt)
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.add("dashboard");
+
+    exercise_choice = document.querySelector('#exercise');
+    exercise_choice.style.display = 'block';
+    exercise_choice.style.pointerEvents = 'auto';
+}
+
+function cancel_exercise_choice(evt)
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    exercise_choice = document.querySelector('#exercise');
+    exercise_choice.style.display = 'none';
 }
 
 function save_comment_edit(evt)

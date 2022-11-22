@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm
+from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm, MealForm, ExerciseForm
 from django.contrib.auth import authenticate, login, logout
 from .models import User,Workout, Exercise, Routine, Post, Comment
 from django.db import IntegrityError
@@ -164,7 +164,12 @@ def community(request):
     })
 
 def dashboard(request):
-    return render(request,"dashboard.html")
+    form = MealForm()
+    form2 = ExerciseForm()
+    return render(request,"dashboard.html",{
+        'form': form,
+        'form2': form2
+    })
 
 def profile(request,user):
     client = User.objects.get(username = user)
