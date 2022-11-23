@@ -11,3 +11,5 @@ sqlparse==0.4.3
 urllib3==1.26.12
 psycopg2
 Pillow
+celery[amqp]
+rabbitmq

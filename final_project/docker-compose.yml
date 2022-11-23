@@ -20,18 +20,37 @@ services:
       - db
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq
     container_name: 'rabbitmq'
     ports:
         - 5672:5672
         - 15672:15672
     volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-    networks:
-        - rabbitmq_go_net
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq/
 
-networks:
-  rabbitmq_go_net:
-    driver: bridge
+  celery:
+    build: .
+    command: celery -A final_project worker -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbitmq
+  celery-beat:
+    build: .
+    command: celery -A final_project beat -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbitmq
+
+volumes:
+    rabbitmq_data:
+    rabbitmq_log:
+        
+
+    
+
 

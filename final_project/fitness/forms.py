@@ -1,5 +1,6 @@
 from django import forms
 from .models import Meal,Workout
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=100)
@@ -93,6 +94,14 @@ class ExerciseForm(forms.Form):
         'step': '10',
         'value': '100'
     })
+
+class GenerateRandomUserForm(forms.Form):
+    total = forms.IntegerField(
+        validators=[
+            MinValueValidator(50),
+            MaxValueValidator(500)
+        ]
+    )
 
 
         

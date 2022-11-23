@@ -30,6 +30,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CELERY_BROKER_URL = 'amqp://localhost'
+
+
 
 # Application definition
 
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fitness',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

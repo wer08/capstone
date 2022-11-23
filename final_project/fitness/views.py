@@ -9,6 +9,22 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 import random
 from django.core.paginator import Paginator
+from django.views.generic.edit import FormView
+from .forms import GenerateRandomUserForm
+from .tasks import create_random_user_accounts
+from django.contrib import messages
+
+
+class GenerateRandomUserView(FormView):
+    template_name = 'core/generate_random_users.html'
+    form_class = GenerateRandomUserForm
+
+    def form_valid(self, form):
+        total = form.cleaned_data.get('total')
+        create_random_user_accounts.delay(total)
+        messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
+        return redirect('users_list')
+
 
 
 def is_ajax(request):
