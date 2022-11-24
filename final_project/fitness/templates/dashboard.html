@@ -52,14 +52,32 @@ Dashboard
                     <button id="add_meal" class="btn btn-secondary">Add meal</button>
                 </div>
             </div>
-            <ul id="calorie-balance">
-                {% for daily in daily_balance %}
-                <li>
-                    {{daily}}
-                </li>
-                {% endfor %}
+            <div class="d-flex justify-content-between container w-75">
+                <ul id="calorie-balance-meals" class="list-group bg-transparent">
+                    <lh class="list-group-item bg-transparent"><strong>Meals</strong></lh>
+                    {% for daily in daily_meals %}
+                    <li class="list-group-item bg-transparent">
+                        <strong>{{daily}}</strong>
+                    </li>
+                    {% endfor %}
+                    
+                </ul>
 
-            </ul>
+                <ul id="calorie-balance-exercise" class="list-group bg-transparent">
+                    <lh class="list-group-item bg-transparent"><strong>Exercise</strong></lh>
+                    {% for daily in daily_exercise %}
+                    <li class="list-group-item bg-transparent">
+                        <strong>{{daily}}</strong>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <div class="container w-75 d-flex justify-content-between border-top mt-3">
+                <strong>Total: {{sum_meals}}</strong>
+                <strong>Total: {{sum_exercise}}</strong>
+            </div>
+
         </div>
 
         

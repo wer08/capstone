@@ -281,7 +281,7 @@ function add_meal()
     meal_choice = document.querySelector('#meal');
     meal_choice.style.display = 'none';
 
-    list = document.querySelector('#calorie-balance');
+    list = document.querySelector('#calorie-balance-meals');
     meal = document.querySelector('#id_meal').value;
     meal = meal.split('-');
     meal = meal[1];
@@ -325,7 +325,7 @@ function add_meal_calorie()
     meal_choice = document.querySelector('#meal');
     meal_choice.style.display = 'none';
 
-    list = document.querySelector('#calorie-balance');
+    list = document.querySelector('#calorie-balance-meals');
     calories = document.querySelector('#id_meal_calorie');
     li = document.createElement('li');
     list.appendChild(li);
@@ -367,7 +367,7 @@ function add_exercise_training()
     exercise_choice = document.querySelector('#exercise');
     exercise_choice.style.display = 'none';
 
-    list = document.querySelector('#calorie-balance');
+    list = document.querySelector('#calorie-balance-exercise');
     training = document.querySelector('#id_training').value;
     training = training.split('+')
     training = training[1]
@@ -410,7 +410,7 @@ function add_exercise_calorie()
     exercise_choice = document.querySelector('#exercise');
     exercise_choice.style.display = 'none';
 
-    list = document.querySelector('#calorie-balance');
+    list = document.querySelector('#calorie-balance-exercise');
     training = document.querySelector('#id_exercise_calorie');
     li = document.createElement('li');
     list.appendChild(li);

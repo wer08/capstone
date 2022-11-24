@@ -221,10 +221,18 @@ def dashboard(request):
         daily.save()
 
     daily_balance = daily.daily_balance
+    daily_meals = [meal for meal in daily_balance if meal<0]
+    daily_exercise = [exercise for exercise in daily_balance if exercise>0]
+    sum_meals = sum(daily_meals)
+    sum_exercise = sum(daily_exercise)
     return render(request,"dashboard.html",{
         'form': form,
         'form2': form2,
-        'daily_balance': daily_balance
+        'daily_meals': daily_meals,
+        'daily_exercise': daily_exercise,
+        'sum_meals': sum_meals,
+        'sum_exercise': sum_exercise
+
     })
 
 def profile(request,user):
