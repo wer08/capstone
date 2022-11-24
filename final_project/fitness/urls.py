@@ -18,6 +18,10 @@ urlpatterns = [
     path('post/edit/<int:post_id>', views.edit_post, name='edit_post'),
     path('comment/delete/<int:comment_id>', views.delete_comment, name='delete_comment'),
     path('comment/edit/<int:comment_id>', views.edit_comment, name='edit_comment'),
-    path('generate',views.GenerateRandomUserView.as_view(), name='generate')
+    path('generate',views.GenerateRandomUserView.as_view(), name='generate'),
+    path('users_list',views.users_list,name='users_list'),
+    path('add_meal', views.add_meal, name='add_meal'),
+    path('add_exercise', views.add_exercise, name='add_exercise'),
+    path('daily_calories', views.daily_calories, name='daily_calories')
 ]
 

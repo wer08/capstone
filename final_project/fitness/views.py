@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm, MealForm, ExerciseForm
 from django.contrib.auth import authenticate, login, logout
-from .models import User,Workout, Exercise, Routine, Post, Comment
+from .models import User,Workout, Exercise, Routine, Post, Comment, Daily
 from django.db import IntegrityError
 from django.http import JsonResponse
 import random
@@ -14,9 +14,9 @@ from .forms import GenerateRandomUserForm
 from .tasks import create_random_user_accounts
 from django.contrib import messages
 
-
+#function to generate random users. Created to test Celery
 class GenerateRandomUserView(FormView):
-    template_name = 'core/generate_random_users.html'
+    template_name = 'generate_random_users.html'
     form_class = GenerateRandomUserForm
 
     def form_valid(self, form):
@@ -25,13 +25,44 @@ class GenerateRandomUserView(FormView):
         messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
         return redirect('users_list')
 
+def users_list(request):
+    list = User.objects.all()
+    return render(request, 'user_list.html',{
+        'list': list
+    })
+
+
 
 
 def is_ajax(request):
 
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
 
+def daily_calories(request):
+    return JsonResponse(request.user.daily_calories, safe=False)
 
+def add_meal(request):
+    daily = Daily.objects.get(person = request.user)
+    if request.method == 'PUT':
+        body = json.loads(request.body)
+        calories = body['calories']
+        request.user.daily_calories = request.user.daily_calories - int(calories)
+        daily.daily_balance.append(-(int(calories)))
+        daily.save()
+        request.user.save() 
+    return HttpResponse(status = 204)
+
+def add_exercise(request):
+    daily = Daily.objects.get(person = request.user)
+
+    if request.method == 'PUT':
+        body = json.loads(request.body)
+        calories = body['calories']
+        request.user.daily_calories = request.user.daily_calories + int(calories)
+        daily.daily_balance.append((int(calories)))
+        daily.save()
+        request.user.save()     
+    return HttpResponse(status = 204)
 
 def index(request):
     return render(request, 'index.html')
@@ -182,9 +213,18 @@ def community(request):
 def dashboard(request):
     form = MealForm()
     form2 = ExerciseForm()
+    try:
+        daily = Daily.objects.get(person = request.user)
+    except:
+        balance = []
+        daily = Daily(person = request.user, daily_balance=balance)
+        daily.save()
+
+    daily_balance = daily.daily_balance
     return render(request,"dashboard.html",{
         'form': form,
-        'form2': form2
+        'form2': form2,
+        'daily_balance': daily_balance
     })
 
 def profile(request,user):

@@ -40,15 +40,24 @@ Dashboard
 
 
         <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded" id="overview">
-            <p>Remaining calories</p>
-            <div class="d-flex justify-content-between">
-                <h2 id="remaining_calories">{{user.calories}}</h2>
+            
+            <div class="d-flex justify-content-between container w-100 bg-dark p-4">
                 <div>
-                    <button id="add_exercise" class="btn btn-dark">Add exercise</button>
-                    <button id="add_meal" class="btn btn-dark">Add meal</button>
+                    <p class="text-light h3">Remaining calories</p>
+                    <h1 id="remaining_calories" class="text-success">{{user.daily_calories}}</h1>
+                </div>
+
+                <div>
+                    <button id="add_exercise" class="btn btn-secondary">Add exercise</button>
+                    <button id="add_meal" class="btn btn-secondary">Add meal</button>
                 </div>
             </div>
             <ul id="calorie-balance">
+                {% for daily in daily_balance %}
+                <li>
+                    {{daily}}
+                </li>
+                {% endfor %}
 
             </ul>
         </div>

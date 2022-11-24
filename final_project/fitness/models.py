@@ -27,6 +27,15 @@ class User(AbstractUser):
     fat = models.IntegerField(default = 600)
     profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
     routine = models.ForeignKey(Routine, null=True,on_delete=models.SET_NULL)
+    daily_calories = models.IntegerField(default=2000)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.daily_calories = self.calories
+        super(User, self).save(*args, **kwargs)
+
+
+
 
     def serialize(self):
         if self.profile_pic:
@@ -127,10 +136,8 @@ class Diet(models.Model):
     snack = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="snacks")
 
 class Daily(models.Model):
-    person = models.ForeignKey(User, on_delete=models.CASCADE, related_name="daily")
-    daily_calories = models.IntegerField()
-    daily_exercise = models.IntegerField()
-    daily_meals = models.IntegerField()
+    person = models.OneToOneField(User, on_delete=models.CASCADE, related_name="daily")
+    daily_balance = ArrayField(models.IntegerField(), null=True)
 
     
 

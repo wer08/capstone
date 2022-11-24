@@ -282,13 +282,39 @@ function add_meal()
     meal_choice.style.display = 'none';
 
     list = document.querySelector('#calorie-balance');
-    meal = document.querySelector('#id_meal');
+    meal = document.querySelector('#id_meal').value;
+    meal = meal.split('-');
+    meal = meal[1];
     li = document.createElement('li');
     list.appendChild(li);
-    li.innerHTML = `${meal.value}`;
+    li.innerHTML = `-${meal}`;
+    const request = new Request(
+        `/add_meal`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
 
-    remaining_calories = document.querySelector('#remaining_calories');
-    remaining_calories.innerHTML += meal.value;
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            calories: meal,
+        })
+    })
+    .then(()=>{
+        remaining_calories = document.querySelector('#remaining_calories');
+        fetch('daily_calories')
+        .then(response => response.json())
+        .then(daily_calories => {
+            remaining_calories.innerHTML = daily_calories;
+            if(daily_calories < 0)
+            {
+                remaining_calories.classList.add('text-danger');
+                remaining_calories.classList.remove('text-success');
+            }
+        })  
+    })
+
+
 }
 
 function add_meal_calorie()
@@ -305,6 +331,32 @@ function add_meal_calorie()
     list.appendChild(li);
     li.innerHTML = `-${calories.value}`;
 
+    const request = new Request(
+        `/add_meal`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            calories: calories.value,
+        })
+    })
+    .then(()=>{
+        remaining_calories = document.querySelector('#remaining_calories');
+        fetch('daily_calories')
+        .then(response => response.json())
+        .then(daily_calories => {
+            remaining_calories.innerHTML = daily_calories;
+            if(daily_calories < 0)
+            {
+                remaining_calories.classList.add('text-danger');
+                remaining_calories.classList.remove('text-success');
+            }
+        })  
+    })
+
 }
 
 function add_exercise_training()
@@ -316,10 +368,38 @@ function add_exercise_training()
     exercise_choice.style.display = 'none';
 
     list = document.querySelector('#calorie-balance');
-    training = document.querySelector('#id_training');
+    training = document.querySelector('#id_training').value;
+    training = training.split('+')
+    training = training[1]
     li = document.createElement('li');
     list.appendChild(li);
-    li.innerHTML = `${training.value}`;
+    li.innerHTML = `${training}`;
+
+    const request = new Request(
+        `/add_exercise`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            calories: training,
+        })
+    })
+    .then(()=>{
+        remaining_calories = document.querySelector('#remaining_calories');
+        fetch('daily_calories')
+        .then(response => response.json())
+        .then(daily_calories => {
+            remaining_calories.innerHTML = daily_calories;
+            if(daily_calories >= 0)
+            {
+                remaining_calories.classList.add('text-success');
+                remaining_calories.classList.remove('text-danger');
+            }
+        })  
+    })
 }
 
 function add_exercise_calorie()
@@ -334,7 +414,34 @@ function add_exercise_calorie()
     training = document.querySelector('#id_exercise_calorie');
     li = document.createElement('li');
     list.appendChild(li);
-    li.innerHTML = `+${training.value}`;
+    li.innerHTML = `${training.value}`;
+
+    const request = new Request(
+        `/add_exercise`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    fetch(request,{
+        method: 'PUT',
+        mode: "same-origin",
+        body: JSON.stringify({
+            calories: training.value,
+        })
+    })
+    .then(()=>{
+        remaining_calories = document.querySelector('#remaining_calories');
+        fetch('daily_calories')
+        .then(response => response.json())
+        .then(daily_calories => {
+            remaining_calories.innerHTML = daily_calories;
+            if(daily_calories >= 0)
+            {
+                remaining_calories.classList.add('text-success');
+                remaining_calories.classList.remove('text-danger');
+            }
+
+        })   
+    })
 }
 
 function show_meal_choice(evt)

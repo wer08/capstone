@@ -1,5 +1,5 @@
 <form action="{% url 'generate' %}" method="post">
-    {{csrf_token}}
+    {% csrf_token %}
     {{form}}
     <button type="submit">submit</button>
 </form>
