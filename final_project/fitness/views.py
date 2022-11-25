@@ -38,6 +38,25 @@ def is_ajax(request):
 
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
 
+def switch_meal(request):
+    breakfasts = Meal.objects.all()
+    lunches = Meal.objects.all()
+    dinners = Meal.objects.all()
+    snacks = Meal.objects.all()
+
+    daily_breakfast = random.choice(breakfasts)
+    daily_lunch = random.choice(lunches)
+    daily_dinner = random.choice(dinners)
+    daily_snack = random.choice(snacks)
+
+    response = {
+        'breakfast': daily_breakfast.serialize(),
+        'lunch': daily_lunch.serialize(),
+        'dinner': daily_dinner.serialize(),
+        'snack': daily_snack.serialize()
+    }
+    return JsonResponse(response)
+
 def daily_calories(request):
     return JsonResponse(request.user.daily_calories, safe=False)
 
@@ -82,16 +101,26 @@ def index(request):
     return render(request, 'index.html')
 
 def diet(request):
-    breakfasts = Meal.objects.filter(type='BR')
-    print(breakfasts)
-    lunches = Meal.objects.filter(type="LU")
-    print(lunches)
-    dinners = Meal.objects.filter(type='DIN')
-    snacks = Meal.objects.filter(type="SN")
-    breakfast = random.choice(breakfasts)
-    lunch = random.choice(lunches)
-    dinner = random.choice(dinners)
-    snack = random.choice(snacks)
+    breakfasts = Meal.objects.all()
+    lunches = Meal.objects.all()
+    dinners = Meal.objects.all()
+    snacks = Meal.objects.all()
+
+    try:
+        daily = Daily.objects.get(person = request.user)
+
+    except:
+        balance = []
+        daily_breakfast = random.choice(breakfasts)
+        daily_lunch = random.choice(lunches)
+        daily_dinner = random.choice(dinners)
+        daily_snack = random.choice(snacks)
+        daily = Daily(person = request.user,daily_balance = balance, daily_breakfast = daily_breakfast, daily_lunch = daily_lunch, daily_dinner = daily_dinner, daily_snack = daily_snack)
+
+    breakfast = daily.daily_breakfast
+    lunch = daily.daily_lunch
+    dinner = daily.daily_dinner
+    snack = daily.daily_snack
 
     return render(request, 'diet.html',{
         'breakfast': breakfast,

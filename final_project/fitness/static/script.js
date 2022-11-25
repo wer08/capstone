@@ -39,6 +39,16 @@ document.addEventListener('DOMContentLoaded',function(){
         console.error(e,e.stack);
     }
 
+    /*Adding events to diet page */
+    try
+    {
+        addEventsToDiet();
+    }
+    catch(e)
+    {
+        console.error(e,e.stack);
+    }
+
 
     try{
         form_edit = document.querySelector('#editing');
@@ -312,6 +322,49 @@ function addEventsToCommunity()
         save_comment_edit_button.addEventListener('click', save_comment_edit);
         save_comment_edit_button.myParam = id;
     })
+}
+
+function addEventsToDiet()
+{
+    switch_breakfast_button = document.querySelector("#switch_breakfast");
+    switch_breakfast_button.addEventListener('click',switch_breakfast);
+
+    switch_lunch_button = document.querySelector("#switch_lunch");
+    switch_lunch_button.addEventListener('click',switch_lunch);
+
+    switch_dinner_button = document.querySelector("#switch_dinner");
+    switch_dinner_button.addEventListener('click',switch_dinner);
+
+    switch_snack_button = document.querySelector("#switch_snack");
+    switch_snack_button.addEventListener('click',switch_snack);
+}
+
+function switch_breakfast()
+{
+    fetch("switch_meal")
+    .then(response => response.json())
+    .then(meals => {
+        breakfast = meals.breakfast;
+        lunch = meals.lunch;
+        dinner = meals.dinner;
+        snack = meals.snack;
+    })
+    console.log('switch breakfst');
+}
+
+function switch_lunch()
+{
+    console.log('switch lunch');
+}
+
+function switch_dinner()
+{
+    console.log('switch dinner');
+}
+
+function switch_snack()
+{
+    console.log('switch snack');
 }
 
 function save_calories()

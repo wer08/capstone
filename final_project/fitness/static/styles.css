@@ -95,6 +95,11 @@ textarea{
     color: Gainsboro;
 }
 
+#diet_description
+{
+    text-align: center;
+}
+
 #routine_form{
     transition-delay: 500ms;
 }
@@ -143,6 +148,10 @@ textarea{
     filter: blur(5px);
     transform: translateX(-100%);
     transition: all 1s;
+}
+.reveal.diet
+{
+    min-height: 0;
 }
 .right{
     opacity: 0;

@@ -29,6 +29,10 @@ app.conf.beat_schedule = {
         'task': 'fitness.tasks.set_calories_to_zero',
         'schedule': crontab(hour=0, minute=0)
     },
+    'set-menu':{
+        'task': 'fitness.tasks.choose_menu',
+        'schedule':crontab(hour=0,minute=0)
+    }
 }
 
 

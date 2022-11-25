@@ -139,6 +139,15 @@ class Meal(models.Model):
     def __str__(self):
         return f"{self.name}    -{self.calorie}"
 
+    def serialize(self):
+        return {
+            'name': self.name,
+            'calorie': self.calorie,
+            'type': self.type,
+            'ingredients': self.ingredients,
+            'description': self.description
+        }
+
 class Diet(models.Model):
     first_meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="first_meals")
     second_meal = models.ForeignKey(Meal, on_delete=models.CASCADE,related_name="second_meals")
@@ -148,6 +157,10 @@ class Diet(models.Model):
 class Daily(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE, related_name="daily")
     daily_balance = ArrayField(models.IntegerField(), null=True)
+    daily_breakfast = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_breakfast",null=True)
+    daily_lunch = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_lunch", null=True)
+    daily_dinner = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_dinner", null=True)
+    daily_snack = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_snack", null=True)
 
     
 

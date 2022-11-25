@@ -11,34 +11,83 @@ Diet
 {% else %}
 {% block body %}
 <section>
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded">
-    <div class="d-flex justify-content-center text-light" id="diet-description">
-
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded reveal diet">
+    <div class="container w-50 text-light h5" id="diet-description">
+            <p>
             On this page we will provide you with deliscious recipes for breakfast, lunch, dinner and a snack.
             If you want to switch any meal just click switch next to it and another recipe will be provided.
             Whole menu will provide you with your calories requirement.
+            </p>
 
     </div>
 </div>
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
-        <h3>Breakfast</h3>
-        <h4>{{breakfast.name}}</h4>
-        <ul class="text-light">
-            {% for ingredient in breakfast.ingredients %}
-            <li class="text-light">{{ingredient}}</li>
-            {% endfor %}
-        </ul>
-        <span>{{breakfast.description}}</span>
-
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light reveal diet">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Breakfast</h3>
+            <h4>{{breakfast.name}}</h4>
+            <ul class="text-light">
+                {% for ingredient in breakfast.ingredients %}
+                <li class="text-light">{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+            <span>{{breakfast.description}}</span>
+        </div>
+        <div>
+            <button class="btn btn-secondary" id="switch_breakfast">Switch</button>
+        </div>
+    </div>
 </div>
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
-        <h3>Lunch</h3>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light reveal diet">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Lunch</h3>
+            <h4>{{lunch.name}}</h4>
+            <ul class="text-light">
+                {% for ingredient in lunch.ingredients %}
+                <li class="text-light">{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+            <span>{{lunch.description}}</span>
+        </div>
+        <div>
+            <button class="btn btn-secondary" id="switch_lunch">Switch</button>
+        </div>
+    </div>
 </div>
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
-        <h3>Dinner</h3>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light reveal diet">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Dinner</h3>
+            <h4>{{dinner.name}}</h4>
+            <ul class="text-light">
+                {% for ingredient in dinner.ingredients %}
+                <li class="text-light">{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+            <span>{{dinner.description}}</span>
+        </div>
+        <div>
+            <button class="btn btn-secondary" id="switch_dinner">Switch</button>
+        </div>
+    </div>
 </div>
-<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
-        <h3>Snack</h3>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light reveal diet">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Snack</h3>
+            <h4>{{snack.name}}</h4>
+            <ul class="text-light">
+                {% for ingredient in snack.ingredients %}
+                <li class="text-light">{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+            <span>{{snack.description}}</span>
+        </div>
+        <div>
+            <button class="btn btn-secondary" id="switch_snack">Switch</button>
+        </div>
+    </div>
 </div>
 </section>
 

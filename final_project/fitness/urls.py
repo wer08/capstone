@@ -23,6 +23,7 @@ urlpatterns = [
     path('add_meal', views.add_meal, name='add_meal'),
     path('add_exercise', views.add_exercise, name='add_exercise'),
     path('dashboard/daily_calories', views.daily_calories, name='daily_calories'),
-    path('change_calories', views.change_calories, name='change_calories')
+    path('change_calories', views.change_calories, name='change_calories'),
+    path('switch_meal',views.switch_meal, name="switch_meal")
 ]
 
