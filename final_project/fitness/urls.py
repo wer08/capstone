@@ -12,7 +12,7 @@ urlpatterns = [
     path('exercise',views.exercise, name="exercise"),
     path('diet',views.diet, name="diet"),
     path('community',views.community, name="community"),
-    path('dashboard',views.dashboard, name="dashboard"),
+    path('dashboard/<int:user_id>',views.dashboard, name="dashboard"),
     path('comments',views.comments, name='comments'),
     path('post/delete/<int:post_id>', views.delete_post, name='delete_post'),
     path('post/edit/<int:post_id>', views.edit_post, name='edit_post'),
@@ -22,6 +22,7 @@ urlpatterns = [
     path('users_list',views.users_list,name='users_list'),
     path('add_meal', views.add_meal, name='add_meal'),
     path('add_exercise', views.add_exercise, name='add_exercise'),
-    path('daily_calories', views.daily_calories, name='daily_calories')
+    path('dashboard/daily_calories', views.daily_calories, name='daily_calories'),
+    path('change_calories', views.change_calories, name='change_calories')
 ]
 

@@ -2,9 +2,9 @@ import json
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm, MealForm, ExerciseForm
+from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm, MealForm, ExerciseForm, CaloriesForm
 from django.contrib.auth import authenticate, login, logout
-from .models import User,Workout, Exercise, Routine, Post, Comment, Daily
+from .models import User,Workout, Exercise, Routine, Post, Comment, Daily, Meal
 from django.db import IntegrityError
 from django.http import JsonResponse
 import random
@@ -41,6 +41,20 @@ def is_ajax(request):
 def daily_calories(request):
     return JsonResponse(request.user.daily_calories, safe=False)
 
+def change_calories(request):
+    if request.method == 'PUT':
+        body = json.loads(request.body)
+        calories = body['calories']
+        difference = request.user.calories - int(calories)
+        request.user.calories = calories
+        request.user.daily_calories -= difference
+        request.user.save()
+        response = {
+            'calories': calories,
+            'daily': request.user.daily_calories
+        }
+        return JsonResponse(response, safe=False)
+
 def add_meal(request):
     daily = Daily.objects.get(person = request.user)
     if request.method == 'PUT':
@@ -68,7 +82,23 @@ def index(request):
     return render(request, 'index.html')
 
 def diet(request):
-    return render(request, 'diet.html')
+    breakfasts = Meal.objects.filter(type='BR')
+    print(breakfasts)
+    lunches = Meal.objects.filter(type="LU")
+    print(lunches)
+    dinners = Meal.objects.filter(type='DIN')
+    snacks = Meal.objects.filter(type="SN")
+    breakfast = random.choice(breakfasts)
+    lunch = random.choice(lunches)
+    dinner = random.choice(dinners)
+    snack = random.choice(snacks)
+
+    return render(request, 'diet.html',{
+        'breakfast': breakfast,
+        'lunch': lunch,
+        'dinner': dinner,
+        'snack': snack
+    })
 
 def delete_post(request,post_id):
     if request.method == 'DELETE':
@@ -210,29 +240,57 @@ def community(request):
         'comments': comments
     })
 
-def dashboard(request):
+def dashboard(request,user_id):
     form = MealForm()
     form2 = ExerciseForm()
+    form3 = CaloriesForm()
+    user = User.objects.get(pk = user_id)
     try:
-        daily = Daily.objects.get(person = request.user)
+        daily = Daily.objects.get(person = user)
     except:
         balance = []
-        daily = Daily(person = request.user, daily_balance=balance)
+        daily = Daily(person = user, daily_balance=balance)
         daily.save()
 
     daily_balance = daily.daily_balance
     daily_meals = [meal for meal in daily_balance if meal<0]
     daily_exercise = [exercise for exercise in daily_balance if exercise>0]
+    daily_calories = user.daily_calories
+    calories = user.calories
     sum_meals = sum(daily_meals)
     sum_exercise = sum(daily_exercise)
+
+    
+    posts = Post.objects.filter(author = user).order_by('-timestamp')
+    comments = Comment.objects.all().order_by('timestamp')
+    pagin = Paginator(posts, 5,allow_empty_first_page=False)
+    page_number = request.GET.get('page')
+    if page_number:
+        if int(page_number) > pagin.num_pages:
+            page_obj = []
+        else:
+            page_obj = pagin.get_page(page_number)
+    else:
+        page_obj = pagin.get_page(page_number)
+    if is_ajax(request):
+        print("Rendering new postd")
+        return render(request, '_posts.html', {
+            'posts': page_obj,
+            'comments': comments
+            })
     return render(request,"dashboard.html",{
         'form': form,
         'form2': form2,
+        'form3': form3,
         'daily_meals': daily_meals,
         'daily_exercise': daily_exercise,
         'sum_meals': sum_meals,
-        'sum_exercise': sum_exercise
-
+        'sum_exercise': sum_exercise,
+        'posts': page_obj,
+        'comments': comments,
+        'daily_calories': daily_calories,
+        'user_id': user_id,
+        'calories': calories
     })
 
 def profile(request,user):

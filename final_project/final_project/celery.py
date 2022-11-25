@@ -27,7 +27,7 @@ from fitness.tasks import set_calories_to_zero
 app.conf.beat_schedule = {
     'set-everyday': {
         'task': 'fitness.tasks.set_calories_to_zero',
-        'schedule': crontab(hour=10, minute=55)
+        'schedule': crontab(hour=0, minute=0)
     },
 }
 

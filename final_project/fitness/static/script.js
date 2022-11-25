@@ -117,8 +117,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
     };
 
-    loading = document.querySelector('#loading');
-    loading.style.display = 'none';
+    loadings = document.querySelectorAll('.loading');
+    loadings.forEach(loading =>  loading.style.display = 'none');
     
     if(this.body.classList.contains('community'))
     {
@@ -134,11 +134,41 @@ document.addEventListener('DOMContentLoaded',function(){
                 })
                 .then(response => response.text())
                 .then(body => {
-                    loading.style.display = 'block';                   
+                    loadings = document.querySelectorAll('.loading');
+                    loadings.forEach(loading =>  loading.style.display = 'block');                  
                     setTimeout(()=>{
                         element.innerHTML += body;
                         addEventsToCommunity();
-                        loading.style.display = 'none';
+                        loadings = document.querySelectorAll('.loading');
+                        loadings.forEach(loading =>  loading.style.display = 'none');
+                    },1500)
+                    counter ++;
+                })
+            }
+        })
+    }
+    else if(this.body.classList.contains('dashboard_page'))
+    {
+        let counter = 1;
+        window.addEventListener('scroll',()=>{
+            element = document.querySelector("#posts-dashboard");
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
+            {
+                fetch(`?page=${counter+1}`,{
+                    headers:{
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                .then(response => response.text())
+                .then(body => {
+                    console.log(body);
+                    loadings = document.querySelectorAll('.loading');
+                    loadings.forEach(loading =>  loading.style.display = 'block');                  
+                    setTimeout(()=>{
+                        element.innerHTML += body;
+                        addEventsToCommunity();
+                        loadings = document.querySelectorAll('.loading');
+                        loadings.forEach(loading =>  loading.style.display = 'none');
                     },1500)
                     counter ++;
                 })
@@ -174,6 +204,17 @@ function addEventsToDashboard()
 
     add_exercise_calorie_button = document.querySelector('#exercise_button-id_exercise_calorie');
     add_exercise_calorie_button.addEventListener('click', add_exercise_calorie);
+
+    change_calories_button = document.querySelector('#change_calories_link');
+    change_calories_button.addEventListener('click',change_calories);
+
+    cancel_calories_button = document.querySelector('#cancel_calories');
+    cancel_calories_button.addEventListener('click', cancel_calories);
+
+    save_calories_button = document.querySelector('#change_calories_button');
+    save_calories_button.addEventListener('click',save_calories);
+
+
 }
 
 function addEventsToCommunity()
@@ -273,6 +314,56 @@ function addEventsToCommunity()
     })
 }
 
+function save_calories()
+{
+    const request = new Request(
+        `/change_calories`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+
+    calories = document.querySelector('#id_calories').value;
+
+    fetch(request,{
+        method: 'PUT',
+        mode: 'same-origin',
+        body: JSON.stringify({
+            calories: calories
+        })
+    })
+    .then(response => response.json())
+    .then(calories_json => {
+        remaining_calories = document.querySelector('#remaining_calories');
+        remaining_calories.innerHTML = calories_json.daily;
+        main_page = document.querySelector('#dashboard');
+        main_page.classList.remove("dashboard");
+    
+        change_calories_view = document.querySelector('#change_calories');
+        change_calories_view.style.display = 'none';
+
+        daily_limit = document.querySelector('#daily-limit');
+        daily_limit.innerHTML = `Daily Limit: ${calories_json.calories}`;
+    })
+}
+
+function change_calories()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.add("dashboard");
+
+    change_calories_view = document.querySelector('#change_calories');
+    change_calories_view.style.display = 'block';
+    change_calories_view.pointerEvents = 'auto';
+}
+
+function cancel_calories()
+{
+    main_page = document.querySelector('#dashboard');
+    main_page.classList.remove("dashboard");
+
+    change_calories_view = document.querySelector('#change_calories');
+    change_calories_view.style.display = 'none';
+}
+
 function add_meal()
 {
     main_page = document.querySelector('#dashboard');
@@ -286,8 +377,9 @@ function add_meal()
     meal = meal.split('-');
     meal = meal[1];
     li = document.createElement('li');
+    li.classList.add("list-group-item","bg-transparent");
     list.appendChild(li);
-    li.innerHTML = `-${meal}`;
+    li.innerHTML = `<strong>-${meal}<strong>`;
     const request = new Request(
         `/add_meal`,
         {headers: {'X-CSRFToken': csrftoken}}
@@ -328,6 +420,7 @@ function add_meal_calorie()
     list = document.querySelector('#calorie-balance-meals');
     calories = document.querySelector('#id_meal_calorie');
     li = document.createElement('li');
+    li.classList.add("list-group-item","bg-transparent");
     list.appendChild(li);
     li.innerHTML = `-${calories.value}`;
 
@@ -372,6 +465,7 @@ function add_exercise_training()
     training = training.split('+')
     training = training[1]
     li = document.createElement('li');
+    li.classList.add("list-group-item","bg-transparent");
     list.appendChild(li);
     li.innerHTML = `${training}`;
 
@@ -413,6 +507,7 @@ function add_exercise_calorie()
     list = document.querySelector('#calorie-balance-exercise');
     training = document.querySelector('#id_exercise_calorie');
     li = document.createElement('li');
+    li.classList.add("list-group-item","bg-transparent");
     list.appendChild(li);
     li.innerHTML = `${training.value}`;
 

@@ -1,7 +1,8 @@
 <div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded post" id="post-{{post.id}}">
     <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start">
-            {% if post.author.profile_pic %}<img src="{{post.author.profile_pic.url}}" class="community_pic">{% else %}<img src="/media/media/pobrane.png" class="community_pic">{% endif %} <h4 class="text-white p-1">{{post.author.username}}</h4>
+            <a href="{% url 'dashboard' post.author.pk %}" class="link">{% if post.author.profile_pic %}<img src="{{post.author.profile_pic.url}}" class="community_pic">{% else %}<img src="/media/media/pobrane.png" class="community_pic">{% endif %}</a>
+            <a href="{% url 'dashboard' post.author.pk %}" class="link"><h4 class="text-white p-1">{{post.author.username}}</h4></a>
         </div>
 
         {% if post.author == request.user %}

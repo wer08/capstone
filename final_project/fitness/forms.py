@@ -103,6 +103,8 @@ class GenerateRandomUserForm(forms.Form):
         ]
     )
 
+class CaloriesForm(forms.Form):
+    calories = forms.IntegerField(validators=[MinValueValidator(1000)])
 
         
 

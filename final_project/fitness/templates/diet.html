@@ -11,7 +11,35 @@ Diet
 {% else %}
 {% block body %}
 <section>
-This is diet page
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded">
+    <div class="d-flex justify-content-center text-light" id="diet-description">
+
+            On this page we will provide you with deliscious recipes for breakfast, lunch, dinner and a snack.
+            If you want to switch any meal just click switch next to it and another recipe will be provided.
+            Whole menu will provide you with your calories requirement.
+
+    </div>
+</div>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
+        <h3>Breakfast</h3>
+        <h4>{{breakfast.name}}</h4>
+        <ul class="text-light">
+            {% for ingredient in breakfast.ingredients %}
+            <li class="text-light">{{ingredient}}</li>
+            {% endfor %}
+        </ul>
+        <span>{{breakfast.description}}</span>
+
+</div>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
+        <h3>Lunch</h3>
+</div>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
+        <h3>Dinner</h3>
+</div>
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark bg-gradient rounded text-light">
+        <h3>Snack</h3>
+</div>
 </section>
 
 {% endblock %}

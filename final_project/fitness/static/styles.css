@@ -82,6 +82,11 @@ textarea{
     padding: 10px;
 }
 
+#change_calories_link:hover
+{
+    cursor: pointer;
+}
+
 .ex{
     display: grid;
     place-items: center;
@@ -124,6 +129,7 @@ textarea{
     }
 }
 
+
 .options:hover{
     background-color: #353538;
     border-radius: 10%;
@@ -151,12 +157,23 @@ textarea{
     border-radius: 50%;
 }
 
-.dashboard > *:not(#meal,#exercise) {
+.dashboard > *:not(#meal,#exercise,#change_calories) {
     filter: blur(3px);
     pointer-events: none;
   }
 
 #meal
+{
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 5px 10px 8px #353538;
+}
+
+#change_calories
 {
     margin-left: auto;
     margin-right: auto;

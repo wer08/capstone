@@ -119,9 +119,19 @@ class Workout(models.Model):
 
 
 class Meal(models.Model):
+    BREAKFAST = 'BR'
+    LUNCH = 'LU'
+    DINNER = 'DIN'
+    SNACK = 'SN'
+    MEAL_CHOICES = [
+        (BREAKFAST, 'Breakfast'),
+        (DINNER, 'Dinner'),
+        (LUNCH, 'Lunch'),
+        (SNACK, 'Snack'),
+    ]
     name = models.CharField(max_length=100)
     calorie = models.IntegerField()
-    type = models.CharField(max_length=20)
+    type = models.CharField(max_length=20, choices=MEAL_CHOICES)
     ingredients = ArrayField(models.CharField(max_length=20),blank=True)
     description = models.CharField(max_length=250)
     
