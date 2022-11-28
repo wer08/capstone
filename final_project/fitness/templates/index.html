@@ -17,7 +17,15 @@ Main
                     24/7 contact with our trainers and dietitians.
                     Achieve your goals by combining strength training with stretching, cardio and Nutrition !
                 </p>
-                <h1 class="main_link"><a href="{% url 'exercise' %}" class="link">The Workouts </a><i class="fa-solid fa-chevron-right"></i></h1>
+                <h1 class="main_link">
+                    <a href=
+                    {% if user.is_authenticated %}
+                    "{% url 'exercise' %}"
+                    {% else %}
+                    "{% url 'login' %}"
+                    {% endif %}
+                     class="link m-2">Exercise </a><i class="fa-solid fa-chevron-right"></i>
+                </h1>
             </div>
             <div class="col reveal right">
                 <p class="adtext m-2 p-4">
@@ -26,7 +34,15 @@ Main
                     As you propably know our company is proud to be focused on ethical and environmental issues.
                     That's why all our plans are 100% plant-based. 
                 </p>
-                <h1 class="main_link"><a href="{% url 'diet' %}" class="link m-2">Diet </a><i class="fa-solid fa-chevron-right"></i></h1>
+                <h1 class="main_link p-2">
+                    <a href=
+                    {% if user.is_authenticated %}
+                    "{% url 'diet' %}"
+                    {% else %}
+                    "{% url 'login' %}"
+                    {% endif %}
+                     class="link m-2">Diet </a><i class="fa-solid fa-chevron-right"></i>
+                </h1>
             </div>
             <div class="col diet-pic reveal right">
                 <img src="/media/media/vegan-protein.jpg" class="img-fluid h-100 w-100" id="workout_pic">
@@ -40,15 +56,31 @@ Main
                     Want to find a jogging friend ? Search no more.
                     Be a part of something bigger try FitnessApp!
                 </p>
-                <h1 class="main_link"><a href="{% url 'community' %}" class="link">Community </a><i class="fa-solid fa-chevron-right"></i></h1>
-            </div>
+                <h1 class="main_link">
+                    <a href=
+                    {% if user.is_authenticated %}
+                    "{% url 'community' %}"
+                    {% else %}
+                    "{% url 'login' %}"
+                    {% endif %}
+                     class="link m-2">Community </a><i class="fa-solid fa-chevron-right"></i>
+                </h1>            </div>
             <div class="col reveal right">
                 <p class="adtext m-2 p-4">
                     On our Dashboard page you can check your progress or update your goals.
                     We'll provide you with all the data that you need to be succesful in your personal fitness journey!
                     Check it out for yourself
                 </p>
-                <h1 class="main_link"><a href="{% url 'dashboard' user.pk%}" class="link m-2">Dashboard </a><i class="fa-solid fa-chevron-right"></i></h1>
+                
+                <h1 class="main_link p-2">
+                    <a href=
+                    {% if user.is_authenticated %}
+                    "{% url 'dashboard' user.pk%}"
+                    {% else %}
+                    "{% url 'login' %}"
+                    {% endif %}
+                     class="link m-2">Dashboard </a><i class="fa-solid fa-chevron-right"></i>
+                </h1>
             </div>
             <div class="col diet-pic reveal right">
                 <img src="/media/media/jogging.jpg" class="img-fluid h-100 w-100" id="workout_pic">

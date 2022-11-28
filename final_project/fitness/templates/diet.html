@@ -25,13 +25,13 @@ Diet
     <div class="d-flex justify-content-between">
         <div>
             <h3>Breakfast</h3>
-            <h4>{{breakfast.name}}</h4>
-            <ul class="text-light">
+            <h4 id="breakfast_name">{{breakfast.name}}</h4>
+            <ul class="text-light" id="breakfast_ingredients">
                 {% for ingredient in breakfast.ingredients %}
                 <li class="text-light">{{ingredient}}</li>
                 {% endfor %}
             </ul>
-            <span>{{breakfast.description}}</span>
+            <span id="breakfast_description">{{breakfast.description}}</span>
         </div>
         <div>
             <button class="btn btn-secondary" id="switch_breakfast">Switch</button>
@@ -42,13 +42,13 @@ Diet
     <div class="d-flex justify-content-between">
         <div>
             <h3>Lunch</h3>
-            <h4>{{lunch.name}}</h4>
-            <ul class="text-light">
+            <h4 id="lunch_name">{{lunch.name}}</h4>
+            <ul class="text-light" id="lunch_ingredients">
                 {% for ingredient in lunch.ingredients %}
                 <li class="text-light">{{ingredient}}</li>
                 {% endfor %}
             </ul>
-            <span>{{lunch.description}}</span>
+            <span id="lunch_description">{{lunch.description}}</span>
         </div>
         <div>
             <button class="btn btn-secondary" id="switch_lunch">Switch</button>
@@ -59,13 +59,13 @@ Diet
     <div class="d-flex justify-content-between">
         <div>
             <h3>Dinner</h3>
-            <h4>{{dinner.name}}</h4>
-            <ul class="text-light">
+            <h4 id="dinner_name">{{dinner.name}}</h4>
+            <ul class="text-light" id="dinner_ingredients">
                 {% for ingredient in dinner.ingredients %}
                 <li class="text-light">{{ingredient}}</li>
                 {% endfor %}
             </ul>
-            <span>{{dinner.description}}</span>
+            <span id="dinner_description">{{dinner.description}}</span>
         </div>
         <div>
             <button class="btn btn-secondary" id="switch_dinner">Switch</button>
@@ -76,13 +76,13 @@ Diet
     <div class="d-flex justify-content-between">
         <div>
             <h3>Snack</h3>
-            <h4>{{snack.name}}</h4>
-            <ul class="text-light">
+            <h4 id="snack_name">{{snack.name}}</h4>
+            <ul class="text-light" id="snack_ingredients">
                 {% for ingredient in snack.ingredients %}
                 <li class="text-light">{{ingredient}}</li>
                 {% endfor %}
             </ul>
-            <span>{{snack.description}}</span>
+            <span id="snack_description">{{snack.description}}</span>
         </div>
         <div>
             <button class="btn btn-secondary" id="switch_snack">Switch</button>

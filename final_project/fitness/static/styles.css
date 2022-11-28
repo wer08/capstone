@@ -1,244 +1,224 @@
-html
-{
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: hidden; 
-
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
-.body{
-    padding-top: 50px;
-    background-color: black;
+.body {
+  padding-top: 50px;
+  background-color: black;
 }
 
-body.main-page { 
-    padding-top: 10%;
-    background-color: darkgray;
-    
+body.main-page {
+  padding-top: 10%;
+  background-color: darkgray;
 }
 
-.form
-{
-    padding: 10px;
-    box-shadow: 5px 10px 8px #353538;
-    color: Gainsboro;
-    min-height: 30vh;
-    margin-top: 100px;
-    margin-bottom: 100px;
-
+.form {
+  padding: 10px;
+  box-shadow: 5px 10px 8px #353538;
+  color: Gainsboro;
+  min-height: 30vh;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 
-textarea{
-    width: 100%;
+textarea {
+  width: 100%;
 }
 
-.show_comments{
-    cursor: pointer;
+.show_comments {
+  cursor: pointer;
 }
 
-.questions{
-    padding: 10px;
-    box-shadow: 5px 10px 8px #353538;
-    color: Gainsboro;
-    margin-top: 50px;
-    margin-bottom: 100px;
+.questions {
+  padding: 10px;
+  box-shadow: 5px 10px 8px #353538;
+  color: Gainsboro;
+  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
-.adtext{
-    font-size: 16px;
-    line-height: 1.8em;
-    letter-spacing: normal;
-    color: Gainsboro;
+.adtext {
+  font-size: 16px;
+  line-height: 1.8em;
+  letter-spacing: normal;
+  color: Gainsboro;
 }
 
-.ad{
-    padding: 0px;
-    background-color: black;
+.ad {
+  padding: 0px;
+  background-color: black;
 }
 
-.main_link{
-    color: #E21C21;
-    font-size: 22px;
-    margin: 10px;
+.main_link {
+  color: #e21c21;
+  font-size: 22px;
+  margin: 10px;
 }
 
-.link{
-    text-decoration: none;
-    color: #E21C21;
+.link {
+  text-decoration: none;
+  color: #e21c21;
 }
 
-.link:hover{
-    color: #800000;
+.link:hover {
+  color: #800000;
 }
 
-.main_link:hover{
-    color: #800000;
+.main_link:hover {
+  color: #800000;
 }
 
-.adtext{
-    font-size: 20px;
-    padding: 10px;
+.adtext {
+  font-size: 20px;
+  padding: 10px;
 }
 
-#change_calories_link:hover
-{
-    cursor: pointer;
+#change_calories_link:hover {
+  cursor: pointer;
 }
 
-.ex{
-    display: grid;
-    place-items: center;
-    align-content: center;
-    min-height: 33vh;
-    color: Gainsboro;
+.ex {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 33vh;
+  color: Gainsboro;
 }
 
-#diet_description
-{
-    text-align: center;
+#diet_description {
+  text-align: center;
 }
 
-#routine_form{
-    transition-delay: 500ms;
+#routine_form {
+  transition-delay: 500ms;
 }
-#routine{
-    transition-delay: 500ms;
-    display: inline-block;
-}
-
-.comment_body
-{
-    white-space: pre-wrap;
+#routine {
+  transition-delay: 500ms;
+  display: inline-block;
 }
 
-.post_body
-{
-    white-space: pre-wrap;
-    max-height: fit-content;
+.comment_body {
+  white-space: pre-wrap;
 }
 
-.fa-xmark
-{
-    cursor: pointer;
+.post_body {
+  white-space: pre-wrap;
+  max-height: fit-content;
 }
 
-#loading_icon
-{
-    animation: rotate 1.5s linear infinite;
-}
-@keyframes rotate { 
-    to{
-        transform: rotate(360deg);
-    }
+.fa-xmark {
+  cursor: pointer;
 }
 
-
-.options:hover{
-    background-color: #353538;
-    border-radius: 10%;
-    cursor: pointer;
+#loading_icon {
+  animation: rotate 1.5s linear infinite;
 }
-
-.reveal{
-    padding: 0px;
-    min-height: 70vh;
-    opacity: 0;
-    filter: blur(5px);
-    transform: translateX(-100%);
-    transition: all 1s;
-}
-.reveal.diet
-{
-    min-height: 0;
-}
-.right{
-    opacity: 0;
-    filter: blur(5px);
-    transform: translateX(100%);
-    transition: all 1s;
-}
-
-.community_pic{
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-}
-
-.dashboard > *:not(#meal,#exercise,#change_calories) {
-    filter: blur(3px);
-    pointer-events: none;
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
   }
-
-#meal
-{
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 5px 10px 8px #353538;
 }
 
-#change_calories
-{
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 5px 10px 8px #353538;
+.options:hover {
+  background-color: #353538;
+  border-radius: 10%;
+  cursor: pointer;
 }
 
-
-#exercise
-{
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 5px 10px 8px #353538;
+.reveal {
+  padding: 0px;
+  min-height: 70vh;
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all 1s;
+}
+.reveal.diet {
+  min-height: 0;
+}
+.right {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(100%);
+  transition: all 1s;
 }
 
-.workouts{
-    margin: 20px;
-    color: Gainsboro;
+.community_pic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 
-.revealed{
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(0);
+.dashboard > *:not(#meal, #exercise, #change_calories) {
+  filter: blur(3px);
+  pointer-events: none;
 }
 
-.post{
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(0);
-    transition: all 0.5s;
+#meal {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 5px 10px 8px #353538;
 }
 
-.deleted{
-    opacity: 0;
-    filter: blur(5px);
-    transform: translateX(-100%);
+#change_calories {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 5px 10px 8px #353538;
 }
 
-.footer{
-    padding: 0px;
-}
-.row footer{
-    margin: 0px;
+#exercise {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 5px 10px 8px #353538;
 }
 
-.navbar{
-    transition: top 0.3s;
+.workouts {
+  margin: 20px;
+  color: Gainsboro;
 }
 
+.revealed {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
 
-  
+.post {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+  transition: all 0.5s;
+}
+
+.deleted {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+}
+
+.footer {
+  padding: 0px;
+}
+.row footer {
+  margin: 0px;
+}
+
+.navbar {
+  transition: top 0.3s;
+}

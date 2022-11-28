@@ -54,7 +54,8 @@ class RoutineForm(forms.Form):
     weightloss.widget.attrs.update({'class': 'form-check-label'})
     days_per_week.widget.attrs.update({
         'class': 'form-control bg-light mb-1',
-        'placeholder': 1
+        'placeholder': 1,
+        'value': 1
     })
 
 class PostForm(forms.Form):

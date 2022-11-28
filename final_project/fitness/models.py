@@ -26,7 +26,7 @@ class User(AbstractUser):
     carbs = models.IntegerField(default = 1000)
     fat = models.IntegerField(default = 600)
     profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
-    routine = models.ForeignKey(Routine, null=True,on_delete=models.SET_NULL)
+    routine = models.ForeignKey(Routine, blank=True,null=True,on_delete=models.SET_NULL)
     daily_calories = models.IntegerField(default=2000)
 
     def save(self, *args, **kwargs):

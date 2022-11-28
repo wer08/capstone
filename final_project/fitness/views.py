@@ -39,15 +39,27 @@ def is_ajax(request):
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
 
 def switch_meal(request):
-    breakfasts = Meal.objects.all()
-    lunches = Meal.objects.all()
-    dinners = Meal.objects.all()
-    snacks = Meal.objects.all()
+    breakfasts = Meal.objects.filter(type='BR')
+    lunches = Meal.objects.filter(type='LU')
+    dinners = Meal.objects.filter(type='DIN')
+    snacks = Meal.objects.filter(type='SN')
 
     daily_breakfast = random.choice(breakfasts)
     daily_lunch = random.choice(lunches)
     daily_dinner = random.choice(dinners)
     daily_snack = random.choice(snacks)
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        daily = Daily.objects.get(person = request.user)
+        if data['meal'] == 'breakfast':
+            daily.daily_breakfast = daily_breakfast
+        elif data['meal'] == 'lunch':
+            daily.daily_lunch = daily_lunch
+        elif data['meal'] == 'dinner':
+            daily.daily_dinner = daily_dinner
+        else:
+            daily.daily_snack = daily_snack
+        daily.save()
 
     response = {
         'breakfast': daily_breakfast.serialize(),
@@ -101,10 +113,10 @@ def index(request):
     return render(request, 'index.html')
 
 def diet(request):
-    breakfasts = Meal.objects.all()
-    lunches = Meal.objects.all()
-    dinners = Meal.objects.all()
-    snacks = Meal.objects.all()
+    breakfasts = Meal.objects.filter(type='BR')
+    lunches = Meal.objects.filter(type='LU')
+    dinners = Meal.objects.filter(type='DIN')
+    snacks = Meal.objects.filter(type='SN')
 
     try:
         daily = Daily.objects.get(person = request.user)
@@ -148,26 +160,46 @@ def edit_post(request,post_id):
 
     return HttpResponse(status = 204)
 
+def change_routine(request):
+    if request.method == 'PUT':
+        request.user.routine = None
+        request.user.save()
+    return HttpResponse(status = 204)
+
 def exercise(request):
     choice =False
     routine = []
-    if request.method == 'POST':
-        form=RoutineForm(request.POST)
-        if form.is_valid():
-            days = form.cleaned_data['days_per_week']
-            gym = form.cleaned_data['gym']
-            hypertrophy = form.cleaned_data['hypertrophy']
-            weightloss = form.cleaned_data['weightloss']
+    if request.user.routine:
+        print("There is routine in place")
+        choice = True
+        for training in request.user.routine.trainings:
+            training_objects = Workout.objects.get(pk = training)
+            training_ids = training_objects.exercises
+            workout=[]
+            for training_id in training_ids:
+                training = Exercise.objects.get(pk = training_id)
+                workout.append(training)
+            routine.append(workout)
+    else:    
+        if request.method == 'POST':
+            form=RoutineForm(request.POST)
+            if form.is_valid():
+                days = form.cleaned_data['days_per_week']
+                gym = form.cleaned_data['gym']
+                hypertrophy = form.cleaned_data['hypertrophy']
+                weightloss = form.cleaned_data['weightloss']
 
-            if gym and hypertrophy:
-                routines_id = Routine.objects.filter(gym = True, hypertrophy = True,days_per_week = days)
-            elif gym and weightloss:
-                routines_id = Routine.objects.filter(gym = True, weightloss = True,days_per_week = days)
-            elif (not gym) and hypertrophy:
-                routines_id = Routine.objects.filter(gym = False, hypertrophy = True,days_per_week = days)
-            elif (not gym) and weightloss:
-                routines_id = Routine.objects.filter(gym = False, weightloss = True,days_per_week = days)
-                
+                if gym and hypertrophy:
+                    routines_id = Routine.objects.filter(gym = True, hypertrophy = True,days_per_week = days)
+                elif gym and weightloss:
+                    routines_id = Routine.objects.filter(gym = True, weightloss = True,days_per_week = days)
+                elif (not gym) and hypertrophy:
+                    routines_id = Routine.objects.filter(gym = False, hypertrophy = True,days_per_week = days)
+                elif (not gym) and weightloss:
+                    routines_id = Routine.objects.filter(gym = False, weightloss = True,days_per_week = days)
+                elif (not gym) and (not hypertrophy) and (not weightloss):
+                    routines_id = Routine.objects.filter(gym = False)
+                    
                 try:
                     routine_id = (random.choice(routines_id))
                 except IndexError:
@@ -185,14 +217,9 @@ def exercise(request):
                         training = Exercise.objects.get(pk = training_id)
                         workout.append(training)
                     routine.append(workout)
-                    
+                        
                 choice = True
-                return render(request, 'exercise.html',{
-                    'form': form,
-                    'choice':choice,
-                    'routine': routine
-                })
-
+    print(choice)
     form = RoutineForm()
     return render(request, 'exercise.html',{
         "form": form,
