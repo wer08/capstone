@@ -32,6 +32,10 @@ app.conf.beat_schedule = {
     'set-menu':{
         'task': 'fitness.tasks.choose_menu',
         'schedule':crontab(hour=0,minute=0)
+    },
+    'add_to_calendar':{
+        'task': 'fitness.tasks.add_to_calendar',
+        'schedule':crontab(hour=23,minute=58)
     }
 }
 

@@ -25,6 +25,7 @@ urlpatterns = [
     path('dashboard/daily_calories', views.daily_calories, name='daily_calories'),
     path('change_calories', views.change_calories, name='change_calories'),
     path('switch_meal',views.switch_meal, name="switch_meal"),
-    path('change_routine', views.change_routine, name='change_routine')
+    path('change_routine', views.change_routine, name='change_routine'),
+    path('dashboard/get_data',views.get_data, name='get_data')
 ]
 

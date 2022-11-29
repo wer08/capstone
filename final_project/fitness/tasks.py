@@ -1,6 +1,6 @@
 import string
 import random
-from .models import User,Daily,Meal
+from .models import User,Daily,Meal,Calendar
 from django.utils.crypto import get_random_string
 
 from celery import shared_task
@@ -46,4 +46,11 @@ def choose_menu():
         daily.daily_snack = snack
         daily.save()
     print("Menu refreshed")
+
+@shared_task
+def add_to_calendar():
+    users = User.objects.all()
+    for user in users:
+        calendar = Calendar(person = user,day_info = user.daily, calories_left = user.daily_calories)
+        calendar.save()
     

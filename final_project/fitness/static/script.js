@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error(e, e.stack);
   }
 
+
+
   try {
     form_edit = document.querySelector("#editing");
     form_edit.style.display = "none";
@@ -61,6 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
     var reveals = document.querySelectorAll(".reveal");
+    var ups = document.querySelectorAll('.up');
+    ups.forEach((el)=>observer.observe(el));
     reveals.forEach((el) => observer.observe(el));
   } catch (TypeError) {
     console.log(`not a main page`);
@@ -152,7 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let counter = 1;
     window.addEventListener("scroll", () => {
       element = document.querySelector("#posts-dashboard");
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      console.log(`${window.innerHeight + window.scrollY +1} >= ${document.body.offsetHeight}`);
+      if (window.innerHeight + window.scrollY +1>= document.body.offsetHeight) {
+        console.log(`?page=${counter + 1}`);
         fetch(`?page=${counter + 1}`, {
           headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -174,6 +180,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  try{
+    printChart();
+  } catch(e){
+    console.error(e, e.stack)
+  }
+
 });
 
 function addEventsToDashboard() {
@@ -326,6 +339,36 @@ function addEventsToDiet() {
 
   switch_snack_button = document.querySelector("#switch_snack");
   switch_snack_button.addEventListener("click", switch_snack);
+}
+
+function printChart(){
+  fetch('get_data')
+  .then(response => response.json())
+  .then(dict => {
+    
+    const ctx = document.getElementById('chart');
+    Chart.defaults.font.size = 14;
+    Chart.defaults.color = "#000000";
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Daily Calories left',
+          data: dict,
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  })
+
 }
 
 function change_routine(){

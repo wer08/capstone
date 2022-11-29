@@ -1,5 +1,5 @@
 from django.contrib import admin
-from fitness.models import Sport,User,Exercise,Workout,Routine,Diet,Meal,Post,Comment,Daily
+from fitness.models import Sport,User,Exercise,Workout,Routine,Diet,Meal,Post,Comment,Daily,Calendar
 
 # Register your models here.
 admin.site.register(Sport)
@@ -12,3 +12,4 @@ admin.site.register(Diet)
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Daily)
+admin.site.register(Calendar)

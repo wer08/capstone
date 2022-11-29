@@ -161,6 +161,13 @@ class Daily(models.Model):
     daily_lunch = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_lunch", null=True)
     daily_dinner = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_dinner", null=True)
     daily_snack = models.ForeignKey(Meal, on_delete=models.DO_NOTHING, related_name="daily_snack", null=True)
+    
+class Calendar(models.Model):
+    person = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendar')
+    date = models.DateField(auto_created=True)
+    day_info = models.ForeignKey(Daily, on_delete=models.CASCADE, related_name="date")
+    calories_left = models.IntegerField(default=2000)
+    
 
     
 

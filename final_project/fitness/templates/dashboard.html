@@ -52,7 +52,7 @@ Dashboard
             </div>
 
 
-        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded" id="overview">
+        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up" id="overview">
             
             <div class="d-flex justify-content-between container w-100 bg-dark p-4">
                 <div>
@@ -92,7 +92,14 @@ Dashboard
                 <strong>Total: {{sum_meals}}</strong>
                 <strong>Total: {{sum_exercise}}</strong>
             </div>
+        </div>
 
+        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up" id="overview">
+            <div class="container w-100">
+
+            </div>
+            <canvas id="chart">
+            </canvas>
         </div>
         <section class="posts" id="posts-dashboard">
             {% include "_posts.html" with post=post %}

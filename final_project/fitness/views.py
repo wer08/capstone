@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import LoginForm, RegisterForm, EditForm, RoutineForm, PostForm, CommentForm, MealForm, ExerciseForm, CaloriesForm
 from django.contrib.auth import authenticate, login, logout
-from .models import User,Workout, Exercise, Routine, Post, Comment, Daily, Meal
+from .models import User,Workout, Exercise, Routine, Post, Comment, Daily, Meal, Calendar
 from django.db import IntegrityError
 from django.http import JsonResponse
 import random
@@ -13,6 +13,7 @@ from django.views.generic.edit import FormView
 from .forms import GenerateRandomUserForm
 from .tasks import create_random_user_accounts
 from django.contrib import messages
+
 
 #function to generate random users. Created to test Celery
 class GenerateRandomUserView(FormView):
@@ -31,12 +32,29 @@ def users_list(request):
         'list': list
     })
 
-
-
-
 def is_ajax(request):
 
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+
+def get_data(request):
+    days = {
+        0: 'MON',
+        1: 'TUE',
+        2: "WED",
+        3: 'THUR',
+        4: 'FRI',
+        5: 'SAT',
+        6: 'SUN'
+    }
+    calendars = Calendar.objects.filter(person = request.user)
+    dates = [calendar.date.weekday() for calendar in calendars]
+    dates = [days[date] for date in dates]
+    dates = dates[-7:]
+    dailies = [calendar.day_info for calendar in calendars]
+    balances = [calendar.calories_left for calendar in calendars]
+    balances = balances[-7:]
+    dic = dict(zip(dates,balances))
+    return JsonResponse(dic)
 
 def switch_meal(request):
     breakfasts = Meal.objects.filter(type='BR')
@@ -315,7 +333,6 @@ def dashboard(request,user_id):
     calories = user.calories
     sum_meals = sum(daily_meals)
     sum_exercise = sum(daily_exercise)
-
     
     posts = Post.objects.filter(author = user).order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
@@ -329,7 +346,7 @@ def dashboard(request,user_id):
     else:
         page_obj = pagin.get_page(page_number)
     if is_ajax(request):
-        print("Rendering new postd")
+        print("Rendering new posts")
         return render(request, '_posts.html', {
             'posts': page_obj,
             'comments': comments

@@ -147,6 +147,13 @@ textarea {
   transition: all 1s;
 }
 
+.up{
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(-100%);
+  transition: all 1s;
+}
+
 .community_pic {
   height: 40px;
   width: 40px;
@@ -197,6 +204,7 @@ textarea {
   opacity: 1;
   filter: blur(0);
   transform: translateX(0);
+  transform: translateY(0);
 }
 
 .post {
