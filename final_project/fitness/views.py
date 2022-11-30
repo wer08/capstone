@@ -32,11 +32,14 @@ def users_list(request):
         'list': list
     })
 
+
 def is_ajax(request):
 
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
 
-def get_data(request):
+
+#view to get data for a chart
+def get_data(request,user_id):
     days = {
         0: 'MON',
         1: 'TUE',
@@ -46,7 +49,8 @@ def get_data(request):
         5: 'SAT',
         6: 'SUN'
     }
-    calendars = Calendar.objects.filter(person = request.user)
+    person = User.objects.get(pk = user_id)
+    calendars = Calendar.objects.filter(person = person)
     dates = [calendar.date.weekday() for calendar in calendars]
     dates = [days[date] for date in dates]
     dates = dates[-7:]
@@ -56,6 +60,22 @@ def get_data(request):
     dic = dict(zip(dates,balances))
     return JsonResponse(dic)
 
+
+#view to change subscription status to subscribed
+def subscribe(request):
+    if request.method == 'PUT':
+        request.user.subscribed = True
+        request.user.save()
+        return HttpResponse(status=204)
+
+#view to change subscription status to unsubscribed
+def unsubscribe(request):
+    if request.method == 'PUT':
+        request.user.subscribed = False
+        request.user.save()
+        return HttpResponse(status=204)
+
+#view to change meal(based on request send via Javascript )
 def switch_meal(request):
     breakfasts = Meal.objects.filter(type='BR')
     lunches = Meal.objects.filter(type='LU')
@@ -87,9 +107,11 @@ def switch_meal(request):
     }
     return JsonResponse(response)
 
+#view to get current daily calories to update HTML via JS
 def daily_calories(request):
     return JsonResponse(request.user.daily_calories, safe=False)
 
+#view to change calory limit
 def change_calories(request):
     if request.method == 'PUT':
         body = json.loads(request.body)
@@ -104,6 +126,7 @@ def change_calories(request):
         }
         return JsonResponse(response, safe=False)
 
+#view to add meal to daily balance
 def add_meal(request):
     daily = Daily.objects.get(person = request.user)
     if request.method == 'PUT':
@@ -115,6 +138,7 @@ def add_meal(request):
         request.user.save() 
     return HttpResponse(status = 204)
 
+#view to add exercise to daily balance
 def add_exercise(request):
     daily = Daily.objects.get(person = request.user)
 
@@ -127,9 +151,11 @@ def add_exercise(request):
         request.user.save()     
     return HttpResponse(status = 204)
 
+#view to render main page
 def index(request):
     return render(request, 'index.html')
 
+#view to render diet page
 def diet(request):
     breakfasts = Meal.objects.filter(type='BR')
     lunches = Meal.objects.filter(type='LU')
@@ -159,13 +185,17 @@ def diet(request):
         'snack': snack
     })
 
+#view to delete post from community page
 def delete_post(request,post_id):
     if request.method == 'DELETE':
         post = Post.objects.get(pk = post_id)
-        post.delete()
+
+        if post.author == request.user:
+            post.delete()
 
     return HttpResponse(status = 204)
 
+#view to edit your posts
 def edit_post(request,post_id):
     if request.method == 'PUT':
         post = Post.objects.get(pk = post_id)
@@ -178,17 +208,20 @@ def edit_post(request,post_id):
 
     return HttpResponse(status = 204)
 
+#view to reset your current training routine
 def change_routine(request):
     if request.method == 'PUT':
         request.user.routine = None
         request.user.save()
     return HttpResponse(status = 204)
 
+#view to render exercise page and add a routine
 def exercise(request):
     choice =False
     routine = []
+
+    #if user already has a routine this page shows current routine
     if request.user.routine:
-        print("There is routine in place")
         choice = True
         for training in request.user.routine.trainings:
             training_objects = Workout.objects.get(pk = training)
@@ -198,6 +231,7 @@ def exercise(request):
                 training = Exercise.objects.get(pk = training_id)
                 workout.append(training)
             routine.append(workout)
+    #else it renders a form to get data needed to choose optimal routine
     else:    
         if request.method == 'POST':
             form=RoutineForm(request.POST)
@@ -237,7 +271,7 @@ def exercise(request):
                     routine.append(workout)
                         
                 choice = True
-    print(choice)
+
     form = RoutineForm()
     return render(request, 'exercise.html',{
         "form": form,
@@ -245,6 +279,7 @@ def exercise(request):
         'routine': routine
     })
 
+#view to add comment to post
 def comments(request):
     comments = Comment.objects.all()
     comments=[comment.serialize() for comment in comments]
@@ -262,6 +297,7 @@ def comments(request):
         })
     return JsonResponse(comments, safe=False)
 
+#view to edit a comment
 def edit_comment(request, comment_id):
     comment = Comment.objects.get(pk = comment_id)
     if request.method == 'PUT':
@@ -274,14 +310,18 @@ def edit_comment(request, comment_id):
 
     return HttpResponse(status = 204)
 
+#view to delete comment
 def delete_comment(request, comment_id):
     if request.method == 'DELETE':
         comment = Comment.objects.get(pk = comment_id)
-        comment.delete()
+        if comment.author == request.user:
+            comment.delete()
     return HttpResponse(status = 204)
 
-
+#view to render community page
 def community(request):
+    
+    #if form is field post is added
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -290,7 +330,8 @@ def community(request):
             post = Post(author = author, body = body)
             post.save()
             return redirect('community')
-
+    
+    #else it renders all posts 5 at a time. There is also infinite scroll implementation
     posts = Post.objects.all().order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
     pagin = Paginator(posts, 5,allow_empty_first_page=False)
@@ -303,6 +344,8 @@ def community(request):
     else:
         page_obj = pagin.get_page(page_number)
     form = PostForm()
+
+    #if request is send via JS it means that user is at the end of page. This renders another 5 posts
     if is_ajax(request):
         return render(request, '_posts.html', {
             'posts': page_obj,
@@ -314,6 +357,8 @@ def community(request):
         'comments': comments
     })
 
+#view to render dashboard page
+#this page also renders posts made by user that we are currently watching. Infinite scroll is also implemented
 def dashboard(request,user_id):
     form = MealForm()
     form2 = ExerciseForm()
@@ -366,6 +411,7 @@ def dashboard(request,user_id):
         'calories': calories
     })
 
+#view to change profile informations
 def profile(request,user):
     client = User.objects.get(username = user)
     if request.method == "POST":
@@ -384,7 +430,7 @@ def profile(request,user):
     else:    
         return JsonResponse(client.serialize())
 
-
+#view to render profile page
 def profile_view(request,user):
     
     client = User.objects.get(username = user)
@@ -402,7 +448,9 @@ def profile_view(request,user):
         'form': form
     })
 
+#view to render login page
 def login_view(request):
+    #if method is POST login user
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -422,10 +470,12 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
+#view to logout user
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+#view to register new user
 def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST, request.FILES)

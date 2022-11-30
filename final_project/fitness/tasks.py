@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 
 from celery import shared_task
 
+#testing task
 @shared_task
 def create_random_user_accounts(total):
     for i in range(total):
@@ -14,6 +15,7 @@ def create_random_user_accounts(total):
         User.objects.create_user(username=username, email=email, password=password)
     return '{} random users created with success!'.format(total)
 
+#task to set calories to chosen value everyday at midnight
 @shared_task
 def set_calories_to_zero():
     users = User.objects.all()
@@ -28,6 +30,7 @@ def set_calories_to_zero():
     
     print("Calories reseted succesfuly")
 
+#task to change meals everyday
 @shared_task
 def choose_menu():
     breakfasts = Meal.objects.filter(type='BR')
@@ -47,10 +50,12 @@ def choose_menu():
         daily.save()
     print("Menu refreshed")
 
+#task to add daily balance to then show history on graph
 @shared_task
 def add_to_calendar():
     users = User.objects.all()
     for user in users:
-        calendar = Calendar(person = user,day_info = user.daily, calories_left = user.daily_calories)
+        daily = Daily.objects.get(person = user)
+        calendar = Calendar(person = user,day_info = daily, calories_left = user.daily_calories)
         calendar.save()
     

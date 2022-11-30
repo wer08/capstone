@@ -24,6 +24,7 @@ app.autodiscover_tasks()
 
 from fitness.tasks import set_calories_to_zero
 
+#celery schedule to start tasks everyday
 app.conf.beat_schedule = {
     'set-everyday': {
         'task': 'fitness.tasks.set_calories_to_zero',

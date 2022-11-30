@@ -28,6 +28,7 @@ class User(AbstractUser):
     profile_pic = models.ImageField(upload_to='media', default='media/pobrane.png')
     routine = models.ForeignKey(Routine, blank=True,null=True,on_delete=models.SET_NULL)
     daily_calories = models.IntegerField(default=2000)
+    subscribed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.pk is None:

@@ -79,6 +79,7 @@ Exercise
                 {% elif forloop.counter == 6 %}
                 <p>Sixth Day</p>
                 {% endif %}
+                {{ workout.name }}
                 <ul class="list-group list-group-flush">
                 {% for exercise in workout %}
                     <li style="color: white" class="list-group-item bg-dark">

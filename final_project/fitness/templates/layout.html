@@ -61,6 +61,7 @@
     
     <div class="body">
       {{ user.username|json_script:"username" }}
+      {{ user.subscribed|json_script:"subscribed"}}
       {% block body %}
 
       {% endblock %}
@@ -70,10 +71,10 @@
             <div class="col-6 col-md-2 mb-3 p-4">
               <ul class="nav flex-column">
                 <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Workout</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Diet</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Community</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">Dashboard</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'exercise' %}" class="nav-link p-0 text-light">Exercise</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'diet' %}" class="nav-link p-0 text-light">Diet</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'community' %}" class="nav-link p-0 text-light">Community</a></li>
+                <li class="nav-item mb-2"><a href="{% url 'dashboard' user.pk%}" class="nav-link p-0 text-light">Dashboard</a></li>
                 <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-light">About</a></li>
               </ul>
             </div>
@@ -85,9 +86,8 @@
                 <h5 class="text-white">Subscribe to our newsletter</h5>
                 <p class="text-white">Monthly digest of what's new and exciting from us.</p>
                 <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                  <label for="newsletter1" class="visually-hidden">Email address</label>
-                  <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                  <button class="btn btn-primary" type="button">Subscribe</button>
+                    <button class="btn btn-secondary" type="button" id="unsubscribe_button">Unsubscribe</button>
+                    <button class="btn btn-primary" type="button" id="subscribe_button">Subscribe</button>
                 </div>
               </form>
             </div>
@@ -96,9 +96,9 @@
           <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
             <p class="text-white">© 2022 Fitness App, Inc. All rights reserved.</p>
             <ul class="list-unstyled d-flex m-4">
-              <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-twitter"></i></a></li>
-              <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-instagram"></i></a></li>
-              <li class="ms-3"><a class="link-light" href="#"><i class="fa-brands fa-facebook"></i></a></li>
+              <li class="ms-3"><a class="link-light" href="https://twitter.com/Wojciechkowski1"><i class="fa-brands fa-twitter"></i></a></li>
+              <li class="ms-3"><a class="link-light" href="https://www.instagram.com/wojtekzolkowski/"><i class="fa-brands fa-instagram"></i></a></li>
+              <li class="ms-3"><a class="link-light" href="https://www.facebook.com/wojtek0806"><i class="fa-brands fa-facebook"></i></a></li>
             </ul>
           </div>
         </footer>

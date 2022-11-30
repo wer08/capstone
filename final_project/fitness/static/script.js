@@ -1,3 +1,4 @@
+//function to get csrf token available without form
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-
+  //ensuring profile page is correctly rendered, form after user click edit button
   try {
     form_edit = document.querySelector("#editing");
     form_edit.style.display = "none";
@@ -52,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("not profile page");
   }
 
+  //adding observer if something is appearing on page to render animation
   try {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -66,10 +68,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var ups = document.querySelectorAll('.up');
     ups.forEach((el)=>observer.observe(el));
     reveals.forEach((el) => observer.observe(el));
-  } catch (TypeError) {
-    console.log(`not a main page`);
+  } catch (e) {
+    console.error(e,e.stack)
   }
 
+  // event listener for changing routine
   try{
     document.querySelector(`#change_routine`).addEventListener("click", change_routine);
   }
@@ -78,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error(e,e.stack);
   }
 
+  //changing display to show one question at a time(creating new routine)
   try {
     days = document.querySelector("#days_per_week");
     days.style.display = "block";
@@ -114,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error(e, e.stack);
   }
 
+  // function to hide navbar when scrolling down and show it when scrolling up
   let prevScrollpos = window.pageYOffset;
   window.onscroll = () => {
     let currentScrollPos = window.pageYOffset;
@@ -128,6 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {
   loadings = document.querySelectorAll(".loading");
   loadings.forEach((loading) => (loading.style.display = "none"));
 
+  // functionthat implements infinite scroll
+  //when user gets to the bottom of page fetch method is getting next 5 posts
+  //then we see loading animation for 1.5 half second\
+  //after that new posts are added, event listeners are added to them, and animation is hidded
   if (this.body.classList.contains("community")) {
     let counter = 1;
     window.addEventListener("scroll", () => {
@@ -156,9 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let counter = 1;
     window.addEventListener("scroll", () => {
       element = document.querySelector("#posts-dashboard");
-      console.log(`${window.innerHeight + window.scrollY +1} >= ${document.body.offsetHeight}`);
       if (window.innerHeight + window.scrollY +1>= document.body.offsetHeight) {
-        console.log(`?page=${counter + 1}`);
         fetch(`?page=${counter + 1}`, {
           headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -181,14 +188,34 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  try{
+  //if statement to run print chart function only on dashboard page
+  if(this.body.classList.contains("dashboard_page")){
     printChart();
-  } catch(e){
-    console.error(e, e.stack)
+  }
+
+  //adding event listeners to subscribe and unsubscribe buttons
+  subscribe_button = document.querySelector('#subscribe_button');
+  subscribe_button.addEventListener('click',subscribe);
+
+  unsubscribe_button = document.querySelector(`#unsubscribe_button`);
+  unsubscribe_button.addEventListener('click',unsubscribe);
+
+  //showing only one of them based on subscribtion status of currently logged user
+  const subscribed = document.querySelector(`#subscribed`).textContent;
+  if (subscribed == 'true')
+  {
+    subscribe_button.style.display = 'none';
+    unsubscribe_button.style.display = 'block';
+  }
+  else
+  {
+    subscribe_button.style.display = 'block';
+    unsubscribe_button.style.display = 'none';
   }
 
 });
 
+//adding event listeners to Dashboard page
 function addEventsToDashboard() {
   meal_button = document.querySelector("#add_meal");
   meal_button.addEventListener("click", show_meal_choice);
@@ -230,12 +257,8 @@ function addEventsToDashboard() {
   save_calories_button.addEventListener("click", save_calories);
 }
 
+//adding event listeners to community page
 function addEventsToCommunity() {
-  fetch(`/comments`)
-    .then((response) => response.json())
-    .then((comments) => {
-      comments.forEach((comment) => edit(comment));
-    });
 
   close_comment_buttons = document.querySelectorAll(".close_comment");
   close_comment_buttons.forEach((button) => {
@@ -327,6 +350,7 @@ function addEventsToCommunity() {
   });
 }
 
+// adding event listeners to Diet page
 function addEventsToDiet() {
   switch_breakfast_button = document.querySelector("#switch_breakfast");
   switch_breakfast_button.addEventListener("click", switch_breakfast);
@@ -341,8 +365,50 @@ function addEventsToDiet() {
   switch_snack_button.addEventListener("click", switch_snack);
 }
 
+
+//Now we define functions that are triggered by event listeners
+
+
+//function to subscribe
+function subscribe(){
+  const request = new Request(`subscribe`, {
+    headers: { "X-CSRFToken": csrftoken },
+  });
+
+  fetch(request,{
+    method: 'PUT',
+    mode: 'same-origin'
+  })
+  .then(()=>{
+    document.querySelector(`#subscribe_button`).style.display = 'none';
+    document.querySelector(`#unsubscribe_button`).style.display = 'block';
+  })
+}
+
+//function to unsubscribe
+function unsubscribe(){
+  const request = new Request(`unsubscribe`, {
+    headers: { "X-CSRFToken": csrftoken },
+  });
+
+  fetch(request,{
+    method: 'PUT',
+    mode: 'same-origin'
+  })
+  .then(()=>{
+    document.querySelector(`#subscribe_button`).style.display = 'block';
+    document.querySelector(`#unsubscribe_button`).style.display = 'none';  
+  })
+}
+
+//function to print chart showing calorie balance of the last seven days. Using chart.js
 function printChart(){
-  fetch('get_data')
+  pathname = window.location.pathname;
+  username = pathname.split('/');
+  username = username[2];
+  console.log(username);
+
+  fetch(`get_data/${username}`)
   .then(response => response.json())
   .then(dict => {
     
@@ -371,6 +437,7 @@ function printChart(){
 
 }
 
+//function to delete current routine and display form to show new one
 function change_routine(){
     const request = new Request(`change_routine`, {
         headers: { "X-CSRFToken": csrftoken },
@@ -386,6 +453,7 @@ function change_routine(){
 
 }
 
+//function to change breakfast
 function switch_breakfast() {
   const request = new Request(`switch_meal`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -418,6 +486,7 @@ function switch_breakfast() {
   console.log("switch breakfst");
 }
 
+//function to change lunch
 function switch_lunch() {
   const request = new Request(`switch_meal`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -448,6 +517,7 @@ function switch_lunch() {
   console.log("switch lunch");
 }
 
+//function to change dinner
 function switch_dinner() {
   const request = new Request(`switch_meal`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -478,6 +548,7 @@ function switch_dinner() {
   console.log("switch dinner");
 }
 
+//function to change snack
 function switch_snack() {
   const request = new Request(`switch_meal`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -508,6 +579,7 @@ function switch_snack() {
   console.log("switch snack");
 }
 
+//dunction to save new amount of calories
 function save_calories() {
   const request = new Request(`/change_calories`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -537,6 +609,7 @@ function save_calories() {
     });
 }
 
+//function to displat window to change calories
 function change_calories() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.add("dashboard");
@@ -546,6 +619,7 @@ function change_calories() {
   change_calories_view.pointerEvents = "auto";
 }
 
+//function to close changing calories window without saving
 function cancel_calories() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -554,6 +628,7 @@ function cancel_calories() {
   change_calories_view.style.display = "none";
 }
 
+//function to add a meal to daily balance
 function add_meal() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -593,6 +668,7 @@ function add_meal() {
   });
 }
 
+//function to add eaten calories(not from recipes) to daily balance
 function add_meal_calorie() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -631,6 +707,7 @@ function add_meal_calorie() {
   });
 }
 
+//function to add training to daily balance
 function add_exercise_training() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -671,6 +748,7 @@ function add_exercise_training() {
   });
 }
 
+//function to add training(not from exercise choice)
 function add_exercise_calorie() {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -709,6 +787,7 @@ function add_exercise_calorie() {
   });
 }
 
+//function to display window to add a meal
 function show_meal_choice(evt) {
   main_page = document.querySelector("#dashboard");
   main_page.classList.add("dashboard");
@@ -718,6 +797,7 @@ function show_meal_choice(evt) {
   meal_choice.style.pointerEvents = "auto";
 }
 
+//function to close adding meal window
 function cancel_meal_choice(evt) {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -726,6 +806,7 @@ function cancel_meal_choice(evt) {
   meal_choice.style.display = "none";
 }
 
+//function to display adding exercise window
 function show_exercise_choice(evt) {
   main_page = document.querySelector("#dashboard");
   main_page.classList.add("dashboard");
@@ -735,6 +816,7 @@ function show_exercise_choice(evt) {
   exercise_choice.style.pointerEvents = "auto";
 }
 
+//function to close adding exercise window
 function cancel_exercise_choice(evt) {
   main_page = document.querySelector("#dashboard");
   main_page.classList.remove("dashboard");
@@ -743,6 +825,7 @@ function cancel_exercise_choice(evt) {
   exercise_choice.style.display = "none";
 }
 
+//function to save editted comment
 function save_comment_edit(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -767,6 +850,7 @@ function save_comment_edit(evt) {
   });
 }
 
+//function to close editting comment window
 function cancel_comment_edit(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -777,6 +861,7 @@ function cancel_comment_edit(evt) {
   comment_textarea.style.display = "none";
 }
 
+//function to show editting comment window
 function edit_comment(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -789,6 +874,7 @@ function edit_comment(evt) {
     comment_body.innerHTML.replace(/<[^>]*>/g, "");
 }
 
+//function to delete comment
 function delete_comment(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -806,6 +892,7 @@ function delete_comment(evt) {
   });
 }
 
+//function to save editted post
 function save_post_edit(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -833,6 +920,7 @@ function save_post_edit(evt) {
   });
 }
 
+//function to close editting post window
 function cancel_edit_post(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -843,6 +931,7 @@ function cancel_edit_post(evt) {
   post_text.style.display = "block";
 }
 
+//function to open editting post window
 function edit_post(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -856,6 +945,7 @@ function edit_post(evt) {
     post_text.innerHTML.replace(/<[^>]*>/g, "");
 }
 
+//function to delete post
 function delete_post(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -875,6 +965,7 @@ function delete_post(evt) {
   });
 }
 
+//function to show all comments for particular post
 function show_comments_func(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("-");
@@ -887,6 +978,7 @@ function show_comments_func(evt) {
   }
 }
 
+//function to add comment
 function save_comment(evt) {
   let id = evt.currentTarget.myParam;
   id = id.split("_");
@@ -921,12 +1013,14 @@ function save_comment(evt) {
     });
 }
 
+//function to close adding comment window
 function close_comment(evt) {
   let id = evt.currentTarget.myParam;
   let query = `#comment-${id}`;
   document.querySelector(query).style.display = "none";
 }
 
+//function to display adding comment window
 function show_add_comment(evt) {
   let id = evt.currentTarget.myParam;
   let query = `#comment-text${id}`;
@@ -935,15 +1029,13 @@ function show_add_comment(evt) {
   comments.style.display = "block";
 }
 
-function edit() {
-  console.log("editing");
-}
-
+//function to show editing profile form
 function show_form() {
   form_edit.style.display = "block";
   client_info.style.display = "none";
 }
 
+//function to change profile info
 function info(evt) {
   const username = JSON.parse(document.getElementById("username").textContent);
   const request = new Request(`/profile/edit/${username}`, {
