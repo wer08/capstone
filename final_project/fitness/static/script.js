@@ -125,7 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (prevScrollpos > currentScrollPos) {
       document.querySelector(".navbar").style.top = "0";
     } else {
-      document.querySelector(".navbar").style.top = "-50px";
+      if (screen.width > 979)
+      {
+        document.querySelector(".navbar").style.top = "-60px";
+      }
+      else{
+        document.querySelector(".navbar").style.top = "-220px";
+      }
+
     }
     prevScrollpos = currentScrollPos;
   };
@@ -154,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
               element.innerHTML += body;
               addEventsToCommunity();
+              addResponsivness();
               loadings = document.querySelectorAll(".loading");
               loadings.forEach((loading) => (loading.style.display = "none"));
             }, 1500);
@@ -179,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
               element.innerHTML += body;
               addEventsToCommunity();
+              addResponsivness();
               loadings = document.querySelectorAll(".loading");
               loadings.forEach((loading) => (loading.style.display = "none"));
             }, 1500);
@@ -191,6 +200,10 @@ document.addEventListener("DOMContentLoaded", function () {
   //if statement to run print chart function only on dashboard page
   if(this.body.classList.contains("dashboard_page")){
     printChart();
+  }
+  //if statement to add responsivness
+  if(this.body.classList.contains("dashboard_page") || this.body.classList.contains("community")){
+      addResponsivness();
   }
 
   //adding event listeners to subscribe and unsubscribe buttons
@@ -363,6 +376,27 @@ function addEventsToDiet() {
 
   switch_snack_button = document.querySelector("#switch_snack");
   switch_snack_button.addEventListener("click", switch_snack);
+}
+
+function addResponsivness(){
+  if(screen.width < 979){
+    posts = document.querySelectorAll(`.post`);
+    addings = document.querySelectorAll(`.adding`);
+    informations = document.querySelectorAll(`.information`);
+    
+    posts.forEach(post => {
+      post.classList.remove('w-50');
+      post.classList.add('w-100');
+    })
+    addings.forEach(adding => {
+      adding.classList.remove('w-50');
+      adding.classList.add('w-100');
+    })
+    informations.forEach(information => {
+      information.classList.remove('w-50');
+      information.classList.add('w-100');
+    })
+  }
 }
 
 
@@ -660,6 +694,11 @@ function add_meal() {
       .then((response) => response.json())
       .then((daily_calories) => {
         remaining_calories.innerHTML = daily_calories;
+        let current = document.querySelector(`#total_meals`).innerHTML;
+        current = current.split(' ');
+        current = current[1];
+        let total = parseInt(current) - parseInt(meal);
+        document.querySelector(`#total_meals`).innerHTML = `Total: ${total}`;
         if (daily_calories < 0) {
           remaining_calories.classList.add("text-danger");
           remaining_calories.classList.remove("text-success");
@@ -681,7 +720,7 @@ function add_meal_calorie() {
   li = document.createElement("li");
   li.classList.add("list-group-item", "bg-transparent");
   list.appendChild(li);
-  li.innerHTML = `-${calories.value}`;
+  li.innerHTML = `<strong>-${calories.value}</strong>`;
 
   const request = new Request(`/add_meal`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -698,6 +737,11 @@ function add_meal_calorie() {
     fetch("daily_calories")
       .then((response) => response.json())
       .then((daily_calories) => {
+        let current = document.querySelector(`#total_meals`).innerHTML;
+        current = current.split(' ');
+        current = current[1];
+        let total = parseInt(current) - parseInt(calories.value);
+        document.querySelector(`#total_meals`).innerHTML = `Total: ${total}`;
         remaining_calories.innerHTML = daily_calories;
         if (daily_calories < 0) {
           remaining_calories.classList.add("text-danger");
@@ -722,7 +766,7 @@ function add_exercise_training() {
   li = document.createElement("li");
   li.classList.add("list-group-item", "bg-transparent");
   list.appendChild(li);
-  li.innerHTML = `${training}`;
+  li.innerHTML = `<strong>${training}</strong>`;
 
   const request = new Request(`/add_exercise`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -739,6 +783,11 @@ function add_exercise_training() {
     fetch("daily_calories")
       .then((response) => response.json())
       .then((daily_calories) => {
+        let current = document.querySelector(`#total_exercise`).innerHTML;
+        current = current.split(' ');
+        current = current[1];
+        let total = parseInt(current) + parseInt(training);
+        document.querySelector(`#total_exercise`).innerHTML = `Total: ${total}`;
         remaining_calories.innerHTML = daily_calories;
         if (daily_calories >= 0) {
           remaining_calories.classList.add("text-success");
@@ -761,7 +810,7 @@ function add_exercise_calorie() {
   li = document.createElement("li");
   li.classList.add("list-group-item", "bg-transparent");
   list.appendChild(li);
-  li.innerHTML = `${training.value}`;
+  li.innerHTML = `<strong>${training.value}</strong>`;
 
   const request = new Request(`/add_exercise`, {
     headers: { "X-CSRFToken": csrftoken },
@@ -778,6 +827,11 @@ function add_exercise_calorie() {
     fetch("daily_calories")
       .then((response) => response.json())
       .then((daily_calories) => {
+        let current = document.querySelector(`#total_exercise`).innerHTML;
+        current = current.split(' ');
+        current = current[1];
+        let total = parseInt(current) + parseInt(training.value);
+        document.querySelector(`#total_exercise`).innerHTML = `Total: ${total}`;
         remaining_calories.innerHTML = daily_calories;
         if (daily_calories >= 0) {
           remaining_calories.classList.add("text-success");

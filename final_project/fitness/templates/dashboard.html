@@ -15,7 +15,7 @@ Dashboard
 
     <section id="dashboard">
 
-            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded" style="display: none; position: absolute;" id="meal">
+            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded adding" style="display: none; position: absolute;" id="meal">
                 <div class="text-dark d-flex justify-content-end bg-transparent"><i class="fa-solid fa-xmark" id="cancel_meal"></i></div>
                 <div class="form-group">
                     {% for field in form %}
@@ -27,7 +27,7 @@ Dashboard
                 
             </div>
 
-            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded" style="display: none; position: absolute;" id="change_calories">
+            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded adding" style="display: none; position: absolute;" id="change_calories">
                 <div class="text-dark d-flex justify-content-end bg-transparent"><i class="fa-solid fa-xmark" id="cancel_calories"></i></div>
                 <div class="form-group">
                     {% for field in form3 %}
@@ -39,7 +39,7 @@ Dashboard
 
             </div>
 
-            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded" style="display: none; position: absolute;" id="exercise">
+            <div class="container w-25 mb-4 mt-4 p-2 bg-light bg-gradient rounded adding" style="display: none; position: absolute;" id="exercise">
                 <div class="text-dark d-flex justify-content-end bg-transparent"><i class="fa-solid fa-xmark" id="cancel_exercise"></i></div>
                 <div class="form-group">
                     {% for field in form2 %}
@@ -52,20 +52,22 @@ Dashboard
             </div>
 
 
-        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up" id="overview">
+        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up information" id="overview">
             
-            <div class="d-flex justify-content-between container w-100 bg-dark p-4">
+            <div class="d-flex justify-content-center container w-100 bg-dark p-4">
                 <div>
-                    <p class="text-light h3">Remaining calories</p>
-                    <h1 id="remaining_calories"  {% if daily_calories >= 0 %} class= "text-success" {% else %} class = "text-danger"  {% endif %} >{{daily_calories}}</h1>
-                    {% if user.pk == user_id %} <strong class="text-light" id="daily-limit">Daily Limit: {{calories}} </strong><br><span id="change_calories_link" class="link-light"> Change your limit </span>{% endif %}
+                    <div>
+                        <p class="text-light h3">Remaining calories</p>
+                        <h1 id="remaining_calories"  {% if daily_calories >= 0 %} class= "text-success" {% else %} class = "text-danger"  {% endif %} >{{daily_calories}}</h1>
+                        {% if user.pk == user_id %} <strong class="text-light" id="daily-limit">Daily Limit: {{calories}} </strong><br><span id="change_calories_link" class="link-light"> Change your limit </span>{% endif %}
+                    </div>
+                    {% if user.pk == user_id%}
+                    <div>
+                        <button id="add_exercise" class="btn btn-secondary mt-2">Add exercise</button>
+                        <button id="add_meal" class="btn btn-secondary mt-2">Add meal</button>
+                    </div>
+                    {% endif %}
                 </div>
-                {% if user.pk == user_id%}
-                <div>
-                    <button id="add_exercise" class="btn btn-secondary">Add exercise</button>
-                    <button id="add_meal" class="btn btn-secondary">Add meal</button>
-                </div>
-                {% endif %}
             </div>
             <div class="d-flex justify-content-between container w-75 mt-2">
                 <ul id="calorie-balance-meals" class="list-group bg-transparent">
@@ -89,12 +91,12 @@ Dashboard
                 </ul>
             </div>
             <div class="container w-75 d-flex justify-content-between border-top mt-3">
-                <strong>Total: {{sum_meals}}</strong>
-                <strong>Total: {{sum_exercise}}</strong>
+                <strong id="total_meals">Total: {{sum_meals}}</strong>
+                <strong id="total_exercise">Total: {{sum_exercise}}</strong>
             </div>
         </div>
 
-        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up" id="overview">
+        <div class="container w-50 mb-4 mt-4 p-2 bg-secondary rounded up information" id="overview">
             <div class="container w-100">
 
             </div>
