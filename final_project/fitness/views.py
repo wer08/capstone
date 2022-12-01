@@ -10,33 +10,12 @@ from django.http import JsonResponse
 import random
 from django.core.paginator import Paginator
 from django.views.generic.edit import FormView
-from .forms import GenerateRandomUserForm
-from .tasks import create_random_user_accounts
 from django.contrib import messages
-
-
-#function to generate random users. Created to test Celery
-class GenerateRandomUserView(FormView):
-    template_name = 'generate_random_users.html'
-    form_class = GenerateRandomUserForm
-
-    def form_valid(self, form):
-        total = form.cleaned_data.get('total')
-        create_random_user_accounts.delay(total)
-        messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
-        return redirect('users_list')
-
-def users_list(request):
-    list = User.objects.all()
-    return render(request, 'user_list.html',{
-        'list': list
-    })
-
+import string
+from django.utils.crypto import get_random_string
 
 def is_ajax(request):
-
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
-
 
 #view to get data for a chart
 def get_data(request,user_id):
@@ -161,6 +140,8 @@ def diet(request):
     lunches = Meal.objects.filter(type='LU')
     dinners = Meal.objects.filter(type='DIN')
     snacks = Meal.objects.filter(type='SN')
+    print(breakfasts)
+    print(lunches)
 
     try:
         daily = Daily.objects.get(person = request.user)
@@ -231,6 +212,7 @@ def exercise(request):
                 training = Exercise.objects.get(pk = training_id)
                 workout.append(training)
             routine.append(workout)
+
     #else it renders a form to get data needed to choose optimal routine
     else:    
         if request.method == 'POST':

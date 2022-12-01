@@ -1,19 +1,11 @@
-import string
+
 import random
 from .models import User,Daily,Meal,Calendar
-from django.utils.crypto import get_random_string
+
 
 from celery import shared_task
 
-#testing task
-@shared_task
-def create_random_user_accounts(total):
-    for i in range(total):
-        username = 'user_{}'.format(get_random_string(10, string.ascii_letters))
-        email = '{}@example.com'.format(username)
-        password = get_random_string(50)
-        User.objects.create_user(username=username, email=email, password=password)
-    return '{} random users created with success!'.format(total)
+
 
 #task to set calories to chosen value everyday at midnight
 @shared_task

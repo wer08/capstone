@@ -1,6 +1,9 @@
 <div class="container w-100 bg-light rounded pt-2" id="comment-{{comment.pk}}">
     <div class="d-flex justify-content-between">
-        <h6>{{comment.author.username}}</h6>
+        <div class="d-flex justify-content-start">
+            <a href="{% url 'dashboard' comment.author.pk %}">{% if comment.author.profile_pic %}<img src="{{comment.author.profile_pic.url}}" class="comment_pic">{% else %}<img src="/media/media/pobrane.png" class="community_pic">{% endif %}</a>
+            <a href="{% url 'dashboard' comment.author.pk %}"  class="link_comment"><h5>{{comment.author.username}}</h5></a>
+        </div>
         {% if comment.author == request.user %}
         <div class="dropdown">
             <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle options" id="dropdownMenuComment{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-dark"></i></button>  

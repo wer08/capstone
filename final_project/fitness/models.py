@@ -87,12 +87,34 @@ class Comment(models.Model):
         }
 
 
-
 class Exercise(models.Model):
+    CHEST = 'Chest'
+    LEGS = 'Legs'
+    BACK = 'Back'
+    BICEPS = 'Biceps'
+    TRICEPS = 'Triceps'
+    ABS = 'Abs'
+    EXERCISE_CHOICES = [
+        (CHEST, 'Chest'),
+        (LEGS, 'Legs'),
+        (BACK, 'Back'),
+        (BICEPS, 'Biceps'),
+        (TRICEPS, 'Triceps'),
+        (ABS, 'Abs')
+    ]
+
+    GYM = "Gym"
+    HOME = "Home"
+    TYPES = [
+        (GYM, 'Gym'),
+        (HOME, 'Home')
+    ]
+
     name = models.CharField(max_length=100)
-    target_muscle = models.CharField(max_length=100)
+    target_muscle = models.CharField(max_length=100, choices=EXERCISE_CHOICES)
     rounds = models.IntegerField(default=3)
     reps = models.IntegerField(default=8)
+    type = models.CharField(default=GYM,max_length=20,choices=TYPES)
 
     def __str__(self):
         return f"{self.name}: {self.rounds} rounds. Each round {self.reps} reps."
@@ -106,12 +128,21 @@ class Exercise(models.Model):
         }
 
 class Workout(models.Model):
+
+    GYM = "Gym"
+    HOME = "Home"
+    TYPES = [
+        (GYM, 'Gym'),
+        (HOME, 'Home')
+    ]
+
     name = models.CharField(default="Random workout", max_length=100)
     exercises = ArrayField(models.IntegerField(), blank = True)
     gym = models.BooleanField(default=True)
     hypertrophy = models.BooleanField(default=True)
     weight_loss = models.BooleanField(default=True)
     calories_burned = models.IntegerField(default=500)
+    type = models.CharField(max_length=20,choices=TYPES,default=GYM)
 
     def __str__(self):
         return f"{self.name}    +{self.calories_burned}"

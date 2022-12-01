@@ -70,6 +70,11 @@ textarea {
   color: #e21c21;
 }
 
+.link_comment {
+  text-decoration: none;
+  color:black;
+}
+
 .link:hover {
   color: #800000;
 }
@@ -163,6 +168,12 @@ textarea {
 .community_pic {
   height: 40px;
   width: 40px;
+  border-radius: 50%;
+}
+
+.comment_pic {
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
 }
 
