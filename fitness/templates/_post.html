@@ -1,0 +1,45 @@
+{% load fitness_extras %}
+
+<div class="container w-50 mb-4 mt-4 p-4 bg-dark rounded post" id="post-{{post.id}}">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-start">
+            <a href="{% url 'dashboard' post.author.pk %}" class="link">{% if post.author.profile_pic %}<img src="{{post.author.profile_pic.url}}" class="community_pic">{% else %}<img src="/media/media/pobrane.png" class="community_pic">{% endif %}</a>
+            <a href="{% url 'dashboard' post.author.pk %}" class="link"><h4 class="text-white p-1">{{post.author.username}}</h4></a>
+        </div>
+
+        {% if post.author == request.user %}
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-dark dropdown-toggle options" id="dropdownMenu{{post.pk}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis text-white"></i></button>  
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu{{post.pk}}">
+                <button class="dropdown-item edit_post" type="button" id="edit_post-{{post.pk}}">Edit</button>
+                <button class="dropdown-item delete_post" type="button" id="delete_post-{{post.pk}}">Delete</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="container w-100 adtext post_body" id="post_text-{{post.pk}}">
+        {{post.body|linebreaks}}
+    </div>
+    <div class="p-2 form-group" id="post_textarea-{{post.pk}}" style="display: none;">
+        <div class="text-white d-flex justify-content-end"><i class="fa-solid fa-xmark cancel_post_edit" id="cancel_post_edit-{{post.pk}}"></i></div>
+        <textarea class="post_body form-control" rows="2" id="edit_post_area-{{post.pk}}"></textarea>
+        <button class="btn btn-secondary btn-sm save_post_edit_button" id="save_post_edit_button-{{post.pk}}">Edit</button>
+    </div>
+    <p class="text-muted">{{post.timestamp}}</p>
+    <p class="text-muted show_comments" id="show_comments-{{post.id}}">All comments({{post_comment|get_item:post.pk}})</p>
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-dark add_comment" id="{{post.pk}}">Comment</button>
+    </div>
+    <div class="p-2" id="comment-text{{post.pk}}" style="display: none;">
+        <h6 class="text-light"><i class="fa-solid fa-xmark close_comment" id="text{{post.pk}}"></i> New comment</h6>
+        <textarea class="comment_textarea" rows="1" id="text-area_{{post.pk}}"></textarea>
+        <button class="btn btn-secondary btn-sm save_button" id="save-button_{{post.pk}}">Add</button>
+    </div>
+    <div class="comments" id="comments-{{post.id}}">
+    {% for comment in comments %}
+    {% if comment.post == post %}
+    {% include '_comment.html' with comment=comment %}
+    {% endif %}
+    {% endfor %}
+    </div>
+</div>
