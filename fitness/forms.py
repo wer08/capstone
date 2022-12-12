@@ -96,14 +96,6 @@ class ExerciseForm(forms.Form):
         'value': '100'
     })
 
-class GenerateRandomUserForm(forms.Form):
-    total = forms.IntegerField(
-        validators=[
-            MinValueValidator(50),
-            MaxValueValidator(500)
-        ]
-    )
-
 class CaloriesForm(forms.Form):
     calories = forms.IntegerField(validators=[MinValueValidator(1000)])
 

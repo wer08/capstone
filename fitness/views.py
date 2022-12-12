@@ -404,6 +404,7 @@ def dashboard(request,user_id):
     
     posts = Post.objects.filter(author = user).order_by('-timestamp')
     comments = Comment.objects.all().order_by('timestamp')
+    post_comment = {post.pk: len(Comment.objects.filter(post = post).order_by('timestamp')) for post in posts}
     pagin = Paginator(posts, 5,allow_empty_first_page=False)
     page_number = request.GET.get('page')
     if page_number:
@@ -417,7 +418,8 @@ def dashboard(request,user_id):
         print("Rendering new posts")
         return render(request, '_posts.html', {
             'posts': page_obj,
-            'comments': comments
+            'comments': comments,
+            'post_comment': post_comment
             })
     return render(request,"dashboard.html",{
         'form': form,
@@ -431,7 +433,8 @@ def dashboard(request,user_id):
         'comments': comments,
         'daily_calories': daily_calories,
         'user_id': user_id,
-        'calories': calories
+        'calories': calories,
+        'post_comment': post_comment,
     })
 
 #view to change profile informations
