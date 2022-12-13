@@ -1,5 +1,5 @@
 # FITNESS APP
-#### Video Demo:  https://youtu.be/Y7FheTaGx3Q
+#### Video Demo: [Youtube link](https://youtu.be/j7VLovT6m2s)
 #### Distinctiveness and Complexity
 This app is much more complex than every app that I've created during the course. It has similarity to network project but it's only one tab of my app. And even that is different(ability to comment)
 Whole backend is build using Django using multiple models. Manu functions are handled using JS. Event Handlers, Infinite scroll, hiding the navbar etc. Whole app is mobile-responsive
