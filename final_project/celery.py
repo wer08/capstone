@@ -36,7 +36,7 @@ app.conf.beat_schedule = {
     },
     'add_to_calendar':{
         'task': 'fitness.tasks.add_to_calendar',
-        'schedule':crontab(hour=23,minute=58)
+        'schedule':crontab(hour=8,minute=57)
     }
 }
 

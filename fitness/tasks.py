@@ -47,7 +47,10 @@ def choose_menu():
 def add_to_calendar():
     users = User.objects.all()
     for user in users:
-        daily = Daily.objects.get(person = user)
-        calendar = Calendar(person = user,day_info = daily, calories_left = user.daily_calories)
-        calendar.save()
+        try:
+            daily = Daily.objects.get(person = user)
+            calendar = Calendar(person = user,day_info = daily, calories_left = user.daily_calories)
+            calendar.save()
+        except:
+            print("no such user")     
     

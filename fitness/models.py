@@ -197,7 +197,7 @@ class Daily(models.Model):
     
 class Calendar(models.Model):
     person = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendar')
-    date = models.DateField(auto_created=True)
+    date = models.DateField(auto_now=True)
     day_info = models.ForeignKey(Daily, on_delete=models.CASCADE, related_name="date")
     calories_left = models.IntegerField(default=2000)
     
