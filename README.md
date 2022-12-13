@@ -167,40 +167,66 @@ On the next div there is a chart which shows how many calories we had left in la
 Under the chart user can see all the posts that he had posted(the same as in the community page)
 
 ##### Javascript(script.js)
+
+In this project I've heavilly used fetching API build in Django to make sure all the data is displayed as soon as button is clicked not after refreshing. I've also use fetch with PUT, POST and DELETE method to handle editing, adding and deleting posts and comments in community and dashboard page
+
+###### Infinite Scroll
+I've implemented inifnite scroll to community and dashboard page. To do that I've used django pagination but instead of a button I used fetch in javascript when user is reaching end of page
+
+###### Chart
+In dashboard page I've created chart to show user calorie balance in last week. I've build it using chart.js 
  
-##### Python and flask(app.py)
+##### Python and Django
 
-###### Configuration
+###### Celery
 
-First of all I needed to configure 4 things:
-- Connection to database
-- Session
-- Stripe payment client
-- Mail client using mailtrap
+To set up celery I've created 2 files:
+- celery.py in which I've set up 3 scheduled tasks:
+ - setting daily calories to chosen value
+ - refreshing all the meals 
+ - adding daily balance to calendar
+ 
+- tasks.py in this file I've implemented the task that are used in schedule.
 
-###### Route ("/")
+###### urls.py
 
-On this route I configured backside of a main page. All this route is practically doing is execute some queries to get data from database and give it to html.
-It also prompts flash message when there are no flights on the chosen date
+This is the file that contains urls to all the views
 
-###### Route ("/buy")
+###### models.py
 
-This route renders buy.html. It GETs data from index.html and gives it back to buy.html to show the price
+In this file I've defined models for database. More detail about this is in Database paragraph. I've added serialize function to a couple of models(The ones that I need to send through JSON
 
-On the Post method it renders charge.html.
+###### templatetags/fitness_extras.py
 
-###### Route ("/charge")
+In this file I've created a tag to get vsalue from dictionary in template
 
- This route does 3 things. It computes payment using stripe. It sends a confirmation e-mail to the user who bought the ticket and it adds a record to booked table in database. When It's all done it redirects the user to his booked flights page
+###### functions.py
 
-###### Route ("/bought")
+This file contains function definition to functions that populate database
 
-This route gets all the flights from the booked table that logged in user bought. Than it gets details from other tables and renders a page with list of booked flights
+###### views.py
 
-###### Route ("/profil")
-
-Get method of this route gets all the current data from user table and sends it to render a page with them as initial value.
-Post method updates the database with new (after validation) information.
+I've created multiple views:
+- fill_database view. It uses functions defined in fucntions.py and renders page with information about created fields
+- get_data is the view to get information used in chart(in dashboard page)
+- subscribe change the subscribed status of current user to True
+- Unsubscribe change the subscribed status of current user to False
+- switch_meal changes the meal in Diet page and save it to daily object linked to current user and sends JSON with new meal
+- daily_calories returns JSON with daily_calories
+- change_calories this view changes the value of calories and daily_calories of logged user
+- add_meal changes daily_balance and daily_calories
+- add_exercise The same as add_meal but for exercise
+- index renders the main page
+- diet creates daily field for this user in it's not already created and renders diet page with meals chosen for that dat with random.choice() function
+- delete_post deletes post
+- edit_post get data from fetch method in JS and saves the changes using PUT method
+- change_routine It changes routine field for user to None
+- exercise this view does to things. If user already has routine it renders the page with it. If not it renders a form to choose routine
+- comments This view uses data send by fetch to add comment to database
+- edit_comment uses data send by fetch to edit an entry in database to edit comment
+- delete_comment deletes comment
+- community if form is field it adds a post otherwise it renders the posts using pagination. There is a check in this page to check if request for more posts was send by ajax. If that's a case it renders more posts(see Infinite Scroll)
+- 
 
 ###### Route ("/logut")
 
