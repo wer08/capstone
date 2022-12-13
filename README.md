@@ -1,7 +1,17 @@
 # FITNESS APP
 #### Video Demo:  https://youtu.be/Y7FheTaGx3Q
+#### Distinctiveness and Complexity
+This app is much more complex than every app that I've created during the course. It has similarity to network project but it's only one tab of my app. And even that is different(ability to comment)
+Whole backend is build using Django using multiple models. Manu functions are handled using JS. Event Handlers, Infinite scroll, hiding the navbar etc. Whole app is mobile-responsive
+
+#### DEV 
+1. Listing available containers `docker ps`
+2. to enter container `docker exec -it {id} bash`
+3. To rebuild container `docker-compose build {name}`
+4. to start project's containers `docker-compose up`
+5. To start containers without starting the server `docker compose -f 'docker-compose.yml'  -p 'capstone' start`
+
 #### Description:
-##### OVERVIEW
 
 My project is a fitness web applicatipn. It's a django application. Main features that I implemented are:
 - Database using PostreSQL
@@ -225,27 +235,24 @@ I've created multiple views:
 - comments This view uses data send by fetch to add comment to database
 - edit_comment uses data send by fetch to edit an entry in database to edit comment
 - delete_comment deletes comment
-- community if form is field it adds a post otherwise it renders the posts using pagination. There is a check in this page to check if request for more posts was send by ajax. If that's a case it renders more posts(see Infinite Scroll)
-- 
+- community if form is field it adds a post otherwise it renders the posts using pagination. There is a check in this page to check if request for more posts was send by ajax. If that's a case it renders more posts(see [Infinite Scroll](https://github.com/wer08/capstone/blob/master/README.md#infinite-scroll))
+- get_number_of_comments API to get number of comments on post
+- dashboard This page also creates daily isntance if it's not created already. Otherwise it renders dashboard page with posts made by current user as in community page
+- profile changes the profile data
+- profile_view renders profile page
+- login_view renders login page and if method is POST logs the user
+- logout_view it logouts and redirects to index page
+- register_view if form is submitted it register new user otherwise it renders empty form
+###### Docker
 
-###### Route ("/logut")
-
-It clears the session and shows flash message informing about logging out
-
-###### Route ("/login")
-
-GET methos renders a login.html page
-
-POST method is validating entered data, creating session variables and showing flash messages according to situation
-
-###### Route ("/upload")
-
-This is the route resposible for uploading users profile picture and confirming the change with flash message
-
-###### Route ("/register")
-
-This route does a couple of things. First it renders register.html. Next it gets Inputed data and validate it on server side.
-If everything is correct it adds an entry to users table, sends confirmation e-mail and show informing flash message
+To set up Docker we need 3 files:
+- Dockerfile: It have the description of actions that need to be done when docker is build. Most importantly to install everything from requirements.txt
+- requirements.txt In this file I've listed all packages that need to be installed
+- docker-compose.yml it defines services that I use in my docker-compose:
+ - postgres db
+ - rabbitmq(to set up celery)
+ - celery
+ - celery-beat
 
 
 
