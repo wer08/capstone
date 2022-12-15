@@ -1,15 +1,57 @@
 # FITNESS APP
 #### Video Demo: [Youtube link](https://youtu.be/j7VLovT6m2s)
 #### Distinctiveness and Complexity
-This app is much more complex than every app that I've created during the course. It has similarity to network project but it's only one tab of my app. And even that is different(ability to comment)
-Whole backend is build using Django using multiple models. Manu functions are handled using JS. Event Handlers, Infinite scroll, hiding the navbar etc. Whole app is mobile-responsive
+Complexity: Back-end for the app is build using Django. I have implemented PostgreSQL database using Django models and created multiple APIs to use in JS.
+On the front-end side I've used Javascript. Most of the forms are handled by sending request to Django by fetch. It allowed me to render new data without reloading the page. App has multiple event handlers(click, scroll, intersection observer).
 
-#### DEV 
+Distinctiveness: My app is a whole service that includes creating new menu every day(using celery), creating personal routine, saving data from every day(also celery), displaying charts(chart.js) and many more. All of this required me to learn new things and implement something that I've never created before. One part of it is simillar to previous projects(community tab). I've included it in my project because I believe that it adds to the value of this app. But I've made it different by styling it completely different, not including liking, adding ability to comment.
+
+#### DEV (docker)
 1. Listing available containers `docker ps`
 2. to enter container `docker exec -it {id} bash`
 3. To rebuild container `docker-compose build {name}`
 4. to start project's containers `docker-compose up`
 5. To start containers without starting the server `docker compose -f 'docker-compose.yml'  -p 'capstone' start`
+
+#### RUNNING
+
+To run this project first build container by typing 'docker-compose build' and next start it with 'docker-compose up'
+
+####FILES
+
+1. media directory where i've stored images used in app.
+2. requirements.txt: where all the packages are listed(they're installed when container is build)
+3. DOCKERFILE: File needed to build docker container
+4. docker-compose.yml: Specification of all the services that are gonna be build
+5. final_project/celery.py: Specification of celery and task schedule
+6. fitness/views.py: All django views
+7. fitness/urls.py: All needed urls
+8. fitness/tasks.py: definitions of celery tasks
+9. fitness/models.py: models for postgreSQL
+10. fitness/functions.py: functions to populate database
+11. fitness/forms.py: forms used in this project
+12. fitness/admin.py: registering models to admin page
+13. fitness/templatetags/fitness_extras.py: registering additional tags 
+14. fitness/templates/_comment.html: html for one comment
+15. fitness/templates/_post.html: html for one post
+16. fitness/templates/_posts.html: html for all posts
+17. fitness/templates/added.html: html to show results of populating database
+18. fitness/templates/community.html: html for community tab
+19. fitness/templates/dashboard.html: html for dashboard tab
+20. fitness/templates/diet.html: html for diet tab
+21. fitness/templates/error.html: html to render error message when there is no routine available
+22. fitness/templates/exercise.html: html for exercise page
+23. fitness/templates/generate_random_user.html: html for a page to test celery
+24. fitness/templates/index.html: html for main page
+25. fitness/templates/layout.html: html with layout for all pages
+26. fitness/templates/login.html: html with login form
+27. fitness/templates/profile.html: html for profile page
+28. fitness/templates/register.html: html with register form
+29. fitness/templates/test_chart.html: html dor testing charts
+30. fitness/templates/user_list.html: html to display list of users(also testing celery)
+31. fitness/static/script.js: Javascript for this app
+32. fitness/static/styles.css: CSS for this app
+
 
 #### Description:
 
